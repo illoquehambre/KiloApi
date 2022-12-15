@@ -18,7 +18,7 @@ public class TipoAlimentoService {
     }
 
     public Optional<TipoAlimento> findByName(String name) {
-        return repository.findFirstByName(name);
+        return repository.findFirstByNombre(name);
     }
 
 }

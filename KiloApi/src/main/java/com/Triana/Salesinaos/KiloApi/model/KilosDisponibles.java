@@ -3,6 +3,7 @@ package com.Triana.Salesinaos.KiloApi.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -10,11 +11,11 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class KilosDisponibles {
-    @Id
-    @GeneratedValue
-    @OneToOne
-    @JoinColumn(name = "kilosDisponibles_id")
-    private KilosDisponibles kilosDisponibles;
+
+public class KilosDisponibles{
+
+    @Builder.Default
+    @EmbeddedId
+    private KilosAportacionPK id =  new KilosAportacionPK();
     private double cantidadDisponible;
 }
