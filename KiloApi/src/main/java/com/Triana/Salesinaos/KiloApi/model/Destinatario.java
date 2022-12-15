@@ -13,7 +13,11 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
+<<<<<<< HEAD
 
+=======
+@Entity
+>>>>>>> 7167be38f563606c99fdd6b6f15dc1d9325b992b
 public class Destinatario{
 
     @Id
