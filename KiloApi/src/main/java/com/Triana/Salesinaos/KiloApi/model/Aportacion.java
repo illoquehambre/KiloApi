@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Builder
 @Getter @Setter
 @Entity
+@Embeddable
 public class Aportacion {
 
     @Id@GeneratedValue
