@@ -2,21 +2,20 @@ package com.Triana.Salesinaos.KiloApi.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
 @Setter
-public class KilosDisponibles {
-    @Id
-    @GeneratedValue
-    //Falta las asociacion maylor perro
-    //private TipoAlimento tipoAlimento;
+@Entity
 
+public class KilosDisponibles{
+
+    @Builder.Default
+    @EmbeddedId
+    private KilosAportacionPK id =  new KilosAportacionPK();
     private double cantidadDisponible;
 }
