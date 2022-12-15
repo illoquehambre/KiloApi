@@ -7,6 +7,7 @@
     <list default="true" id="de54e7ef-9adb-4250-86ce-a460521056c1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/controller/TipoAlimentoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/controller/TipoAlimentoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/service/TipoAlimentoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/service/TipoAlimentoService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,13 +48,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/Usuario/Desktop/repos/KiloApi"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Usuario/Desktop/repos/KiloApi&quot;
   }
-}]]></component>
+}</component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn spring-boot:run" />
