@@ -2,10 +2,7 @@ package com.Triana.Salesinaos.KiloApi.model;
 
 import lombok.*;
 
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +12,7 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
+@Entity
 public class Destinatario{
 
     @Id

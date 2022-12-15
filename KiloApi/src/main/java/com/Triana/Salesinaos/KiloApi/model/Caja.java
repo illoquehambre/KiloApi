@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Builder
 @Getter
 @Setter
+
 public class Caja{
     @Id
     @GeneratedValue
