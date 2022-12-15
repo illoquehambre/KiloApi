@@ -12,14 +12,25 @@ import javax.persistence.*;
 @Entity
 public class DetalleAportacion {
 
+    @Builder.Default
     @EmbeddedId
-    private Aportacion id =  new Aportacion();
+    private DetalleAportacionPK id =  new DetalleAportacionPK();
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long numLinea;
+    @MapsId("aportacionId")
+    @ManyToOne
+    @JoinColumn(name = "aportacion_id", foreignKey = @ForeignKey(name="FK_DETALLEAPORTACION_APORTACION"))
+    private Aportacion aportacion;
 
     private double cantidadEnKilos;
 
+    public void addtoAportacion(Aportacion aportacion) {
+        this.aportacion = aportacion;
+        aportacion.getDetalleAportacion().add(this);
+    }
+
+    public void removeFromAportacion(Aportacion aportacion) {
+        aportacion.getDetalleAportacion().remove(this);
+        this.aportacion = null;
+    }
 
 }
