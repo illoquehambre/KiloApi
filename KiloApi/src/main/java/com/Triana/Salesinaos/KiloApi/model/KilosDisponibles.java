@@ -12,6 +12,7 @@ import javax.persistence.Id;
 @Builder
 @Getter
 @Setter
+@Entity
 public class KilosDisponibles {
     @Id
     @GeneratedValue
