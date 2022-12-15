@@ -17,7 +17,7 @@ public class Caja{
     private Long id;
 
     private String qr, numCaja;
-    private Double kilosTotales;
+    private double kilosTotales;
 
 
     @ManyToOne
