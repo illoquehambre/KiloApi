@@ -42,8 +42,24 @@ public class TipoAlimentoController {
                     content = @Content),
     })
     @PostMapping("/tipoAlimento/")
-    public ResponseEntity<TipoAlimento> createTipoAlimento(@RequestBody String nombretipo){
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.findByName(nombretipo).get());
+    public ResponseEntity<TipoAlimento> createTipoAlimento(@RequestBody TipoAlimento tipoAlimento){
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.add(tipoAlimento));
+    }
+
+    @Operation(summary = "Elimina un tipo de alimento")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Tipo de alimento eliminado",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = TipoAlimento.class))
+                    )}),
+
+    })
+    @DeleteMapping("/tipoAlimento/{id}")
+    public ResponseEntity<TipoAlimento> deleteTipoAlimento(@PathVariable Long id){
+        if(service.existById(id))
+            service.existById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 

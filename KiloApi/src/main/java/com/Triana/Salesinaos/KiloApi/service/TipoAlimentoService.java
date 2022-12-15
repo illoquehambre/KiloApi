@@ -17,6 +17,10 @@ public class TipoAlimentoService {
         return repository.save(tipo);
     }
 
+    public Boolean existById(Long id ){
+        return repository.existsById(id );
+    }
+
     public Optional<TipoAlimento> findByName(String name) {
         return repository.findFirstByNombre(name);
     }
