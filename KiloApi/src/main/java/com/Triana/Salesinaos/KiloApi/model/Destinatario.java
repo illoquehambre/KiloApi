@@ -13,6 +13,7 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
+@Entity
 public class Destinatario{
 
     @Id

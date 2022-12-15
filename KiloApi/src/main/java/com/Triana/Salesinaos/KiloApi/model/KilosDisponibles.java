@@ -4,12 +4,12 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
 @Setter
+@Entity
 public class KilosDisponibles {
     @Id
     @GeneratedValue
