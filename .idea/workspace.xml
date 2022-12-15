@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="de54e7ef-9adb-4250-86ce-a460521056c1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/model/KilosAportacionPK.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/model/Destinatario.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/model/Destinatario.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/model/KilosDisponibles.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/model/KilosDisponibles.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/model/Tiene.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/model/Tiene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/model/TipoAlimento.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/model/TipoAlimento.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/repository/TipoAlimentoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/repository/TipoAlimentoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/service/TipoAlimentoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/service/TipoAlimentoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/controller/TipoAlimentoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/controller/TipoAlimentoController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

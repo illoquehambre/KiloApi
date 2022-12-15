@@ -42,8 +42,8 @@ public class TipoAlimentoController {
                     content = @Content),
     })
     @PostMapping("/tipoAlimento/")
-    public ResponseEntity<TipoAlimento> createTipoAlimento(@RequestBody String nombretipo){
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.findByName(nombretipo).get());
+    public ResponseEntity<TipoAlimento> createTipoAlimento(@RequestBody TipoAlimento tipoAlimento){
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.add(tipoAlimento));
     }
 
 
