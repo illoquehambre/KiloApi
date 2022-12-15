@@ -22,5 +22,6 @@ public class Destinatario{
     private String nombre, direccion, personaContacto, telefono;
 
     @OneToMany(mappedBy = "destinatario", fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Caja> cajas = new ArrayList<>();
 }
