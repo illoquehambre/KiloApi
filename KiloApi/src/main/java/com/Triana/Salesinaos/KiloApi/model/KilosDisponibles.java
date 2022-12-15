@@ -2,9 +2,7 @@ package com.Triana.Salesinaos.KiloApi.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
@@ -15,8 +13,8 @@ import javax.persistence.Id;
 public class KilosDisponibles {
     @Id
     @GeneratedValue
-    //Falta las asociacion maylor perro
-    //private TipoAlimento tipoAlimento;
-
+    @OneToOne
+    @JoinColumn(name = "kilosDisponibles_id")
+    private KilosDisponibles kilosDisponibles;
     private double cantidadDisponible;
 }
