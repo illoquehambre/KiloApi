@@ -13,8 +13,10 @@ import javax.persistence.Id;
 @Setter
 @Entity
 public class KilosDisponibles {
-
     @Id
     @GeneratedValue
-    private Long id;
+    //Falta las asociacion maylor perro
+    //private TipoAlimento tipoAlimento;
+
+    private double cantidadDisponible;
 }

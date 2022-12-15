@@ -7,12 +7,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
 @Setter
-@Entity
+
 public class Destinatario{
 
     @Id
