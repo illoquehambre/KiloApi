@@ -30,14 +30,4 @@ public class DetalleAportacion {
 
 
 
-    public void addToTipoAlimento(TipoAlimento ta) {
-        this.tipoAlimento = ta;
-        tipoAlimento.getDetalleAportacion().add(this);
-    }
-
-    public void removeFromTipoAlimento(TipoAlimento ta) {
-        ta.getDetalleAportacion().remove(this);
-        this.tipoAlimento = null;
-    }
-
 }
