@@ -20,6 +20,9 @@ public class TipoAlimentoService {
     public Boolean existById(Long id ){
         return repository.existsById(id );
     }
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
 
     public Optional<TipoAlimento> findByName(String name) {
         return repository.findFirstByNombre(name);
