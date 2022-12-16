@@ -5,6 +5,7 @@ import com.Triana.Salesinaos.KiloApi.repository.TipoAlimentoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -12,6 +13,9 @@ import java.util.Optional;
 public class TipoAlimentoService {
 
     private final TipoAlimentoRepository repository;
+
+    public List<TipoAlimento> findAll() { return repository.findAll(); }
+
 
     public TipoAlimento add(TipoAlimento tipo) {
         return repository.save(tipo);
