@@ -62,4 +62,21 @@ public class KilosDisponiblesController {
         else
             return ResponseEntity.ok(kilosDisponibles);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
