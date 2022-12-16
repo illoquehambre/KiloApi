@@ -26,7 +26,7 @@ public class Aportacion {
 
     @Builder.Default
     @OneToMany(mappedBy = "aportacion")
-    private List<DetalleAportacion> detalleAportacion = new ArrayList();
+    private List<DetalleAportacion> detalleAportacion = new ArrayList<>();
 
 
 
