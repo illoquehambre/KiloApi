@@ -27,4 +27,6 @@ public class TipoAlimento implements Serializable {
     private List<DetalleAportacion> detalleAportacion = new ArrayList<>();
 
 
+
+
 }

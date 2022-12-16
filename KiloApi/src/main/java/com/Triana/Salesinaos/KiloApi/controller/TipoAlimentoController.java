@@ -58,7 +58,8 @@ public class TipoAlimentoController {
     @DeleteMapping("/tipoAlimento/{id}")
     public ResponseEntity<TipoAlimento> deleteTipoAlimento(@PathVariable Long id){
         if(service.existById(id))
-            service.existById(id);
+            service.deleteById(id);
+        //
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
