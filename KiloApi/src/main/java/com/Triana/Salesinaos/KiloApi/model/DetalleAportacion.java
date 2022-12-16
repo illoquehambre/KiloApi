@@ -17,7 +17,7 @@ public class DetalleAportacion {
     private DetalleAportacionPK id =  new DetalleAportacionPK();
 
     @MapsId("aportacionId")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "aportacion_id", foreignKey = @ForeignKey(name="FK_DETALLEAPORTACION_APORTACION"))
     private Aportacion aportacion;
 
@@ -28,16 +28,6 @@ public class DetalleAportacion {
     @JoinColumn(name="tipo_alimento_id", foreignKey = @ForeignKey(name= "FK_DETALLEAPORTACION_TIPOALIMENTO"))
     private TipoAlimento tipoAlimento;
 
-
-    public void addtoAportacion(Aportacion aportacion) {
-        this.aportacion = aportacion;
-        aportacion.getDetalleAportacion().add(this);
-    }
-
-    public void removeFromAportacion(Aportacion aportacion) {
-        aportacion.getDetalleAportacion().remove(this);
-        this.aportacion = null;
-    }
 
 
     public void addToTipoAlimento(TipoAlimento ta) {
