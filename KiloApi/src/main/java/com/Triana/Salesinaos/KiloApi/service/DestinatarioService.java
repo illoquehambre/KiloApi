@@ -17,6 +17,8 @@ public class DestinatarioService {
 
     private final DestinatarioRepository repository;
 
+    private final CajaService cajaService;
+
     public Destinatario add(Destinatario destinatario) {
         return repository.save(destinatario);
     }
@@ -34,6 +36,7 @@ public class DestinatarioService {
     }
 
     public void delete(Destinatario destinatario) {
+        cajaService.findAll().remove(destinatario);
         repository.delete(destinatario);
     }
 
