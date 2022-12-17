@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de54e7ef-9adb-4250-86ce-a460521056c1" name="Changes" comment="">
+    <list default="true" id="aa4605f0-6575-44e6-874e-118bd3952f36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/controller/TipoAlimentoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/controller/TipoAlimentoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/controller/AportacionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/controller/AportacionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/controller/CajaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/controller/CajaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/service/CajaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/service/CajaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,49 +27,68 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="JpbToolWindowState">
-    <option name="myId2FirstActivated">
-      <map>
-        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
-        <entry key="com.haulmont.jpb.jpaPalette" value="true" />
-        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
-      </map>
-    </option>
-    <option name="myId2Visible">
-      <map>
-        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
-        <entry key="com.haulmont.jpb.jpaPalette" value="false" />
-        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
-      </map>
-    </option>
+    <option name="isToolWindowVisible" value="false" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2Ixg7HaEgputK2gixgQJfAQQ0hx" />
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2J3CEHMmMsGPX95wk86IfefjlUK" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/Usuario/Desktop/repos/KiloApi"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunAnythingCache">
-    <option name="myCommands">
-      <command value="mvn spring-boot:run" />
-    </option>
+}</component>
+  <component name="RunManager">
+    <configuration name="KiloApi [spring-boot:run]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="spring-boot:run" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$/KiloApi" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="de54e7ef-9adb-4250-86ce-a460521056c1" name="Changes" comment="" />
-      <created>1671128480327</created>
+      <changelist id="aa4605f0-6575-44e6-874e-118bd3952f36" name="Changes" comment="" />
+      <created>1671297268839</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1671128480327</updated>
+      <updated>1671297268839</updated>
     </task>
     <servers />
   </component>
