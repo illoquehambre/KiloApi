@@ -128,11 +128,39 @@ public class DestinatarioController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @Operation(summary = "Mostrar destinatario con detalles fuera de sus atributos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado el destinatario.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Destinatario.class),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                                                        
+                                            {
+                                            "id" : "1",
+                                            "nombre" : "Maylor",
+                                            "direccion": "Avenida Alvar Núñez",
+                                            "personaContacto": "Maylor David",
+                                            "telefono": "489846984",
+                                            "numCajas": "4",
+                                            "kgTotales": "9"
+                                            }                                                                                        
+                                            """
+                            )}
+                    )}),
+
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado ningún destinatario con este Id",
+                    content = @Content),
+    })
     @GetMapping("/{id}")
     public ResponseEntity<DestinatarioResponse> findById(@PathVariable Long id) {
-
-        return ResponseEntity.ok(destinatarioDtoConverter.destinatarioToDestinatarioResponse(id));
+        Optional<Destinatario> d1 = destinatarioService.findById(id);
+        if (d1.isPresent()) {
+            return ResponseEntity.ok(destinatarioDtoConverter.destinatarioToDestinatarioResponse(id));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-
 
 }
