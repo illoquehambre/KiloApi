@@ -22,11 +22,5 @@ public class TipoAlimento implements Serializable {
 
     private String nombre;
 
-    @Builder.Default
-    @OneToMany (mappedBy = "tipoAlimento")
-    private List<DetalleAportacion> detalleAportacion = new ArrayList<>();
-
-
-
 
 }

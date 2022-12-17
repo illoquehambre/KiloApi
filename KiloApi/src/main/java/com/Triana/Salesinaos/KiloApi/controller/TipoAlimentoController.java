@@ -1,24 +1,66 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
+import com.Triana.Salesinaos.KiloApi.dto.TipoAlimentoDto;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/tipoalimento")
+@OpenAPIDefinition(info = @Info(title ="Operación-Kilo API"))
+@Tag(name = "Tipo Alimento", description = "Esta clase implementa Restcontrollers para la entidad Tipo Alimento")
 public class TipoAlimentoController {
 
-    private final TipoAlimentoService service;
+    private final TipoAlimentoService tipoAlimentoService;
+
+
+    @Operation(summary = "Este método lista todos tipos de alimentos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se han encontrado al menos un tipo de alimento",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = TipoAlimento.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                            [
+                                                {"id": 1, "nombre": "Lentejas"},
+                                                {"id": 2, "nombre": "Pasta"}
+                                            ]
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado ningún tipo de alimento",
+                    content = @Content),
+    })
+    @GetMapping("/")
+    public ResponseEntity <List<TipoAlimentoDto>> findAll() {
+        List<TipoAlimento> tipoAlimentoList = tipoAlimentoService.findAll();
+
+        if (tipoAlimentoList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity
+                    .ok(tipoAlimentoList.stream().map(TipoAlimentoDto::of).collect(Collectors.toList()));
+        }
+    }
 
 
     @Operation(summary = "Crea un nuevo tipo de alimento")
@@ -33,7 +75,7 @@ public class TipoAlimentoController {
                                                 {"id": 1, "nombre": "Pasta"},
                                                 {"id": 2, "nombre": "Aceite"},
                                                 {"id": 3, "nombre": "Arroz"}
-                                            ]                                          
+                                            ]
                                             """
                             )}
                     )}),
@@ -41,9 +83,9 @@ public class TipoAlimentoController {
                     description = "No se ha podido crear un alimento",
                     content = @Content),
     })
-    @PostMapping("/tipoAlimento/")
+    @PostMapping("/")
     public ResponseEntity<TipoAlimento> createTipoAlimento(@RequestBody TipoAlimento tipoAlimento){
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.add(tipoAlimento));
+        return ResponseEntity.status(HttpStatus.CREATED).body(tipoAlimentoService.add(tipoAlimento));
     }
 
     @Operation(summary = "Elimina un tipo de alimento")
@@ -55,10 +97,10 @@ public class TipoAlimentoController {
                     )}),
 
     })
-    @DeleteMapping("/tipoAlimento/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<TipoAlimento> deleteTipoAlimento(@PathVariable Long id){
-        if(service.existById(id))
-            service.deleteById(id);
+        if(tipoAlimentoService.existById(id))
+            tipoAlimentoService.deleteById(id);
         //
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
