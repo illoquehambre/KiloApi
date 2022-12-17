@@ -24,7 +24,7 @@ public class DestinatarioController {
                 && d.getTelefono().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body();
+        return ResponseEntity.status(HttpStatus.CREATED).body(destinatarioService.add(d));
     }
 
 }

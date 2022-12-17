@@ -1,7 +1,7 @@
 package com.Triana.Salesinaos.KiloApi.service;
 
 import com.Triana.Salesinaos.KiloApi.model.KilosDisponibles;
-import com.Triana.Salesinaos.KiloApi.repository.;
+import com.Triana.Salesinaos.KiloApi.repository.KilosDisponiblesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,15 +25,17 @@ public class KilosDisponiblesService {
         return repository.findAll();
     }
 
-    public KilosDisponibles edit(KilosDisponibles artist) {
-        return repository.save(artist);
+    public KilosDisponibles edit(KilosDisponibles kilosDisponibles) {
+        return repository.save(kilosDisponibles);
     }
 
-    public void delete(KilosDisponibles artist) {
-        repository.delete(artist);
+    public void delete(KilosDisponibles kilosDisponibles) {
+        repository.delete(kilosDisponibles);
     }
 
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
+
+
 }
