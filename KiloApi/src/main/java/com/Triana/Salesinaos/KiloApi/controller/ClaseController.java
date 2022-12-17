@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,6 +29,7 @@ import java.util.List;
 public class ClaseController {
 
     private final ClaseService claseService;
+
 
     @Operation(summary = "Obtiene todos las clases")
     @ApiResponses(value = {
@@ -87,5 +89,37 @@ public class ClaseController {
             return ResponseEntity.badRequest().build();
 
     }
-
+    @Operation(summary = "Modifica una clase")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha modificado corrrectamente una clase ",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = Clase.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                            [
+                                                {"id": 1, "nombre": "1ºDAM", "tutor": "Miguel" },
+                                                {"id": 1, "nombre": "2ºDAM", "tutor": "Luismi" }
+                                            ]                                          
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha podido encontrar la clase",
+                    content = @Content),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha podido modificar la clase",
+                    content = @Content),
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<ClaseDto> updateClase(@RequestBody ClaseDto clase, @PathVariable Long id){
+        return ResponseEntity.of(
+                claseService.findById(id).map(old -> {
+                            old.setNombre(clase.nombre());
+                            old.setTutor(clase.tutor());
+                            return Optional.of(clase);
+                        })
+                        .orElse(Optional.empty())
+        );
+    }
 }

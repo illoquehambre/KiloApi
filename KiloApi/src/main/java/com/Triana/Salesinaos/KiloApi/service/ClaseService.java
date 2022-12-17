@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,7 +16,7 @@ public class ClaseService {
 
     private final ClaseRepository repository;
     public List<Clase> findAll(){return repository.findAll();}
-
+    public Optional<Clase> findById(Long id){return repository.findById(id);}
     public Clase add(Clase clase) {
         return repository.save(clase);
     }
@@ -27,4 +28,5 @@ public class ClaseService {
                 .tutor(claseDto.tutor())
                 .build();
     }
+
 }
