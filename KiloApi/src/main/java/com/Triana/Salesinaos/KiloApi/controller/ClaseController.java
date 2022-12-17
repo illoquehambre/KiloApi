@@ -111,15 +111,15 @@ public class ClaseController {
                     description = "No se ha encontrado ninguna clase",
                     content = @Content),
     })
-    @GetMapping("/clase/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ClaseResponse> getClaseById(@PathVariable Long id){
-        if (service.existById(id)) {
+        if (!service.existById(id))
             return ResponseEntity.notFound().build();
-        } else {
+         else
             return ResponseEntity
                     .ok()
                     .body(converter.ClaseToClaseResponse(service.findById(id).get()));
-        }
+
 
 
     }
