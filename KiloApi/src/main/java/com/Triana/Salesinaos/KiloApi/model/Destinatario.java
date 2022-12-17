@@ -22,10 +22,9 @@ public class Destinatario implements Serializable {
 
     private String nombre, direccion, personaContacto, telefono;
 
-    /**
-     * CREO QUE MAS BIEN USARÍA UN DTO PARA LOS FUTUROS GET DE DESTINATARIO, YA QUE PARA CREAR NO HARÍA FALTA UN DTO
-     @OneToMany(mappedBy = "destinatario", fetch = FetchType.LAZY)
-     @Builder.Default private List<Caja> cajas = new ArrayList<>();
-     **/
+    @OneToMany(mappedBy = "destinatario", fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<Caja> cajas = new ArrayList<>();
+
 
 }
