@@ -44,5 +44,14 @@ public class DestinatarioService {
         repository.deleteById(id);
     }
 
+    public double showKgTotal(Destinatario d) {
+        double aux = 0;
+
+        for (int index = 0; index <= d.getCajas().size(); index++) {
+            aux += d.getCajas().get(index).getKilosTotales();
+        }
+        return aux;
+    }
+
 
 }

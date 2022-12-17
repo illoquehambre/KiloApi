@@ -1,5 +1,7 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
+import com.Triana.Salesinaos.KiloApi.dto.DestinatarioDtoConverter;
+import com.Triana.Salesinaos.KiloApi.dto.DestinatarioResponse;
 import com.Triana.Salesinaos.KiloApi.model.Destinatario;
 import com.Triana.Salesinaos.KiloApi.service.DestinatarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,6 +23,8 @@ import java.util.Optional;
 public class DestinatarioController {
 
     private final DestinatarioService destinatarioService;
+
+    private final DestinatarioDtoConverter destinatarioDtoConverter;
 
     @Operation(summary = "Crea un nuevo destinatario")
     @ApiResponses(value = {
@@ -108,8 +112,6 @@ public class DestinatarioController {
     }
 
 
-
-
     @Operation(summary = "Elimina un destinatario")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
@@ -126,9 +128,11 @@ public class DestinatarioController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<DestinatarioResponse> findById(@PathVariable Long id) {
 
-
-
+        return ResponseEntity.ok(destinatarioDtoConverter.destinatarioToDestinatarioResponse(id));
+    }
 
 
 }
