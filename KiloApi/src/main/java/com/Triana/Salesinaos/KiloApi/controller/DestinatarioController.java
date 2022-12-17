@@ -1,10 +1,8 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
 import com.Triana.Salesinaos.KiloApi.model.Destinatario;
-import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.service.DestinatarioService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,10 +11,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -58,5 +55,56 @@ public class DestinatarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(destinatarioService.add(d));
     }
 
+
+    @Operation(summary = "Edita un destinatario ya creado")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Edita los datos de un destinatario ya creado",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Destinatario.class),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                                                        
+                                            {
+                                            "id" : "",
+                                            "nombre" : "Maylor",
+                                            "direccion": "Avenida Alvar Núñez",
+                                            "personaContacto": "Maylor David",
+                                            "telefono": "489846984"
+                                            }                                                                                        
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha podido editar el destinatario, datos mal introducidos",
+                    content = @Content),
+
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado ningún destinatario con este Id",
+                    content = @Content),
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<Destinatario> edit
+            (@RequestBody Destinatario d,
+             @PathVariable Long id) {
+        Optional<Destinatario> d1 = destinatarioService.findById(id);
+        if (destinatarioService.findById(id).isPresent()) {
+            if (d.getNombre().isEmpty() && d.getDireccion().isEmpty() && d.getPersonaContacto().isEmpty()
+                    && d.getTelefono().isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+            return ResponseEntity.of(d1.map(old -> {
+                old.setNombre(d.getNombre());
+                old.setDireccion(d.getDireccion());
+                old.setTelefono(d.getTelefono());
+                old.setPersonaContacto(d.getPersonaContacto());
+
+                destinatarioService.edit(old);
+                return old;
+            }));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+    }
 
 }
