@@ -46,7 +46,9 @@ public class DestinatarioService {
 
     public double showKgTotal(Destinatario d) {
         double aux = 0;
-
+        if(d.getCajas().isEmpty()){
+            return 0;
+        }
         for (int index = 0; index <= d.getCajas().size(); index++) {
             aux += d.getCajas().get(index).getKilosTotales();
         }
