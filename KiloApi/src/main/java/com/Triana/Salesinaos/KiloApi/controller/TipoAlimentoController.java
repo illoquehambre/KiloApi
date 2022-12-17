@@ -85,7 +85,11 @@ public class TipoAlimentoController {
     })
     @PostMapping("/")
     public ResponseEntity<TipoAlimento> createTipoAlimento(@RequestBody TipoAlimento tipoAlimento){
-        return ResponseEntity.status(HttpStatus.CREATED).body(tipoAlimentoService.add(tipoAlimento));
+        if(tipoAlimento.getNombre().isBlank())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        else
+            return ResponseEntity.status(HttpStatus.CREATED).body(tipoAlimentoService.add(tipoAlimento));
+        
     }
 
     @Operation(summary = "Elimina un tipo de alimento")
