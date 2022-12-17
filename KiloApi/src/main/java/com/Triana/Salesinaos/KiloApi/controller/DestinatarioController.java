@@ -1,5 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
+import com.Triana.Salesinaos.KiloApi.dto.DestinatarioDetalleResponse;
 import com.Triana.Salesinaos.KiloApi.dto.DestinatarioDtoConverter;
 import com.Triana.Salesinaos.KiloApi.dto.DestinatarioResponse;
 import com.Triana.Salesinaos.KiloApi.model.Destinatario;
@@ -161,6 +162,17 @@ public class DestinatarioController {
             return ResponseEntity.ok(destinatarioDtoConverter.destinatarioToDestinatarioResponse(id));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @GetMapping("/{id}/detalle")
+    public ResponseEntity<DestinatarioDetalleResponse> findByIdDetalle(@PathVariable Long id) {
+        Optional<Destinatario> d1 = destinatarioService.findById(id);
+        if (d1.isPresent()) {
+            return ResponseEntity.ok(destinatarioDtoConverter.destinatarioToDestinatarioDetalleResponse(id));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+
     }
 
 }

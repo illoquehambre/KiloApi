@@ -1,8 +1,9 @@
 package com.Triana.Salesinaos.KiloApi.dto;
 
-import com.Triana.Salesinaos.KiloApi.model.Destinatario;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -10,13 +11,11 @@ import lombok.experimental.SuperBuilder;
 @Data
 @Getter
 @Setter
-public class DestinatarioResponse {
+public class DestinatarioDetalleResponse {
 
     private Long id;
     private String nombre, direccion, personaContacto, telefono;
-    private Long numCajas;
-    private double kgTotales;
+    private List<CajaResponse> cajaResponse = new ArrayList<>();
 
 
 }
-

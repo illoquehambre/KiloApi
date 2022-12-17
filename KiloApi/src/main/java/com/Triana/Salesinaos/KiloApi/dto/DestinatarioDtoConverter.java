@@ -2,8 +2,8 @@ package com.Triana.Salesinaos.KiloApi.dto;
 
 import com.Triana.Salesinaos.KiloApi.model.Destinatario;
 import com.Triana.Salesinaos.KiloApi.service.DestinatarioService;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -25,5 +25,19 @@ public class DestinatarioDtoConverter {
                 .kgTotales(destinatarioService.showKgTotal(d))
                 .build();
     }
+
+    public DestinatarioDetalleResponse destinatarioToDestinatarioDetalleResponse(Long id) {
+        Destinatario d = destinatarioService.findById(id).get();
+        return DestinatarioDetalleResponse.builder()
+                .id(d.getId())
+                .nombre(d.getNombre())
+                .direccion(d.getDireccion())
+                .personaContacto(d.getPersonaContacto())
+                .telefono(d.getTelefono())
+                .cajaResponse(null)
+                .build();
+    }
+
+
 
 }
