@@ -107,4 +107,28 @@ public class DestinatarioController {
 
     }
 
+
+
+
+    @Operation(summary = "Elimina un destinatario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Ya se ha eliminado el destinatario",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Destinatario.class)
+                    )})
+    })
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        Optional<Destinatario> d1 = destinatarioService.findById(id);
+        destinatarioService.delete(d1.get());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+
+
+
+
+
 }
