@@ -5,13 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aa4605f0-6575-44e6-874e-118bd3952f36" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_classgraph_classgraph_4_8_138.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_core_v3_swagger_annotations_2_1_12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_core_v3_swagger_core_2_1_12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_core_v3_swagger_models_2_1_12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springdoc_springdoc_openapi_common_1_6_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springdoc_springdoc_openapi_ui_1_6_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springdoc_springdoc_openapi_webmvc_core_1_6_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_webjars_swagger_ui_4_1_3.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KiloApi/db/basedatos.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/db/basedatos.mv.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/KiloApiApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/KiloApiApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/controller/CajaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/controller/CajaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/dto/CreateCajaDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/dto/CreateCajaDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/service/CajaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/service/CajaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
