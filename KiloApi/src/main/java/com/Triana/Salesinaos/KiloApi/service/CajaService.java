@@ -24,4 +24,9 @@ public class CajaService {
     }
 
 
+    public Caja edit(Caja caja) {
+        return repository.save(caja);
+    }
+
+
 }

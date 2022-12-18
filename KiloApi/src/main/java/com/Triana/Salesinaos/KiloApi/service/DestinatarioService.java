@@ -20,6 +20,8 @@ public class DestinatarioService {
 
     private final DestinatarioRepository repository;
 
+    private Caja caja;
+
     private final CajaService cajaService;
 
     public Destinatario add(Destinatario destinatario) {
@@ -40,7 +42,10 @@ public class DestinatarioService {
 
     @PreRemove
     public void delete(Destinatario destinatario) {
-        cajaService.findAll().remove(destinatario);
+        for(Caja c : destinatario.getCajas()){
+            c.setDestinatario(null);
+            cajaService.edit(c);
+        }
         repository.delete(destinatario);
     }
 

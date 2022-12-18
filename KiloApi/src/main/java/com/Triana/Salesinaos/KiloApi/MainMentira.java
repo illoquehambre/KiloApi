@@ -2,6 +2,7 @@ package com.Triana.Salesinaos.KiloApi;
 
 import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.model.Destinatario;
+import com.Triana.Salesinaos.KiloApi.model.Tiene;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.repository.CajaRepository;
 import com.Triana.Salesinaos.KiloApi.repository.DestinatarioRepository;
@@ -56,6 +57,7 @@ public class MainMentira {
         c1.setNumCaja("Caja 1");
         c1.setDestinatario(d1);
 
+
         Caja c2 = new Caja();
         c2.setQr("codigo2");
         c2.setKilosTotales(8);
@@ -64,7 +66,6 @@ public class MainMentira {
 
         cajaRepository.save(c1);
         cajaRepository.save(c2);
-
 
 
 

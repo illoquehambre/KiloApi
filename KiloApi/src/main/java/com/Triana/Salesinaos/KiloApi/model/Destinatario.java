@@ -23,7 +23,7 @@ public class Destinatario implements Serializable {
 
     private String nombre, direccion, personaContacto, telefono;
 
-    @OneToMany(mappedBy = "destinatario", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "destinatario", fetch = FetchType.LAZY)
     @Builder.Default
     private List<Caja> cajas = new ArrayList<>();
 
