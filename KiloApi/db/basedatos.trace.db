@@ -1,0 +1,20 @@
+2022-12-17 16:00:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "select sum(detalleapo2_.cantidad_en_kilos) as col_0_0_ from clase clase0_ inner join aportacion aportacion1_ on [*]inner join detalle_aportacion detalleapo2_ on"; se esperaba "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"
+Syntax error in SQL statement "select sum(detalleapo2_.cantidad_en_kilos) as col_0_0_ from clase clase0_ inner join aportacion aportacion1_ on [*]inner join detalle_aportacion detalleapo2_ on"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+select sum(detalleapo2_.cantidad_en_kilos) as col_0_0_ from clase clase0_ inner join aportacion aportacion1_ on inner join detalle_aportacion detalleapo2_ on [42001-214]
+2022-12-17 16:04:36 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "select sum(detalleapo2_.cantidad_en_kilos) as col_0_0_ from clase clase0_ inner join aportacion aportacion1_ on [*]inner join detalle_aportacion detalleapo2_ on"; se esperaba "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"
+Syntax error in SQL statement "select sum(detalleapo2_.cantidad_en_kilos) as col_0_0_ from clase clase0_ inner join aportacion aportacion1_ on [*]inner join detalle_aportacion detalleapo2_ on"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+select sum(detalleapo2_.cantidad_en_kilos) as col_0_0_ from clase clase0_ inner join aportacion aportacion1_ on inner join detalle_aportacion detalleapo2_ on [42001-214]
+2022-12-17 16:05:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "select sum(detalleapo2_.cantidad_en_kilos) as col_0_0_ from clase clase0_ inner join aportacion aportacion1_ on [*]inner join detalle_aportacion detalleapo2_ on"; se esperaba "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"
+Syntax error in SQL statement "select sum(detalleapo2_.cantidad_en_kilos) as col_0_0_ from clase clase0_ inner join aportacion aportacion1_ on [*]inner join detalle_aportacion detalleapo2_ on"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+select sum(detalleapo2_.cantidad_en_kilos) as col_0_0_ from clase clase0_ inner join aportacion aportacion1_ on inner join detalle_aportacion detalleapo2_ on [42001-214]
+2022-12-17 16:11:13 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "select sum(detalleapo2_.cantidad_en_kilos) as col_0_0_ from clase clase0_ inner join aportacion aportacion1_ on [*]inner join detalle_aportacion detalleapo2_ on"; se esperaba "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"
+Syntax error in SQL statement "select sum(detalleapo2_.cantidad_en_kilos) as col_0_0_ from clase clase0_ inner join aportacion aportacion1_ on [*]inner join detalle_aportacion detalleapo2_ on"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+select sum(detalleapo2_.cantidad_en_kilos) as col_0_0_ from clase clase0_ inner join aportacion aportacion1_ on inner join detalle_aportacion detalleapo2_ on [42001-214]
+2022-12-17 17:41:07 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "select sum(detalleapo2_.cantidad_en_kilos) as col_0_0_ from clase clase0_ inner join aportacion aportacion1_ on [*]inner join detalle_aportacion detalleapo2_ on"; se esperaba "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"
+Syntax error in SQL statement "select sum(detalleapo2_.cantidad_en_kilos) as col_0_0_ from clase clase0_ inner join aportacion aportacion1_ on [*]inner join detalle_aportacion detalleapo2_ on"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+select sum(detalleapo2_.cantidad_en_kilos) as col_0_0_ from clase clase0_ inner join aportacion aportacion1_ on inner join detalle_aportacion detalleapo2_ on [42001-214]

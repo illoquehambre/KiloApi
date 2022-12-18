@@ -1,6 +1,8 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
 import com.Triana.Salesinaos.KiloApi.dto.ClaseDto;
+import com.Triana.Salesinaos.KiloApi.dto.ClaseDtoConverter;
+import com.Triana.Salesinaos.KiloApi.dto.ClaseResponse;
 import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.service.ClaseService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -28,6 +30,8 @@ import java.util.List;
 public class ClaseController {
 
     private final ClaseService claseService;
+    private final ClaseService service;
+    private final ClaseDtoConverter converter;
 
     @Operation(summary = "Obtiene todos las clases")
     @ApiResponses(value = {
@@ -88,4 +92,35 @@ public class ClaseController {
 
     }
 
+    @Operation(summary = "Obtiene una clase por su id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado la clase",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = Clase.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                            [
+                                                {"id": 1, "nombre": "1ºDAM", "tutor": "Eduardo", "numAportaciones": 4, "kilosTotales": 34},
+                                                {"id": 2, "nombre": "2ºDAM", "tutor": "Luismi", "numAportaciones": 4, "kilosTotales": 32}
+                                            ]                                          
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado ninguna clase",
+                    content = @Content),
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<ClaseResponse> getClaseById(@PathVariable Long id){
+        if (!service.existById(id))
+            return ResponseEntity.notFound().build();
+         else
+            return ResponseEntity
+                    .ok()
+                    .body(converter.ClaseToClaseResponse(service.findById(id).get()));
+
+
+
+    }
 }
