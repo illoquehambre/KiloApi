@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public record ClaseDto (Long id, String nombre, String tutor){
     public ClaseDto {
-        Objects.requireNonNull(id);
+
         Objects.requireNonNull(nombre);
         Objects.requireNonNull(tutor);
     }
