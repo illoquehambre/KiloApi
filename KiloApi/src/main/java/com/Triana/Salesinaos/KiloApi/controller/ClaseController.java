@@ -112,11 +112,11 @@ public class ClaseController {
                     content = @Content),
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Clase> updateClase(@RequestBody Clase clase, @PathVariable Long id){
+    public ResponseEntity<Clase> updateClase(@RequestBody ClaseDto clase, @PathVariable Long id){
         return ResponseEntity.of(
                 claseService.findById(id).map(old -> {
-                            old.setNombre(clase.getNombre());
-                            old.setTutor(clase.getTutor());
+                            old.setNombre(clase.nombre());
+                            old.setTutor(clase.tutor());
                             return Optional.of(old);
                         })
                         .orElse(Optional.empty())
