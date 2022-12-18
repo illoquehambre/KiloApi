@@ -38,16 +38,11 @@ public class ClaseService {
                 .tutor(claseDto.tutor())
                 .build();
     }
-    public boolean existById(Long id) {
-       return repository.existsById(id);
-    }
+
 
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
 
-    public Optional<Clase> findById(Long id) {
-        return repository.findById(id);
-    }
 
 }
