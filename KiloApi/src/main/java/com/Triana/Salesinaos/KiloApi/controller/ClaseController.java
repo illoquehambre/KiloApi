@@ -1,5 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
+
 import com.Triana.Salesinaos.KiloApi.dto.ClaseDto;
 import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.service.ClaseService;
@@ -29,6 +30,7 @@ import java.util.Optional;
 public class ClaseController {
 
     private final ClaseService claseService;
+
 
 
     @Operation(summary = "Obtiene todos las clases")
@@ -112,12 +114,15 @@ public class ClaseController {
                     content = @Content),
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Clase> updateClase(@RequestBody ClaseDto clase, @PathVariable Long id){
+    public ResponseEntity<ClaseDto> updateClase(@RequestBody ClaseDto clase, @PathVariable Long id){
+
+
         return ResponseEntity.of(
-                claseService.findById(id).map(old -> {
+               claseService.findById(id).map(old -> {
                             old.setNombre(clase.nombre());
                             old.setTutor(clase.tutor());
-                            return Optional.of(old);
+
+                            return Optional.of(claseService.toClaseDto(claseService.add(old)));
                         })
                         .orElse(Optional.empty())
         );

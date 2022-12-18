@@ -10,11 +10,7 @@ import java.util.Objects;
 @Builder
 
 public record ClaseDto (Long id, String nombre, String tutor){
-    public ClaseDto {
 
-        Objects.requireNonNull(nombre);
-        Objects.requireNonNull(tutor);
-    }
 
     public static ClaseDto of(Clase clase){
         return ClaseDto.builder()

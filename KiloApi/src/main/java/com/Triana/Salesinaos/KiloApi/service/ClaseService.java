@@ -17,6 +17,7 @@ public class ClaseService {
     private final ClaseRepository repository;
     public List<Clase> findAll(){return repository.findAll();}
     public Optional<Clase> findById(Long id){return repository.findById(id);}
+    public Boolean existById(Long id){return repository.existsById(id);}
     public Clase add(Clase clase) {
         return repository.save(clase);
     }
@@ -26,6 +27,13 @@ public class ClaseService {
                 .id(claseDto.id())
                 .nombre(claseDto.nombre())
                 .tutor(claseDto.tutor())
+                .build();
+    }
+    public ClaseDto toClaseDto(Clase clase) {
+        return ClaseDto.builder()
+                .id(clase.getId())
+                .nombre(clase.getNombre())
+                .tutor(clase.getTutor())
                 .build();
     }
 
