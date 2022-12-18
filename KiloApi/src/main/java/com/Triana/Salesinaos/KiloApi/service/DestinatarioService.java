@@ -1,5 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.service;
 
+import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.model.Destinatario;
 import com.Triana.Salesinaos.KiloApi.model.KilosDisponibles;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
@@ -8,6 +9,7 @@ import com.Triana.Salesinaos.KiloApi.repository.KilosDisponiblesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.PreRemove;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +37,7 @@ public class DestinatarioService {
         return repository.save(destinatario);
     }
 
+    @PreRemove
     public void delete(Destinatario destinatario) {
         cajaService.findAll().remove(destinatario);
         repository.delete(destinatario);
@@ -46,13 +49,14 @@ public class DestinatarioService {
 
     public double showKgTotal(Destinatario d) {
         double aux = 0;
-        if(d.getCajas().isEmpty()){
-            return 0;
+        if (!d.getCajas().isEmpty()) {
+            for (Caja caja : d.getCajas()) {
+                aux += caja.getKilosTotales();
+            }
+            return aux;
         }
-        for (int index = 0; index <= d.getCajas().size(); index++) {
-            aux += d.getCajas().get(index).getKilosTotales();
-        }
-        return aux;
+        return 1;
+
     }
 
 

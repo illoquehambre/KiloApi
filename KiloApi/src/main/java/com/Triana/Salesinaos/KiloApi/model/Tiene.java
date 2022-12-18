@@ -13,7 +13,6 @@ import java.io.Serializable;
 @Entity
 public class Tiene implements Serializable {
 
-
     @Builder.Default
     @EmbeddedId
     private TienePK id = new TienePK();
@@ -24,9 +23,9 @@ public class Tiene implements Serializable {
     private TipoAlimento tipoAlimmento;
 
     @ManyToOne
-    @MapsId("kilosDisponibles_id")
-    @JoinColumn(name = "KilosDisponibles_id", foreignKey = @ForeignKey(name="FK_KILOSDISPONIBLES_TIENE"))
-    private KilosDisponibles KilosDisponibles;
+    @MapsId("caja_id")
+    @JoinColumn(name = "caja_id", foreignKey = @ForeignKey(name="FK_CAJA_TIENE"))
+    private Caja caja;
 
     @Column(name = "cantidadKgs")
     private double cantidadKgs;

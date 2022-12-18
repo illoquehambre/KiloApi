@@ -171,8 +171,6 @@ public class DestinatarioController {
             return ResponseEntity.ok(destinatarioDtoConverter.destinatarioToDestinatarioDetalleResponse(id));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-
     }
 
 }

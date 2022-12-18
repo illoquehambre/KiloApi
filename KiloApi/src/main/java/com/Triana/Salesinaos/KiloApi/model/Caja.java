@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 
-public class Caja{
+public class Caja {
     @Id
     @GeneratedValue
     private Long id;
@@ -29,9 +29,9 @@ public class Caja{
             foreignKey = @ForeignKey(name = "FK_CAJA_DESTINATARIO"))
     private Destinatario destinatario;
 
-
-
-
+    @Builder.Default
+    @OneToMany(mappedBy = "caja")
+    private List<Tiene> tieneList = new ArrayList<>();
 
 
 }
