@@ -2,10 +2,13 @@ package com.Triana.Salesinaos.KiloApi.controller;
 
 
 import com.Triana.Salesinaos.KiloApi.dto.ClaseDto;
+import com.Triana.Salesinaos.KiloApi.dto.ClaseDtoConverter;
+import com.Triana.Salesinaos.KiloApi.dto.ClaseResponse;
 import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.service.ClaseService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -30,6 +33,8 @@ import java.util.Optional;
 public class ClaseController {
 
     private final ClaseService claseService;
+    private final ClaseService service;
+    private final ClaseDtoConverter converter;
 
 
 
@@ -64,6 +69,39 @@ public class ClaseController {
                     .body(data);
         }
     }
+
+
+    @Operation(summary = "Obtiene una clase por su id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado la clase",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = Clase.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                            [
+                                                {"id": 1, "nombre": "1ºDAM", "tutor": "Eduardo", "numAportaciones": 4, "kilosTotales": 34},
+                                                {"id": 2, "nombre": "2ºDAM", "tutor": "Luismi", "numAportaciones": 4, "kilosTotales": 32}
+                                            ]                                          
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado ninguna clase",
+                    content = @Content),
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<ClaseResponse> getClaseById(@PathVariable Long id){
+        if (!service.existById(id))
+            return ResponseEntity.notFound().build();
+         else
+            return ResponseEntity
+                    .ok()
+                    .body(converter.ClaseToClaseResponse(service.findById(id).get()));
+
+    }
+
+
 
     @Operation(summary = "Este método crea una nueva clase")
     @ApiResponses(value = {
@@ -127,4 +165,22 @@ public class ClaseController {
                         .orElse(Optional.empty())
         );
     }
+
+    @Operation(summary = "Este método elimina una clase localizada por su id")
+    @ApiResponse(responseCode = "204", description = "Clase borrada con éxito",
+            content = @Content)
+    @Parameter(description = "El id de la clase que se quiere eliminar", name = "id", required = true)
+    @DeleteMapping("/")
+    public ResponseEntity<?> deleteClase(@RequestBody Long id){
+
+        // Una vez se cree el ranking quizás haya que hacer gestiones desde aquí
+
+        if(claseService.existById(id)) {
+            claseService.deleteById(id);
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+
+
 }

@@ -26,7 +26,7 @@ public class Clase {
     @PreRemove
     public void preRemoveClase() {
         listadoAportaciones.forEach(aport -> aport.setClase(null));
-    }
+     }
 
 
 }
