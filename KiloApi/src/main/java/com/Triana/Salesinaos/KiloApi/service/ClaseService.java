@@ -38,6 +38,14 @@ public class ClaseService {
                 .tutor(claseDto.tutor())
                 .build();
     }
+    public ClaseDto toClaseDto(Clase clase) {
+        return ClaseDto.builder()
+                .id(clase.getId())
+                .nombre(clase.getNombre())
+                .tutor(clase.getTutor())
+                .build();
+    }
+
 
 
     public void deleteById(Long id) {

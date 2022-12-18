@@ -5,6 +5,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,5 +27,6 @@ public class Clase {
     public void preRemoveClase() {
         listadoAportaciones.forEach(aport -> aport.setClase(null));
      }
+
 
 }

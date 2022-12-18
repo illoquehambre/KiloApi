@@ -3,6 +3,6 @@
 *.iws
 *.iml
 *.ipr
-./db
 ./KiloApi/db
+./db
 
