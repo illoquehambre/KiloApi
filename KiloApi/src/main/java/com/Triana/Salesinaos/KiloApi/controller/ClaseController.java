@@ -7,6 +7,7 @@ import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.service.ClaseService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -65,32 +66,6 @@ public class ClaseController {
         }
     }
 
-    @Operation(summary = "Este método crea una nueva clase")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201",
-                    description = "Se ha creado una nueva clase",
-                    content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = ClaseDto.class)),
-                            examples = @ExampleObject(value = """
-                                    {
-                                        "id": 2,
-                                        "nombre": "2º DAM",
-                                        "tutor": "Luismi"
-                                    }
-                                    """)) }),
-            @ApiResponse(responseCode = "400",
-                    description = "No se han introducido correctamente los datos de la clase",
-                    content = @Content),
-    })
-    @PostMapping("/")
-    public ResponseEntity<ClaseDto> createClase(@RequestBody ClaseDto claseDtoRequest){
-        if(!claseDtoRequest.nombre().isBlank() || !claseDtoRequest.tutor().isBlank())
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(ClaseDto.of(claseService.add(claseService.toClase(claseDtoRequest))));
-         else
-            return ResponseEntity.badRequest().build();
-
-    }
 
     @Operation(summary = "Obtiene una clase por su id")
     @ApiResponses(value = {
@@ -120,7 +95,54 @@ public class ClaseController {
                     .ok()
                     .body(converter.ClaseToClaseResponse(service.findById(id).get()));
 
+    }
 
+
+
+    @Operation(summary = "Este método crea una nueva clase")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Se ha creado una nueva clase",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = ClaseDto.class)),
+                            examples = @ExampleObject(value = """
+                                    {
+                                        "id": 2,
+                                        "nombre": "2º DAM",
+                                        "tutor": "Luismi"
+                                    }
+                                    """)) }),
+            @ApiResponse(responseCode = "400",
+                    description = "No se han introducido correctamente los datos de la clase",
+                    content = @Content),
+    })
+    @PostMapping("/")
+    public ResponseEntity<ClaseDto> createClase(@RequestBody ClaseDto claseDtoRequest){
+        if(!claseDtoRequest.nombre().isBlank() || !claseDtoRequest.tutor().isBlank())
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(ClaseDto.of(claseService.add(claseService.toClase(claseDtoRequest))));
+         else
+            return ResponseEntity.badRequest().build();
 
     }
+
+
+
+    @Operation(summary = "Este método elimina una clase localizada por su id")
+    @ApiResponse(responseCode = "204", description = "Playlist borrada con éxito",
+            content = @Content)
+    @Parameter(description = "El id de la clase que se quiere eliminar", name = "id", required = true)
+    @DeleteMapping("/")
+    public ResponseEntity<?> deleteClase(@RequestBody Long id){
+
+        // Una vez se cree el ranking quizás haya que hacer gestiones desde aquí
+
+        if(claseService.existById(id)) {
+            claseService.deleteById(id);
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+
+
 }

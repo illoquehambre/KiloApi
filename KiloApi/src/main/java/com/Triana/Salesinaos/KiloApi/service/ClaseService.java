@@ -38,4 +38,11 @@ public class ClaseService {
                 .tutor(claseDto.tutor())
                 .build();
     }
+
+
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
+
 }
