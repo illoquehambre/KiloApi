@@ -5,6 +5,7 @@ import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.service.ClaseService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,7 +29,6 @@ import java.util.List;
 public class ClaseController {
 
     private final ClaseService claseService;
-
     @Operation(summary = "Obtiene todos las clases")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -87,5 +87,22 @@ public class ClaseController {
             return ResponseEntity.badRequest().build();
 
     }
+
+    @Operation(summary = "Este método elimina una clase localizada por su id")
+    @ApiResponse(responseCode = "204", description = "Playlist borrada con éxito",
+            content = @Content)
+    @Parameter(description = "El id de la clase que se quiere eliminar", name = "id", required = true)
+    @DeleteMapping("/")
+    public ResponseEntity<?> deleteClase(@RequestBody Long id){
+
+        // Una vez se cree el ranking quizás haya que hacer gestiones desde aquí
+
+        if(claseService.existById(id)) {
+            claseService.deleteById(id);
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+
 
 }
