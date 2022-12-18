@@ -25,11 +25,19 @@ public class Aportacion {
     private Clase clase;
 
     @Builder.Default
-    @OneToMany(mappedBy = "aportacion")
-    private List<DetalleAportacion> detalleAportacion = new ArrayList();
+    @OneToMany(mappedBy = "aportacion", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DetalleAportacion> detalleAportacionList = new ArrayList<>();
 
 
+    public void addDetalleAportacion(DetalleAportacion da) {
+        detalleAportacionList.add(da);
+        da.setAportacion(this);
 
+    }
+    public void removeDetalleAportacion(DetalleAportacion da) {
+        detalleAportacionList.remove(da);
+        da.setAportacion(null);
+    }
 
     public void addClase(Clase c) {
         this.clase = c;

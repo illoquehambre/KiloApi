@@ -2,11 +2,10 @@ package com.Triana.Salesinaos.KiloApi.model;
 
 import lombok.*;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,8 +21,6 @@ public class TipoAlimento implements Serializable {
     private Long id;
 
     private String nombre;
-
-
 
 
 }
