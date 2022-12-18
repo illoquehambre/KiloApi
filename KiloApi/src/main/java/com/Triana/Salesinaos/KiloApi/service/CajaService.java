@@ -13,7 +13,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CajaService {
     private final CajaRepository repository;
-    private final CajaService cajaService;
 
     public Caja add(Caja caja) {
         return repository.save(caja);
@@ -32,7 +31,7 @@ public class CajaService {
     }
 
     public void delete(Caja caja) {
-        cajaService.findAll().remove(caja);
+        findAll().remove(caja);
         repository.delete(caja);
     }
 

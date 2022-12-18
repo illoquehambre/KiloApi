@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="aa4605f0-6575-44e6-874e-118bd3952f36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/controller/AportacionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/controller/AportacionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KiloApi/db/basedatos.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/db/basedatos.mv.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/KiloApiApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/KiloApiApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/controller/CajaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/controller/CajaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/dto/CreateCajaDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/dto/CreateCajaDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/service/CajaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/java/com/Triana/Salesinaos/KiloApi/service/CajaService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/KiloApi/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/KiloApi/src/main/resources/application.properties" afterDir="false" />
     </list>
@@ -54,6 +56,12 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean" />
+      <command value="mvn install" />
+    </option>
+  </component>
   <component name="RunManager">
     <configuration name="KiloApi [spring-boot:run]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
       <MavenSettings>
