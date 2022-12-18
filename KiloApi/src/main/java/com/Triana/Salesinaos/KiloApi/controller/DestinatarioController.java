@@ -125,7 +125,8 @@ public class DestinatarioController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         Optional<Destinatario> d1 = destinatarioService.findById(id);
-        destinatarioService.delete(d1.get());
+        if (d1.isPresent())
+            destinatarioService.delete(d1.get());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

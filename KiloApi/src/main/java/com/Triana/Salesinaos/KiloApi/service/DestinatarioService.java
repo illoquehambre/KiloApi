@@ -4,6 +4,7 @@ import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.model.Destinatario;
 import com.Triana.Salesinaos.KiloApi.model.KilosDisponibles;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
+import com.Triana.Salesinaos.KiloApi.repository.CajaRepository;
 import com.Triana.Salesinaos.KiloApi.repository.DestinatarioRepository;
 import com.Triana.Salesinaos.KiloApi.repository.KilosDisponiblesRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,7 @@
 package com.Triana.Salesinaos.KiloApi.model;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,7 +23,7 @@ public class Destinatario implements Serializable {
 
     private String nombre, direccion, personaContacto, telefono;
 
-    @OneToMany(mappedBy = "destinatario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "destinatario", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @Builder.Default
     private List<Caja> cajas = new ArrayList<>();
 
