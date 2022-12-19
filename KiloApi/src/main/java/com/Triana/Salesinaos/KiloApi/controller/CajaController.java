@@ -6,7 +6,6 @@ import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.model.Tiene;
 import com.Triana.Salesinaos.KiloApi.service.CajaService;
 import lombok.RequiredArgsConstructor;
-import com.Triana.Salesinaos.KiloApi.dto.CajaResponse;
 import com.Triana.Salesinaos.KiloApi.dto.CreateCajaDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -58,15 +57,11 @@ public class CajaController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<Caja>> cajaOne() {
-        return ResponseEntity.ok(cajaService.findAll());
-    }
     @Operation(summary = "Este método crea una caja")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
                     description = "Se ha creado una nueva caja",
-                    content = { @Content(mediaType = "application/json",
+                    content = {@Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = Caja.class)),
                             examples = @ExampleObject(value = """
                                             {
@@ -76,14 +71,14 @@ public class CajaController {
                                                 "kilosTotales": 0.0,
                                                 "destinatario": null
                                             }
-                                    """)) }),
+                                    """))}),
             @ApiResponse(responseCode = "400",
                     description = "No se han introducido correctamente los datos de caja",
                     content = @Content),
     })
     @PostMapping("/")
-    public ResponseEntity<Caja> addCaja(@RequestBody CreateCajaDto c){
-        if (c.getNumCaja() != ""){
+    public ResponseEntity<Caja> addCaja(@RequestBody CreateCajaDto c) {
+        if (c.getNumCaja() != "") {
             Caja nuevo = cajaDtoConverter.CreateCajaDtoToCaja(c);
             cajaService.add(nuevo);
 
@@ -93,11 +88,12 @@ public class CajaController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
     }
+
     @Operation(summary = "Este método muestra las cajas")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Se ha encontrado las cajas",
-                    content = { @Content(mediaType = "application/json",
+                    content = {@Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = Caja.class)),
                             examples = @ExampleObject(value = """
                                         {
@@ -108,25 +104,25 @@ public class CajaController {
                                             "destinatario": null
                                         }
                                     """
-                            )) }),
+                            ))}),
             @ApiResponse(responseCode = "404",
                     description = "No se ha encontrado niguna caja",
                     content = @Content),
     })
     @GetMapping("/")
-    public ResponseEntity<List<Caja>> getCajas(){
+    public ResponseEntity<List<Caja>> getCajas() {
 
-        if(cajaService.findAll().isEmpty()){
+        if (cajaService.findAll().isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-            return ResponseEntity.status(HttpStatus.OK).body(cajaService.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(cajaService.findAll());
     }
 
     @Operation(summary = "Este método muestra una caja por su id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Se ha encontrado la caja",
-                    content = { @Content(mediaType = "application/json",
+                    content = {@Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = Caja.class)),
                             examples = @ExampleObject(value = """
                                         {
@@ -137,18 +133,19 @@ public class CajaController {
                                             "destinatario": null
                                         }
                                     """
-                            )) }),
+                            ))}),
             @ApiResponse(responseCode = "404",
                     description = "No se ha encontrado niguna caja con ese ID",
                     content = @Content),
     })
     @GetMapping("/{id}")
-    public ResponseEntity<CajaResponse>getCajasById(@PathVariable Long id){
-        if (cajaService.findById(id).isEmpty()){
+    public ResponseEntity<CajaResponseCreate> getCajasById(@PathVariable Long id) {
+        if (cajaService.findById(id).isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
         }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(cajaDtoConverter.createCajaToCajaResponse(cajaService.findById(id).get()));
+    }
 }
-}
+

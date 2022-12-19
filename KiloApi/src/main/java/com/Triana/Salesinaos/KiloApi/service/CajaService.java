@@ -17,6 +17,7 @@ public class CajaService {
 
     public List<Caja> findAll() {
         return repository.findAll();
+    }
 
     public Caja add(Caja caja) {
         return repository.save(caja);

@@ -7,7 +7,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
 @Getter
 @Setter
 public class DestinatarioResponse {

@@ -17,9 +17,6 @@ public class KilosDisponiblesService {
         return repository.save(kilosDisponibles);
     }
 
-    public Optional<KilosDisponibles> findById(Long id) {
-        return repository.findById(id);
-    }
 
     public List<KilosDisponibles> findAll() {
         return repository.findAll();
@@ -31,10 +28,6 @@ public class KilosDisponiblesService {
 
     public void delete(KilosDisponibles kilosDisponibles) {
         repository.delete(kilosDisponibles);
-    }
-
-    public void deleteById(Long id) {
-        repository.deleteById(id);
     }
 
 

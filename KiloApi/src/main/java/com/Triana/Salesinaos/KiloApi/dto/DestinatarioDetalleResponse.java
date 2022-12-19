@@ -8,7 +8,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
 @Getter
 @Setter
 public class DestinatarioDetalleResponse {
