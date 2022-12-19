@@ -9,4 +9,5 @@ import java.util.Optional;
 
 public interface AportacionRepository extends JpaRepository<Aportacion, Long> {
     Optional<DetalleAportacion> findFirstDetalleAportacionById(Long id);
+
 }

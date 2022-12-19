@@ -12,9 +12,9 @@ import javax.persistence.*;
 @Entity
 public class DetalleAportacion {
 
-    @Builder.Default
+
     @EmbeddedId
-    private DetalleAportacionPK id =  new DetalleAportacionPK();
+    private DetalleAportacionPK id ;
 
     @MapsId("aportacionId")
     @ManyToOne(fetch = FetchType.LAZY)

@@ -17,5 +17,5 @@ public class DetalleAportacionPK implements Serializable {
 
     private Long aportacionId;
 
-    private Long numLinea;
+    private int numLinea;
 }

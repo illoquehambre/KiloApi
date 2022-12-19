@@ -23,7 +23,7 @@ public class Aportacion {
     private LocalDate fecha;
 
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name= "FK_CLASE_APORTACION"))
+    @JoinColumn(name = "aportacion_id", foreignKey = @ForeignKey(name= "FK_CLASE_APORTACION"))
     private Clase clase;
 
     @Builder.Default

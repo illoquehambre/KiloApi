@@ -27,7 +27,7 @@ public class AportacionController {
     public ResponseEntity<AportacionResponse> createAportcion(@RequestBody CreateAportacion create){
         if(!(create.claseId()==null || create.listadoDetallesAportacion().isEmpty()))
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(AportacionResponse.of(aportacionService.add(aportacionService.toAportacion(create))));
+                    .body(AportacionResponse.of(aportacionService.toAportacion(create)));
         else
             return ResponseEntity.badRequest().build();
     }

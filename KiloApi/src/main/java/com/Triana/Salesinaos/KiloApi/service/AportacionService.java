@@ -5,6 +5,7 @@ import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateDetalleAportacion;
 import com.Triana.Salesinaos.KiloApi.model.Aportacion;
 import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.model.DetalleAportacion;
+import com.Triana.Salesinaos.KiloApi.model.DetalleAportacionPK;
 import com.Triana.Salesinaos.KiloApi.repository.AportacionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,30 +26,43 @@ public class AportacionService {
         return repository.save(aportacion);
     }
 
+
     public Optional<Aportacion> findById(Long id){return repository.findById(id);}
     public Aportacion toAportacion(CreateAportacion create) {
 
         Aportacion aportacion = Aportacion.builder()
-                .detalleAportacionList(null)
                 .clase(claseService.findById(create.claseId()).get())//No se gestiona si no existe la clase
                 .build();
 
+        repository.save(aportacion);
+
         //Hay que hacer un add y un save primero de aportacion pa que se genere su id y deje de petar
+    List<DetalleAportacion> detalleAportacionesList = new ArrayList<>();
 
-        aportacion.setDetalleAportacionList(
-                create.listadoDetallesAportacion().stream().map(detalle->{
+                create.listadoDetallesAportacion().forEach(detalle -> {
+                    tipoAlimentoService.findById(detalle.tipoAlimentoId());
+                    aportacion.addDetalleAportacion(
+                    detalleAportacionesList.add(DetalleAportacion.builder()
+                                    .id(new DetalleAportacionPK(aportacion.getId(), detalleAportacionesList.size()+1))
+                            .build());
+                    )
+                        });
 
-                    return DetalleAportacion.builder()
+                   /* return DetalleAportacion.builder()
+                            .id(new DetalleAportacionPK(aportacion.getId(),
+                                    ))
                             .cantidadEnKilos(detalle.kilos())
                             .aportacion(aportacion)
                             .tipoAlimento((tipoAlimentoService.findById(detalle.tipoAlimentoId()).get()))//falta gestionar si el idAlimento no existe
                             .build();
 
+                    )
+                }
+                ));*/
 
-                }).toList()
-        );
 
-    return aportacion;
+
+
     }
 
 
