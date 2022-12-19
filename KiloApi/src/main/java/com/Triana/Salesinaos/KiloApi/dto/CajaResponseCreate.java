@@ -1,7 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.dto;
 
-import com.Triana.Salesinaos.KiloApi.model.Caja;
-import com.Triana.Salesinaos.KiloApi.model.Tiene;
+import com.Triana.Salesinaos.KiloApi.model.Destinatario;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import lombok.*;
 
@@ -14,9 +13,10 @@ import java.util.List;
 @Data
 @Getter
 @Setter
-public class TieneResponse {
-
-    private Caja caja;
-    private List<Tiene> tieneList = new ArrayList<>();
+public class CajaResponseCreate {
+    private Long id;
+    private String qr, numCaja;
+    private double kilosTotales;
+    private Destinatario destinatario;
 
 }

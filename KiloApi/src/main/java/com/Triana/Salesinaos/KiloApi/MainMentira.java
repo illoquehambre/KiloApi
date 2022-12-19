@@ -6,13 +6,12 @@ import com.Triana.Salesinaos.KiloApi.model.Tiene;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.repository.CajaRepository;
 import com.Triana.Salesinaos.KiloApi.repository.DestinatarioRepository;
+import com.Triana.Salesinaos.KiloApi.repository.TieneRepository;
 import com.Triana.Salesinaos.KiloApi.repository.TipoAlimentoRepository;
-import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -23,15 +22,19 @@ public class MainMentira {
     private final DestinatarioRepository destinatarioRepository;
     private final CajaRepository cajaRepository;
 
+    private final TieneRepository tieneRepository;
+
     @PostConstruct
     public void init() {
 
 
-        TipoAlimento t1 = new TipoAlimento();
-        t1.setNombre("Patatas");
+        TipoAlimento t1 = TipoAlimento.builder()
+                .nombre("Patatas")
+                .build();
 
-        TipoAlimento t2 = new TipoAlimento();
-        t2.setNombre("Arroz");
+        TipoAlimento t2 =TipoAlimento.builder()
+                .nombre("Arroz")
+                .build();
 
         tipoAlimentoService.save(t1);
         tipoAlimentoService.save(t2);
@@ -51,22 +54,37 @@ public class MainMentira {
         destinatarioRepository.save(d1);
         destinatarioRepository.save(d2);
 
-        Caja c1 = new Caja();
-        c1.setQr("codigo1");
-        c1.setKilosTotales(68);
-        c1.setNumCaja("Caja 1");
-        c1.setDestinatario(d1);
+        Caja c1 = Caja.builder()
+                .qr("Codigo-1")
+                .kilosTotales(68)
+                .numCaja("Caja-123")
+                .build();
 
-
-        Caja c2 = new Caja();
-        c2.setQr("codigo2");
-        c2.setKilosTotales(8);
-        c2.setNumCaja("Caja 2");
-        c2.setDestinatario(d2);
+        Caja c2 = Caja.builder()
+                .qr("Codigo-2")
+                .kilosTotales(8.45)
+                .numCaja("Caja-1234")
+                .build();
 
         cajaRepository.save(c1);
         cajaRepository.save(c2);
 
+        List<TipoAlimento> tipoAlimentoList = List.of(
+                TipoAlimento.builder().nombre("Banana").build(),
+                TipoAlimento.builder().nombre("Pizza").build(),
+                TipoAlimento.builder().nombre("Botella Cocacola").build()
+        );
+
+        tipoAlimentoService.saveAll(tipoAlimentoList);
+
+        Tiene tien1 = Tiene.builder()
+                .tipoAlimmento(t1)
+                .caja(c1)
+                .cantidadKgs(4)
+                .build();
+
+        tien1.addToCaja(c1);
+        tieneRepository.save(tien1);
 
 
     }

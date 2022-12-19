@@ -61,7 +61,7 @@ public class DestinatarioService {
             }
             return aux;
         }
-        return 1;
+        return 0;
 
     }
 

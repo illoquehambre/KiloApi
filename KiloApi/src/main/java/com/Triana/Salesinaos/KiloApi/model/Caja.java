@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 
-public class Caja {
+public class Caja implements Serializable {
     @Id
     @GeneratedValue
     private Long id;

@@ -31,5 +31,18 @@ public class Tiene implements Serializable {
     @Column(name = "cantidadKgs")
     private double cantidadKgs;
 
+     /*
+        HELPERS
+     */
+
+    public void addToCaja(Caja c) {
+        caja = c;
+        c.getTieneList().add(this);
+    }
+
+    public void removeFromCaja(Caja c) {
+        c.getTieneList().remove(this);
+        caja = null;
+    }
 
 }

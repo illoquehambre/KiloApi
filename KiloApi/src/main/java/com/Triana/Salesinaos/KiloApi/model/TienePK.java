@@ -8,11 +8,10 @@ import lombok.Setter;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
+
 @Embeddable
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 public class TienePK implements Serializable {
 
     private Long tipoAlimento_id;
