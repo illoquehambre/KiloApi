@@ -1,4 +1,4 @@
-package com.Triana.Salesinaos.KiloApi.dto;
+package com.Triana.Salesinaos.KiloApi.dto.clase;
 
 import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.service.ClaseService;

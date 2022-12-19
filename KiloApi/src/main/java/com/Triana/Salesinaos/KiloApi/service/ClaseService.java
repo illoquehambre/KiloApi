@@ -1,6 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.service;
 
-import com.Triana.Salesinaos.KiloApi.dto.ClaseDto;
+import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
 import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.repository.ClaseRepository;
 import lombok.RequiredArgsConstructor;

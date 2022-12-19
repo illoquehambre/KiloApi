@@ -1,14 +1,12 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
-import com.Triana.Salesinaos.KiloApi.dto.CajaDtoConverter;
-import com.Triana.Salesinaos.KiloApi.dto.CajaResponseCreate;
-import com.Triana.Salesinaos.KiloApi.dto.CajaResponse;
-import com.Triana.Salesinaos.KiloApi.dto.CreateCajaDto;
+import com.Triana.Salesinaos.KiloApi.dto.caja.CajaDtoConverter;
+import com.Triana.Salesinaos.KiloApi.dto.caja.CreateCajaDto;
+import com.Triana.Salesinaos.KiloApi.dto.caja.CajaResponseCreate;
 import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.model.Tiene;
 import com.Triana.Salesinaos.KiloApi.service.CajaService;
 import lombok.RequiredArgsConstructor;
-import com.Triana.Salesinaos.KiloApi.dto.CreateCajaDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,13 +14,14 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+@RequiredArgsConstructor
+
 
 @RequestMapping("/caja")
 public class CajaController {
@@ -77,7 +76,7 @@ public class CajaController {
                     content = @Content),
     })
     @PostMapping("/")
-    public ResponseEntity<CajaResponse> addCaja(@RequestBody CreateCajaDto c){
+    public ResponseEntity<CajaResponseCreate> addCaja(@RequestBody CreateCajaDto c){
         if (c.getNumCaja() != ""){
             Caja nuevo = cajaDtoConverter.CreateCajaDtoToCaja(c);
             cajaService.add(nuevo);
@@ -149,7 +148,7 @@ public class CajaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CajaResponse>editCaja(@RequestBody CreateCajaDto c, @PathVariable Long id){
+    public ResponseEntity<CajaResponseCreate>editCaja(@RequestBody CreateCajaDto c, @PathVariable Long id){
 
         if(c.getNumCaja().isEmpty() || c.getQr().isEmpty()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

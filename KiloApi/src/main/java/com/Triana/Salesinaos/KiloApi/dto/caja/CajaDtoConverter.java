@@ -1,4 +1,4 @@
-package com.Triana.Salesinaos.KiloApi.dto;
+package com.Triana.Salesinaos.KiloApi.dto.caja;
 
 import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.service.CajaService;
@@ -27,13 +27,7 @@ public class CajaDtoConverter {
                 .build();
     }
 
-    public Caja CreateCajaDtoToCajaResponse(CajaResponse c){
 
-        return Caja.builder()
-                .numCaja(c.getNumCaja())
-                .qr(c.getQr())
-                .build();
-    }
 
     public CreateCajaDto createCajaToCajaDto(Caja c){
         return CreateCajaDto.builder()
@@ -42,8 +36,8 @@ public class CajaDtoConverter {
                 .build();
 
     }
-    public CajaResponse createCajaToCajaResponse(Caja c){
-        return CajaResponse.builder()
+    public CajaResponseCreate createCajaToCajaResponse(Caja c){
+        return CajaResponseCreate.builder()
                 .id(c.getId())
                 .numCaja(c.getNumCaja())
                 .qr(c.getQr())
@@ -52,14 +46,14 @@ public class CajaDtoConverter {
                 .build();
 
     }
-
-    public CajaResponse createCajaToCajaResponse(CreateCajaDto c){
-        return CajaResponse.builder()
+//Este metodo esta duplicado con el llamado CreateCajaDtoToCaja pd:Nacho :D
+   /* public Caja createCajaDtoToCajaResponse(CreateCajaDto c){
+        return Caja.builder()
                 .numCaja(c.getNumCaja())
                 .qr(c.getQr())
                 .build();
 
     }
-
+*/
 
 }

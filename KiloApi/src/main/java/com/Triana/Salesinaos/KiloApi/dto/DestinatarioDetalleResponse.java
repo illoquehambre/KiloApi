@@ -1,5 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.dto;
 
+import com.Triana.Salesinaos.KiloApi.dto.caja.CajaResponse;
 import lombok.*;
 
 import java.util.ArrayList;

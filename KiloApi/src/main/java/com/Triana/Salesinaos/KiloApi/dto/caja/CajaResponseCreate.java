@@ -1,4 +1,4 @@
-package com.Triana.Salesinaos.KiloApi.dto;
+package com.Triana.Salesinaos.KiloApi.dto.caja;
 
 import com.Triana.Salesinaos.KiloApi.model.Destinatario;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
@@ -10,7 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
 @Getter
 @Setter
 public class CajaResponseCreate {
