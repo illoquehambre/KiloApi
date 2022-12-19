@@ -36,4 +36,14 @@ public class TipoAlimentoService {
     }
 
 
+    public Optional<TipoAlimento> findById(Long id) {
+        return repository.findById(id);
+    }
+
+    public TipoAlimento edit(TipoAlimento oldTipoAlimento) {
+        return repository.save(oldTipoAlimento);
+    }
+
+
+
 }

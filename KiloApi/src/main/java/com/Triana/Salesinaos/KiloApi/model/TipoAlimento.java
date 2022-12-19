@@ -19,10 +19,5 @@ public class TipoAlimento implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
-
     private String nombre;
-
-
-
-
 }

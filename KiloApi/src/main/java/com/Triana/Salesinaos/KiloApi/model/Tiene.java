@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,7 +13,6 @@ import java.io.Serializable;
 @Setter
 @Entity
 public class Tiene implements Serializable {
-
 
     @Builder.Default
     @EmbeddedId
@@ -24,12 +24,25 @@ public class Tiene implements Serializable {
     private TipoAlimento tipoAlimmento;
 
     @ManyToOne
-    @MapsId("kilosDisponibles_id")
-    @JoinColumn(name = "KilosDisponibles_id", foreignKey = @ForeignKey(name="FK_KILOSDISPONIBLES_TIENE"))
-    private KilosDisponibles KilosDisponibles;
+    @MapsId("caja_id")
+    @JoinColumn(name = "caja_id", foreignKey = @ForeignKey(name="FK_CAJA_TIENE"))
+    private Caja caja;
 
     @Column(name = "cantidadKgs")
     private double cantidadKgs;
 
+     /*
+        HELPERS
+     */
+
+    public void addToCaja(Caja c) {
+        caja = c;
+        c.getTieneList().add(this);
+    }
+
+    public void removeFromCaja(Caja c) {
+        c.getTieneList().remove(this);
+        caja = null;
+    }
 
 }

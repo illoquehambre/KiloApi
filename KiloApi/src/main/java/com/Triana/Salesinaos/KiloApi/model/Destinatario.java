@@ -14,17 +14,23 @@ import java.util.List;
 @Getter
 @Setter
 
-
-
-public class Destinatario{
+public class Destinatario implements Serializable {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    private String nombre, direccion, personaContacto, telefono;
+    private String nombre;
+
+    private String direccion;
+
+    private String personaContacto;
+
+    private String telefono;
 
     @OneToMany(mappedBy = "destinatario", fetch = FetchType.LAZY)
     @Builder.Default
     private List<Caja> cajas = new ArrayList<>();
+
+
 }

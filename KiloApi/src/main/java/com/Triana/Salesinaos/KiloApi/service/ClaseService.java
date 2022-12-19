@@ -12,7 +12,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ClaseService {
-
     private final ClaseRepository repository;
     public List<Clase> findAll(){return repository.findAll();}
     public Optional<Clase> findById(Long id){return repository.findById(id);}
@@ -21,10 +20,6 @@ public class ClaseService {
     public Boolean existById(Long id ){
         return repository.existsById(id );
     }
-
-
-
-
 
     public Clase add(Clase clase) {
         return repository.save(clase);
@@ -44,7 +39,6 @@ public class ClaseService {
                 .tutor(clase.getTutor())
                 .build();
     }
-
 
 
     public void deleteById(Long id) {

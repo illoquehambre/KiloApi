@@ -18,6 +18,8 @@ public class Aportacion {
 
     @Id@GeneratedValue
     private Long id;
+
+    @CreationTimestamp
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @CreationTimestamp
     private LocalDate fecha;

@@ -1,6 +1,8 @@
 package com.Triana.Salesinaos.KiloApi.service;
 
 import com.Triana.Salesinaos.KiloApi.model.Caja;
+import com.Triana.Salesinaos.KiloApi.model.Destinatario;
+import com.Triana.Salesinaos.KiloApi.model.KilosDisponibles;
 import com.Triana.Salesinaos.KiloApi.repository.CajaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,23 +10,24 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 @RequiredArgsConstructor
 public class CajaService {
     private final CajaRepository repository;
 
+    public List<Caja> findAll() {
+        return repository.findAll();
+    }
+
     public Caja add(Caja caja) {
         return repository.save(caja);
     }
+
 
     public Optional<Caja> findById(Long id) {
         return repository.findById(id);
     }
 
-    public List<Caja> findAll() {
-        return repository.findAll();
-    }
 
     public Caja edit(Caja caja) {
         return repository.save(caja);
@@ -38,6 +41,5 @@ public class CajaService {
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
-
 
 }

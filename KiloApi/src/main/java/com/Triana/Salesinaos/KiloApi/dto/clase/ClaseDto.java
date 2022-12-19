@@ -4,7 +4,6 @@ import com.Triana.Salesinaos.KiloApi.model.Clase;
 import lombok.Builder;
 
 @Builder
-
 public record ClaseDto (Long id, String nombre, String tutor){
 
 

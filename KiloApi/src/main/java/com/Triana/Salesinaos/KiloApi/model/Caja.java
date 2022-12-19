@@ -14,12 +14,15 @@ import java.util.List;
 @Getter
 @Setter
 
-public class Caja{
+public class Caja implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
 
-    private String qr, numCaja;
+    private String qr;
+
+    private String numCaja;
+
     private double kilosTotales;
 
 
@@ -29,9 +32,9 @@ public class Caja{
             foreignKey = @ForeignKey(name = "FK_CAJA_DESTINATARIO"))
     private Destinatario destinatario;
 
-
-
-
+    @Builder.Default
+    @OneToMany(mappedBy = "caja")
+    private List<Tiene> tieneList = new ArrayList<>();
 
 
 }
