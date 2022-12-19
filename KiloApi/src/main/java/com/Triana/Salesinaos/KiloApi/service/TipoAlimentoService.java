@@ -1,5 +1,8 @@
 package com.Triana.Salesinaos.KiloApi.service;
 
+import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
+import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoDto;
+import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.repository.TipoAlimentoRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +43,11 @@ public class TipoAlimentoService {
         return repository.save(oldTipoAlimento);
     }
 
-
+    public TipoAlimento toTipoAlimento(TipoAlimentoDto alimentoDto) {
+        return TipoAlimento.builder()
+                .id(alimentoDto.id())
+                .nombre(alimentoDto.nombre())
+                .build();
+    }
 
 }

@@ -80,7 +80,7 @@ public class AportacionController {
             if ((createDetalleAportacion.tipoAlimentoId()==null || !(tipoAlimentoService.existById(createDetalleAportacion.tipoAlimentoId()))))
                 comprobarId.set(false);
         });
-        if(!(create.claseId()==null || create.listadoDetallesAportacion()==null || create.listadoDetallesAportacion().isEmpty() || !comprobarId.get()))
+        if(!(create.claseId()==null || create.listadoDetallesAportacion().isEmpty() || !comprobarId.get()))
 
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(AportacionResponse.of(aportacionService.add(aportacionService.toAportacion(create))));

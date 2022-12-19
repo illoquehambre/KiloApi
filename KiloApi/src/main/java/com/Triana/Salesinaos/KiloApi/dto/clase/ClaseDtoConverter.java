@@ -20,7 +20,7 @@ public class ClaseDtoConverter {
                 .id(c.getId())
                 .nombre(c.getNombre())
                 .tutor(c.getTutor())
-                .numAportaciones(service.cantidadAportaciones())
+                .numAportaciones(c.getListadoAportaciones().size())
                 .kilosTotales(service.countKgs())
                 .build();
     }
