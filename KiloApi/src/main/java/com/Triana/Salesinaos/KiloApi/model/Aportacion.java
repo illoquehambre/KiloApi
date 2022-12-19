@@ -23,7 +23,7 @@ public class Aportacion {
     private LocalDate fecha;
 
     @ManyToOne
-    @JoinColumn(name = "aportacion_id", foreignKey = @ForeignKey(name= "FK_CLASE_APORTACION"))
+    @JoinColumn(name = "clase_id", foreignKey = @ForeignKey(name= "FK_CLASE_APORTACION"))
     private Clase clase;
 
     @Builder.Default
@@ -31,9 +31,11 @@ public class Aportacion {
     private List<DetalleAportacion> detalleAportacionList = new ArrayList<>();
 
 
-    public void addDetalleAportacion(DetalleAportacion da) {
+    public DetalleAportacion addDetalleAportacion(DetalleAportacion da) {
         detalleAportacionList.add(da);
         da.setAportacion(this);
+
+        return da;
 
     }
     public void removeDetalleAportacion(DetalleAportacion da) {

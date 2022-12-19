@@ -32,6 +32,7 @@ public class AportacionService {
 
         Aportacion aportacion = Aportacion.builder()
                 .clase(claseService.findById(create.claseId()).get())//No se gestiona si no existe la clase
+                .detalleAportacionList(new ArrayList<>())
                 .build();
 
         repository.save(aportacion);
@@ -41,12 +42,19 @@ public class AportacionService {
 
                 create.listadoDetallesAportacion().forEach(detalle -> {
                     tipoAlimentoService.findById(detalle.tipoAlimentoId());
-                    aportacion.addDetalleAportacion(
-                    detalleAportacionesList.add(DetalleAportacion.builder()
+
+                    detalleAportacionesList.add(aportacion.addDetalleAportacion(
+                            DetalleAportacion.builder()
                                     .id(new DetalleAportacionPK(aportacion.getId(), detalleAportacionesList.size()+1))
-                            .build());
-                    )
+                                    .cantidadEnKilos(detalle.kilos())
+                                    .aportacion(aportacion)
+                                    .tipoAlimento((tipoAlimentoService.findById(detalle.tipoAlimentoId()).get()))//falta gestionar si el idAlimento no existe
+                            .build()
+                    ));
+
                         });
+
+                return aportacion;
 
                    /* return DetalleAportacion.builder()
                             .id(new DetalleAportacionPK(aportacion.getId(),
