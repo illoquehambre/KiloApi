@@ -27,13 +27,7 @@ public class CajaDtoConverter {
                 .build();
     }
 
-    public Caja CreateCajaDtoToCajaResponse(CajaResponse c){
 
-        return Caja.builder()
-                .numCaja(c.getNumCaja())
-                .qr(c.getQr())
-                .build();
-    }
 
     public CreateCajaDto createCajaToCajaDto(Caja c){
         return CreateCajaDto.builder()
@@ -52,14 +46,14 @@ public class CajaDtoConverter {
                 .build();
 
     }
-
-    public CajaResponse createCajaDtoToCajaResponse(CreateCajaDto c){
-        return CajaResponse.builder()
+//Este metodo esta duplicado con el llamado CreateCajaDtoToCaja pd:Nacho :D
+   /* public Caja createCajaDtoToCajaResponse(CreateCajaDto c){
+        return Caja.builder()
                 .numCaja(c.getNumCaja())
                 .qr(c.getQr())
                 .build();
 
     }
-
+*/
 
 }
