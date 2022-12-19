@@ -1,8 +1,7 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
-import com.Triana.Salesinaos.KiloApi.dto.CajaDtoConverter;
-import com.Triana.Salesinaos.KiloApi.dto.ClaseDto;
-import com.Triana.Salesinaos.KiloApi.dto.CreateCajaDto;
+import com.Triana.Salesinaos.KiloApi.dto.caja.CajaDtoConverter;
+import com.Triana.Salesinaos.KiloApi.dto.caja.CreateCajaDto;
 import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.service.CajaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

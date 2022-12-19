@@ -1,9 +1,9 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
 
-import com.Triana.Salesinaos.KiloApi.dto.ClaseDto;
-import com.Triana.Salesinaos.KiloApi.dto.ClaseDtoConverter;
-import com.Triana.Salesinaos.KiloApi.dto.ClaseResponse;
+import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
+import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDtoConverter;
+import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseResponse;
 import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.service.ClaseService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;

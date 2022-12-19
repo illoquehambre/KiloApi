@@ -1,11 +1,7 @@
-package com.Triana.Salesinaos.KiloApi.dto;
+package com.Triana.Salesinaos.KiloApi.dto.clase;
 
 import com.Triana.Salesinaos.KiloApi.model.Clase;
-import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import lombok.Builder;
-import lombok.Getter;
-
-import java.util.Objects;
 
 @Builder
 

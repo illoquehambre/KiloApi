@@ -1,4 +1,4 @@
-package com.Triana.Salesinaos.KiloApi.dto;
+package com.Triana.Salesinaos.KiloApi.dto.caja;
 
 import com.Triana.Salesinaos.KiloApi.model.Caja;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,6 @@
-package com.Triana.Salesinaos.KiloApi.dto;
+package com.Triana.Salesinaos.KiloApi.dto.caja;
 
 import lombok.*;
-import org.springframework.stereotype.Component;
 
 @Getter
 @Setter

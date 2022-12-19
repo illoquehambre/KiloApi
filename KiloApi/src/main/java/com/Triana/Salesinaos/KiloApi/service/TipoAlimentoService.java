@@ -31,5 +31,9 @@ public class TipoAlimentoService {
     public Optional<TipoAlimento> findByName(String name) {
         return repository.findFirstByNombre(name);
     }
+    public Optional<TipoAlimento> findById(Long id) {
+        return repository.findById(id);
+    }
+
 
 }
