@@ -20,12 +20,12 @@ public class Tiene implements Serializable {
 
     @ManyToOne
     @MapsId("tipoAlimento_id")
-    @JoinColumn(name = "tipoAlimento_id", foreignKey = @ForeignKey(name="FK_TIPOSALIMENTOS_TIENE"))
+    @JoinColumn(name = "tipoAlimento_id", foreignKey = @ForeignKey(name = "FK_TIPOSALIMENTOS_TIENE"))
     private TipoAlimento tipoAlimmento;
 
     @ManyToOne
     @MapsId("caja_id")
-    @JoinColumn(name = "caja_id", foreignKey = @ForeignKey(name="FK_CAJA_TIENE"))
+    @JoinColumn(name = "caja_id", foreignKey = @ForeignKey(name = "FK_CAJA_TIENE"))
     private Caja caja;
 
     @Column(name = "cantidadKgs")
@@ -35,12 +35,14 @@ public class Tiene implements Serializable {
         HELPERS
      */
 
-    public void addToCaja(Caja c) {
-        caja = c;
+    public void addToCajaToTipo(Caja c, TipoAlimento tipo) {
+        this.setTipoAlimmento(tipo);
+        this.setCaja(c);
+        this.setCantidadKgs(tipo.getKilosDisponibles().getCantidadDisponible());
         c.getTieneList().add(this);
     }
 
-    public void removeFromCaja(Caja c) {
+    public void removeFromToCajaToTipo(Caja c) {
         c.getTieneList().remove(this);
         caja = null;
     }

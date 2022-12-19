@@ -2,9 +2,14 @@ package com.Triana.Salesinaos.KiloApi.controller;
 
 import com.Triana.Salesinaos.KiloApi.dto.CajaDtoConverter;
 import com.Triana.Salesinaos.KiloApi.dto.CajaResponseCreate;
+import com.Triana.Salesinaos.KiloApi.dto.CajaResponsePost;
 import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.model.Tiene;
+import com.Triana.Salesinaos.KiloApi.model.TienePK;
+import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.service.CajaService;
+import com.Triana.Salesinaos.KiloApi.service.TieneService;
+import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
 import lombok.RequiredArgsConstructor;
 import com.Triana.Salesinaos.KiloApi.dto.CreateCajaDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,34 +32,54 @@ import java.util.Optional;
 @RequestMapping("/caja")
 public class CajaController {
     private final CajaService cajaService;
+    private final TipoAlimentoService tipoAlimentoService;
     private final CajaDtoConverter cajaDtoConverter;
+    private final TieneService tieneService;
+
+    @Operation(summary = "Actualiza la cantidad de kg de la caja")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Se ha actializado la caja",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Caja.class),
+                            examples = @ExampleObject(value = """
+                                            {
+                                            
+                                            }
+                                    """))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No existe dicha caja o dicho alimento " +
+                            "o posiblemente la cantidad sea menor que" +
+                            " 0 o mayor que los kg de dicho alimento.",
+                    content = @Content),
+    })
 
     @PostMapping("/{id}/tipo/{IdtipoAlimento}/{cantidad}")
-    public ResponseEntity<CajaResponseCreate> add2(@PathVariable Long id,
-                                                   @PathVariable Long IdTipoAlimento,
-                                                   @PathVariable double cantidad) {
+    public ResponseEntity<CajaResponsePost> add2(@PathVariable Long id,
+                                                 @PathVariable Long IdTipoAlimento,
+                                                 @PathVariable double cantidad) {
         Optional<Caja> c = cajaService.findById(id);
-
-        if (c.isPresent()) {
-            if (!c.get().getTieneList().isEmpty()) {
-                for (Tiene t : c.get().getTieneList()) {
-                    if (t.getCaja().equals(c)) {
-                        if (t.getTipoAlimmento().getId().equals(id)) {
-                            t.setCantidadKgs(cantidad);
-
-                        }
-                    }
+        Optional<TipoAlimento> t = tipoAlimentoService.findById(IdTipoAlimento);
+        /**COMPROBAMOMS SI EXISTE LA CAJA, EL TIPO ALIMENTO Y SI EXISTE UNA LISTA EN CAJA**/
+        if (c.isPresent() && t.isPresent() && !c.get().getTieneList().isEmpty()) {
+            TienePK tienePK = new TienePK(id, IdTipoAlimento);
+            Optional<Tiene> tiene = tieneService.findById(tienePK);
+            if (tiene.isPresent()) {
+                if (cantidad > 0 && cantidad < t.get().getKilosDisponibles().getCantidadDisponible()) {
+                    c.get().setKilosTotales(c.get().getKilosTotales() + cantidad);
+                    tiene.get().setCantidadKgs(tiene.get().getCantidadKgs() + cantidad);
+                    t.get().getKilosDisponibles()
+                            .setCantidadDisponible(t.get()
+                                    .getKilosDisponibles()
+                                    .getCantidadDisponible() - cantidad);
+                    return ResponseEntity
+                            .status(HttpStatus.CREATED)
+                            .body(cajaDtoConverter
+                                    .CreateCajaToCajaResponsePost(c.get(), tiene.get()));
                 }
             }
-            return ResponseEntity.status(HttpStatus.CREATED).body(CajaResponseCreate.builder()
-                    .id(c.get().getId())
-                    .numCaja(c.get().getNumCaja())
-                    .qr(c.get().getQr())
-                    .destinatario(c.get().getDestinatario())
-                    .kilosTotales(c.get().getKilosTotales())
-                    .build());
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @Operation(summary = "Este método crea una caja")
