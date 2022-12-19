@@ -18,4 +18,6 @@ public class KilosDisponibles{
     private KilosAportacionPK id =  new KilosAportacionPK();
 
     private double cantidadDisponible;
+
+
 }

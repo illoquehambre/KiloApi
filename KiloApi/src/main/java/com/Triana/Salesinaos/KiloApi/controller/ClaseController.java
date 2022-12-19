@@ -32,6 +32,7 @@ import java.util.Optional;
 @Tag(name = "Clase", description = "Esta clase implementa Restcontrollers para la entidad Clase")
 public class ClaseController {
 
+
     private final ClaseService claseService;
     private final ClaseService service;
     private final ClaseDtoConverter converter;
@@ -194,7 +195,5 @@ public class ClaseController {
         }
         return ResponseEntity.noContent().build();
     }
-
-
 
 }

@@ -1,22 +1,18 @@
 package com.Triana.Salesinaos.KiloApi.dto;
 
-import com.Triana.Salesinaos.KiloApi.model.Destinatario;
+import com.Triana.Salesinaos.KiloApi.model.Tiene;
 import lombok.*;
 
-import javax.persistence.*;
-@Getter
-@Setter
+import java.util.ArrayList;
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CajaResponse{
-
-    private Long id;
-
-    private String qr, numCaja;
-    private double kilosTotales;
-
-    private Destinatario destinatario;
-
-
+@Getter
+@Setter
+public class CajaResponse {
+    private String numCaja;
+    private double kgTotales;
+    private List<Tiene> tienes = new ArrayList<>();
 }
