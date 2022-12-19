@@ -50,12 +50,12 @@ public class CajaController {
                     content = @Content),
     })
     @PostMapping("/")
-    public ResponseEntity<Caja> addCaja(@RequestBody CreateCajaDto c){
+    public ResponseEntity<CajaResponse> addCaja(@RequestBody CreateCajaDto c){
         if (c.getNumCaja() != ""){
             Caja nuevo = cajaDtoConverter.CreateCajaDtoToCaja(c);
             cajaService.add(nuevo);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
+            return ResponseEntity.status(HttpStatus.CREATED).body(cajaDtoConverter.createCajaToCajaResponse(nuevo));
 
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
