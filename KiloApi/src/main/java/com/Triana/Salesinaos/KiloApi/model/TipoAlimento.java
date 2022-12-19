@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @Entity
 @Embeddable
-public class TipoAlimento implements Serializable {
+public class TipoAlimento {
 
     @Id
     @GeneratedValue
@@ -22,5 +22,7 @@ public class TipoAlimento implements Serializable {
 
     private String nombre;
 
+    @OneToOne(mappedBy = "tipoAlimento", cascade = CascadeType.ALL)
+    private KilosDisponibles kilosDisponibles;
 
 }

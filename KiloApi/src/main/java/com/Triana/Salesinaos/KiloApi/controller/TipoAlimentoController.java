@@ -1,6 +1,8 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
+import com.Triana.Salesinaos.KiloApi.dto.ClaseResponse;
 import com.Triana.Salesinaos.KiloApi.dto.TipoAlimentoDto;
+import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -64,6 +66,39 @@ public class TipoAlimentoController {
                     .ok(tipoAlimentoList.stream().map(TipoAlimentoDto::of).toList()); //.collect(Collectors.toList())
         }
     }
+
+
+    @Operation(summary = "Este método lista un tipo de alimento si lo localiza por su id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se han encontrado el tipo de alimento buscado",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = TipoAlimentoDto.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                            [
+                                                {"id": 2,
+                                                "nombre": "Mejillones en escabeche"},
+                                            ]
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado ningún tipo de alimento con ese id",
+                    content = @Content),
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<TipoAlimentoDto> getOneTipoAlimento (
+            @Parameter(description = "Id del tipo de alimento que se quiere encontrar")
+            @PathVariable Long id){
+        if (!tipoAlimentoService.existById(id))
+            return ResponseEntity.notFound().build();
+        else
+            return ResponseEntity.ok(TipoAlimentoDto.of(tipoAlimentoService.findById(id).get()));
+        // return ResponseEntity.of(songService.findById(id).map(SingleSongResponseDTO::of));
+
+    }
+
 
 
     @Operation(summary = "Crea un nuevo tipo de alimento")
