@@ -16,10 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -61,5 +60,33 @@ public class CajaController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
+    }
+    @Operation(summary = "Este método muestra las cajas")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado las cajas",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = Caja.class)),
+                            examples = @ExampleObject(value = """
+                                        {
+                                            "id": 2,
+                                            "qr": "134",
+                                            "numCaja": "18",
+                                            "kilosTotales": 0.0,
+                                            "destinatario": null
+                                        }
+                                    """
+                            )) }),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado niguna caja",
+                    content = @Content),
+    })
+    @GetMapping("/")
+    public ResponseEntity<List<Caja>> getCajas(){
+
+        if(cajaService.findAll().isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+            return ResponseEntity.status(HttpStatus.OK).body(cajaService.findAll());
     }
 }
