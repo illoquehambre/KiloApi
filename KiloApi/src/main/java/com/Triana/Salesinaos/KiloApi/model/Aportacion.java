@@ -1,7 +1,10 @@
 package com.Triana.Salesinaos.KiloApi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -26,10 +29,12 @@ public class Aportacion {
 
     @ManyToOne
     @JoinColumn(name = "clase_id", foreignKey = @ForeignKey(name= "FK_CLASE_APORTACION"))
+    @JsonIgnore
     private Clase clase;
 
     @Builder.Default
     @OneToMany(mappedBy = "aportacion", cascade = CascadeType.ALL, orphanRemoval = true)
+    //@Fetch(FetchMode.JOIN)
     private List<DetalleAportacion> detalleAportacionList = new ArrayList<>();
 
 

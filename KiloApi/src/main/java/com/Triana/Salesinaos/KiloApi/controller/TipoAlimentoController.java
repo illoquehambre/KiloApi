@@ -42,9 +42,31 @@ public class TipoAlimentoController {
                             array = @ArraySchema(schema = @Schema(implementation = TipoAlimento.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                            [
-                                                {"id": 1, "nombre": "Lentejas"},
-                                                {"id": 2, "nombre": "Pasta"}
+                                               [
+                                                {
+                                                    "id": 1,
+                                                    "nombre": "Patatas"
+                                                },
+                                                {
+                                                    "id": 2,
+                                                    "nombre": "Arroz"
+                                                },
+                                                {
+                                                    "id": 7,
+                                                    "nombre": "Banana"
+                                                },
+                                                {
+                                                    "id": 8,
+                                                    "nombre": "Pizza"
+                                                },
+                                                {
+                                                    "id": 9,
+                                                    "nombre": "Botella Cocacola"
+                                                },
+                                                {
+                                                    "id": 10,
+                                                    "nombre": "Mejillones"
+                                                }
                                             ]
                                             """
                             )}
