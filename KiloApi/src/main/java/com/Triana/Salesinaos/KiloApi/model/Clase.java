@@ -5,6 +5,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,11 +14,14 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+//@NamedQuery(name = "Clase.findAllCustom", query = "SELECT c FROM Clase c")
 public class Clase {
 
     @Id@GeneratedValue
     private Long id;
+
     private String nombre;
+
     private String tutor;
     @Builder.Default
     @OneToMany(mappedBy = "clase", cascade = CascadeType.ALL)
@@ -24,6 +29,7 @@ public class Clase {
     @PreRemove
     public void preRemoveClase() {
         listadoAportaciones.forEach(aport -> aport.setClase(null));
-    }
+     }
+
 
 }

@@ -17,7 +17,11 @@ public class CajaService {
 
     public List<Caja> findAll() {
         return repository.findAll();
+
+    public Caja add(Caja caja) {
+        return repository.save(caja);
     }
+
 
     public Optional<Caja> findById(Long id) {
         return repository.findById(id);
@@ -28,5 +32,13 @@ public class CajaService {
         return repository.save(caja);
     }
 
+    public void delete(Caja caja) {
+        findAll().remove(caja);
+        repository.delete(caja);
+    }
+
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
 
 }

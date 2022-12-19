@@ -5,6 +5,7 @@ import com.Triana.Salesinaos.KiloApi.repository.TipoAlimentoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -13,6 +14,9 @@ public class TipoAlimentoService {
 
     private final TipoAlimentoRepository repository;
 
+    public List<TipoAlimento> findAll() { return repository.findAll(); }
+
+
     public TipoAlimento add(TipoAlimento tipo) {
         return repository.save(tipo);
     }
@@ -20,9 +24,22 @@ public class TipoAlimentoService {
     public Boolean existById(Long id ){
         return repository.existsById(id );
     }
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
 
     public Optional<TipoAlimento> findByName(String name) {
         return repository.findFirstByNombre(name);
     }
+
+    public Optional<TipoAlimento> findById(Long id) {
+        return repository.findById(id);
+    }
+
+    public TipoAlimento edit(TipoAlimento oldTipoAlimento) {
+        return repository.save(oldTipoAlimento);
+    }
+
+
 
 }

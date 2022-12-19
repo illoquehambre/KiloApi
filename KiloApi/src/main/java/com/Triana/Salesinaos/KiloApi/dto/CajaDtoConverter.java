@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-
 public class CajaDtoConverter {
     private final CajaService cajaService;
   public CajaResponseCreate createCajaToCajaResponseCreate(Long id){
@@ -22,4 +21,31 @@ public class CajaDtoConverter {
 
               .build();
   }
+    public Caja CreateCajaDtoToCaja(CreateCajaDto c){
+
+        return Caja.builder()
+                .numCaja(c.getNumCaja())
+                .qr(c.getQr())
+                .build();
+    }
+
+    public CreateCajaDto createCajaToCajaDto(Caja c){
+        return CreateCajaDto.builder()
+                .numCaja(c.getNumCaja())
+                .qr(c.getQr())
+                .build();
+
+    }
+    public CajaResponse createCajaToCajaResponse(Caja c){
+        return CajaResponse.builder()
+                .id(c.getId())
+                .numCaja(c.getNumCaja())
+                .qr(c.getQr())
+                .kilosTotales(c.getKilosTotales())
+                .destinatario(c.getDestinatario())
+                .build();
+
+    }
+
+
 }

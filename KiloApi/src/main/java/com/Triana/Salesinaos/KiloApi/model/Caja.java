@@ -19,7 +19,10 @@ public class Caja implements Serializable {
     @GeneratedValue
     private Long id;
 
-    private String qr, numCaja;
+    private String qr;
+
+    private String numCaja;
+
     private double kilosTotales;
 
 
