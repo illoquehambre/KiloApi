@@ -23,5 +23,16 @@ public class CajaDtoConverter {
                 .build();
 
     }
+    public CajaResponse createCajaToCajaResponse(Caja c){
+        return CajaResponse.builder()
+                .id(c.getId())
+                .numCaja(c.getNumCaja())
+                .qr(c.getQr())
+                .kilosTotales(c.getKilosTotales())
+                .destinatario(c.getDestinatario())
+                .build();
+
+    }
+
 
 }
