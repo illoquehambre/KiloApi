@@ -16,6 +16,14 @@ public class CajaDtoConverter {
                 .build();
     }
 
+    public Caja CreateCajaDtoToCajaResponse(CajaResponse c){
+
+        return Caja.builder()
+                .numCaja(c.getNumCaja())
+                .qr(c.getQr())
+                .build();
+    }
+
     public CreateCajaDto createCajaToCajaDto(Caja c){
         return CreateCajaDto.builder()
                 .numCaja(c.getNumCaja())
@@ -30,6 +38,14 @@ public class CajaDtoConverter {
                 .qr(c.getQr())
                 .kilosTotales(c.getKilosTotales())
                 .destinatario(c.getDestinatario())
+                .build();
+
+    }
+
+    public CajaResponse createCajaToCajaResponse(CreateCajaDto c){
+        return CajaResponse.builder()
+                .numCaja(c.getNumCaja())
+                .qr(c.getQr())
                 .build();
 
     }
