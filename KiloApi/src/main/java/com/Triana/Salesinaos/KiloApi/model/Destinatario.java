@@ -13,16 +13,19 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-
-
-
 public class Destinatario{
 
     @Id
     @GeneratedValue
     private Long id;
 
-    private String nombre, direccion, personaContacto, telefono;
+    private String nombre;
+
+    private String direccion;
+
+    private String personaContacto;
+
+    private String telefono;
 
     @OneToMany(mappedBy = "destinatario", fetch = FetchType.LAZY)
     @Builder.Default

@@ -5,6 +5,7 @@ import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,11 +15,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.asm.Advice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -58,7 +61,7 @@ public class TipoAlimentoController {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity
-                    .ok(tipoAlimentoList.stream().map(TipoAlimentoDto::of).collect(Collectors.toList()));
+                    .ok(tipoAlimentoList.stream().map(TipoAlimentoDto::of).toList()); //.collect(Collectors.toList())
         }
     }
 
@@ -91,6 +94,43 @@ public class TipoAlimentoController {
             return ResponseEntity.status(HttpStatus.CREATED).body(tipoAlimentoService.add(tipoAlimento));
         
     }
+
+    @Operation(summary = "Este método edita un tipo de alimento si es localizado por su id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha editado el tipo de alimento",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = TipoAlimentoDto.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                            [
+                                               {"id": 2,
+                                                "nombre": "Atún en manteca",
+                                            ]
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se han introducido bien los datos requeridos",
+                    content = @Content)
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<TipoAlimentoDto> editTipoAlimento(
+            @Parameter(description = "Id del tipo de alimento que se quiera editar")
+            @RequestBody TipoAlimentoDto tipoAlimentoDtoRequest,
+            @PathVariable Long id) {
+        if(tipoAlimentoService.existById(id) && !tipoAlimentoDtoRequest.nombre().isBlank()) {
+            return ResponseEntity.of(tipoAlimentoService.findById(id).map(oldTipoAlimento -> {
+                oldTipoAlimento.setNombre(tipoAlimentoDtoRequest.nombre());
+                return TipoAlimentoDto.of(tipoAlimentoService.edit(oldTipoAlimento));
+            }));
+        }
+        else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
 
     @Operation(summary = "Elimina un tipo de alimento")
     @ApiResponses(value = {

@@ -8,7 +8,6 @@ import lombok.Getter;
 import java.util.Objects;
 
 @Builder
-
 public record ClaseDto (Long id, String nombre, String tutor){
 
 

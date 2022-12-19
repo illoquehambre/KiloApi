@@ -46,10 +46,20 @@ public class ClaseController {
                             array = @ArraySchema(schema = @Schema(implementation = Clase.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                            [
-                                                {"id": 1, "nombre": "1ºDAM", "tutor": "Eduardo"},
-                                                {"id": 2, "nombre": "2ºDAM", "tutor": "Luismi"}
-                                            ]
+                                                [
+                                                    {
+                                                        "id": 1,
+                                                        "nombre": "2ºDAM",
+                                                        "tutor": "Luismi",
+                                                        "listadoAportaciones": []
+                                                    },
+                                                    {
+                                                        "id": 2,
+                                                        "nombre": "1ºDAM",
+                                                        "tutor": "Eduardo",
+                                                        "listadoAportaciones": []
+                                                    }
+                                                ]
                                             """
                             )}
                     )}),
@@ -68,6 +78,8 @@ public class ClaseController {
                     .ok()
                     .body(data);
         }
+
+        // Retocar este get cambiar el response entity y probablemente el .body()
     }
 
 
@@ -164,6 +176,8 @@ public class ClaseController {
                         })
                         .orElse(Optional.empty())
         );
+
+        // Falta gestionar el Bad REquest
     }
 
     @Operation(summary = "Este método elimina una clase localizada por su id")
@@ -171,7 +185,7 @@ public class ClaseController {
             content = @Content)
     @Parameter(description = "El id de la clase que se quiere eliminar", name = "id", required = true)
     @DeleteMapping("/")
-    public ResponseEntity<?> deleteClase(@RequestBody Long id){
+    public ResponseEntity<?> deleteClase(@PathVariable Long id){
 
         // Una vez se cree el ranking quizás haya que hacer gestiones desde aquí
 
