@@ -1,6 +1,7 @@
 package com.Triana.Salesinaos.KiloApi.model;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -17,11 +18,13 @@ public class Aportacion {
 
     @Id@GeneratedValue
     private Long id;
+
+    @CreationTimestamp
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate fecha;
 
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name= "FK_CLASE_APORTACION"))
+    @JoinColumn(name = "aportacion_id", foreignKey = @ForeignKey(name= "FK_CLASE_APORTACION"))
     private Clase clase;
 
     @Builder.Default

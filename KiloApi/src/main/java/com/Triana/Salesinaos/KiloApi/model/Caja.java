@@ -13,13 +13,15 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-
 public class Caja{
     @Id
     @GeneratedValue
     private Long id;
 
-    private String qr, numCaja;
+    private String qr;
+
+    private String numCaja;
+
     private double kilosTotales;
 
 

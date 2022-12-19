@@ -14,6 +14,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class KilosAportacionPK implements Serializable {
 
+    //private static final long serialVersionUID = 1L;
+
+    //@Column(insertable = false, updatable = false)
     private Long tipoAlimentoId;
 
 }

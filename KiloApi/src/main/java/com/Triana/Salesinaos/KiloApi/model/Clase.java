@@ -14,11 +14,14 @@ import java.util.Optional;
 @Getter
 @Setter
 @Entity
+//@NamedQuery(name = "Clase.findAllCustom", query = "SELECT c FROM Clase c")
 public class Clase {
 
     @Id@GeneratedValue
     private Long id;
+
     private String nombre;
+
     private String tutor;
     @Builder.Default
     @OneToMany(mappedBy = "clase", cascade = CascadeType.ALL)

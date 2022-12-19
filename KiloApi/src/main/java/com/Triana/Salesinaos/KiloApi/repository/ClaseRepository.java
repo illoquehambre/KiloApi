@@ -11,6 +11,4 @@ public interface ClaseRepository extends JpaRepository<Clase, Long> {
     @Query("select count(Aportacion) from Clase")
     int numAportaciones();
 
-
-
 }

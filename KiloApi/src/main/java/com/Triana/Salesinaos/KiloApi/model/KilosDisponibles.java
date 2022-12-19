@@ -11,11 +11,11 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-
 public class KilosDisponibles{
 
     @Builder.Default
     @EmbeddedId
     private KilosAportacionPK id =  new KilosAportacionPK();
+
     private double cantidadDisponible;
 }
