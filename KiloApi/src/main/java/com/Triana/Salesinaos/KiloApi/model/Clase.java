@@ -1,5 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class Clase {
     private String nombre;
 
     private String tutor;
+
     @Builder.Default
     @OneToMany(mappedBy = "clase", cascade = CascadeType.ALL)
     private List<Aportacion> listadoAportaciones = new ArrayList<>();

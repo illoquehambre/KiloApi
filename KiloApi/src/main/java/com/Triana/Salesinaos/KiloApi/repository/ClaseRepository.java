@@ -8,7 +8,9 @@ public interface ClaseRepository extends JpaRepository<Clase, Long> {
 
     @Query(value="select sum(d.cantidadEnKilos) from Clase c join c.listadoAportaciones a join a.detalleAportacionList d ")
     double sumCantidadEnkilos();
-    @Query("select count(Aportacion) from Clase")
+   /* @Query("select count(c.listadoAportaciones) from Clase c")
     int numAportaciones();
+    */
+
 
 }

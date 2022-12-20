@@ -1,5 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,7 +24,7 @@ public class Aportacion {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @CreationTimestamp
     private LocalDate fecha;
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "clase_id", foreignKey = @ForeignKey(name= "FK_CLASE_APORTACION"))
     private Clase clase;
