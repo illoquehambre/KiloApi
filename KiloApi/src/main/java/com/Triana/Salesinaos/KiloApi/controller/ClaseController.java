@@ -171,7 +171,7 @@ public class ClaseController {
     public ResponseEntity<ClaseDto> updateClase(@RequestBody ClaseDto clase, @PathVariable Long id){
 
     if(clase.nombre().isBlank()||clase.tutor().isBlank())
-        return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().build();
     else
         return ResponseEntity.of(
                 claseService.findById(id).map(old -> {
