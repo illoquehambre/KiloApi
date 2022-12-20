@@ -14,7 +14,7 @@ public class DestinatarioDetalleResponse {
 
     private Long id;
     private String nombre, direccion, personaContacto, telefono;
-    private List<CajaResponse> cajaResponse = new ArrayList<>();
+    private List<CajaResponsePost> cajaResponsePosts = new ArrayList<>();
 
 
 }
