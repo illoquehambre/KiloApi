@@ -2,6 +2,7 @@ package com.Triana.Salesinaos.KiloApi.controller;
 
 import com.Triana.Salesinaos.KiloApi.dto.DestinatarioDetalleResponse;
 import com.Triana.Salesinaos.KiloApi.dto.DestinatarioDtoConverter;
+import com.Triana.Salesinaos.KiloApi.dto.DestinatarioGetAll;
 import com.Triana.Salesinaos.KiloApi.dto.DestinatarioResponse;
 import com.Triana.Salesinaos.KiloApi.model.Destinatario;
 import com.Triana.Salesinaos.KiloApi.service.CajaService;
@@ -20,7 +21,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,6 +35,20 @@ public class DestinatarioController {
     private final DestinatarioService destinatarioService;
 
     private final DestinatarioDtoConverter destinatarioDtoConverter;
+
+    @GetMapping("/")
+    public ResponseEntity<List<DestinatarioGetAll>> getAllDestinatarios(){
+
+        List<Destinatario> destinatarios=destinatarioService.findAll();
+        if (destinatarioService.findAll().isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+
+        List<DestinatarioGetAll> result = destinatarios.stream()
+                .map(d -> destinatarioDtoConverter.DestinatarioToDestinatarioGetAll(d)).collect(Collectors.toList());
+
+        return ResponseEntity.ok(result);
+    }
 
 
     @Operation(summary = "Crea un nuevo destinatario")
