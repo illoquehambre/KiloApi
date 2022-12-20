@@ -2,6 +2,7 @@ package com.Triana.Salesinaos.KiloApi;
 
 import com.Triana.Salesinaos.KiloApi.model.*;
 import com.Triana.Salesinaos.KiloApi.repository.*;
+import com.Triana.Salesinaos.KiloApi.service.KilosDisponiblesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -10,15 +11,30 @@ import javax.annotation.PostConstruct;
 @Component
 @RequiredArgsConstructor
 public class MainMentira {
-
+/*
     private final TipoAlimentoRepository tipoAlimentoService;
     private final DestinatarioRepository destinatarioRepository;
     private final CajaRepository cajaRepository;
-    private final KilosDisponiblesRepository kilosDisponiblesRepository;
+    private final KilosDisponiblesService kilosDisponiblesService;
     private final TieneRepository tieneRepository;
 
     @PostConstruct
     public void init() {
+
+        TipoAlimento t1 = TipoAlimento.builder()
+                .nombre("Patatas")
+                .build();
+        tipoAlimentoService.save(t1);
+
+        KilosDisponibles k = KilosDisponibles.builder()
+                .tipoAlimento(t1)
+                .id(t1.getId())
+                .build();
+        t1.addKilosToTipoAlimento(k, 7);
+        tipoAlimentoService.save(t1);
+        kilosDisponiblesService.add(k);
+
+    }
 /*
         TipoAlimento t1 = TipoAlimento.builder()
                 .nombre("Patatas")
@@ -35,8 +51,8 @@ public class MainMentira {
         tipoAlimentoService.save(t1);
         tipoAlimentoService.save(t2);
 
-        t1.addKilosToTipoAlimento(k);
-        t2.addKilosToTipoAlimento(k);
+        t1.addKilosToTipoAlimento(k, 2);
+        t2.addKilosToTipoAlimento(k, 3);
 
         kilosDisponiblesRepository.save(k);
         tipoAlimentoService.save(t1);
@@ -81,7 +97,7 @@ public class MainMentira {
         destinatarioRepository.save(d1);
         destinatarioRepository.save(d2);
 
-*/
-    }
 
+    }
+*/
 }

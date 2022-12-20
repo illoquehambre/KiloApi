@@ -22,6 +22,10 @@ public class KilosDisponiblesService {
         return repository.findAll();
     }
 
+    public Optional<KilosDisponibles> findById(Long id){return repository.findById(id);}
+    public Boolean existById(Long id ){
+        return repository.existsById(id );
+    }
     public KilosDisponibles edit(KilosDisponibles kilosDisponibles) {
         return repository.save(kilosDisponibles);
     }

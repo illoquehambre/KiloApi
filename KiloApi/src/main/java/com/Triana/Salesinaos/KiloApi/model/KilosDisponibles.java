@@ -1,6 +1,7 @@
 package com.Triana.Salesinaos.KiloApi.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class KilosDisponibles{
     private Long id;
 
     private double cantidadDisponible;
-
+    @JsonIgnore
     @MapsId
     @OneToOne
     @JoinColumn(name = "tipo_alimento_id", foreignKey = @ForeignKey(name = "FK_KILOSDISPONIBLES_KILOALIMENTO"))
