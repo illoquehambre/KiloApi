@@ -96,6 +96,70 @@ public class CajaController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
+    @Operation(summary = "Actualiza la cantidad de kg de la caja")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha actualizado la caja",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Caja.class),
+                            examples = @ExampleObject(value = """
+                                            {
+                                            
+                                            }
+                                    """))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No existe dicha caja o dicho alimento " +
+                            "o posiblemente la cantidad sea menor que" +
+                            " 0 o mayor que los kg de dicho alimento.",
+                    content = @Content),
+    })
+    @PutMapping("/{id}/tipo/{IdtipoAlimento}/{cantidad}")
+    public ResponseEntity<CajaResponsePost> editCantidadToCaja(@PathVariable("id") Long id, @PathVariable("IdtipoAlimento") Long IdTipoAlimento,
+                                                               @PathVariable("cantidad") double cantidad){
+        Optional<Caja> caja = cajaService.findById(id);
+        Optional<TipoAlimento> tipoAlimento = tipoAlimentoService.findById(IdTipoAlimento);
+
+        if (caja.isPresent() && tipoAlimento.isPresent() && !caja.get().getTieneList().isEmpty()){
+            TienePK tienePK = new TienePK(id, IdTipoAlimento);
+            Optional<Tiene> tiene = tieneService.findById(tienePK);
+            if (tiene.isPresent()){
+                if (cantidad > 0 && tipoAlimento.get().getKilosDisponibles().getCantidadDisponible()>=cantidad){
+                    caja.get().setKilosTotales(caja.get().getKilosTotales() + cantidad);
+                    tiene.get().setCantidadKgs(tiene.get().getCantidadKgs() + cantidad);
+                    tipoAlimento.get().getKilosDisponibles()
+                            .setCantidadDisponible(tipoAlimento.get()
+                                    .getKilosDisponibles()
+                                    .getCantidadDisponible() - cantidad);
+                    return ResponseEntity
+                            .status(HttpStatus.OK)
+                            .body(cajaDtoConverter
+                                    .CreateCajaToCajaResponsePost(caja.get(), tiene.get()));
+                }
+                if (cantidad < 0 && tipoAlimento.get().getKilosDisponibles().getCantidadDisponible()>=cantidad){
+                    caja.get().setKilosTotales(caja.get().getKilosTotales() + cantidad);
+                    tiene.get().setCantidadKgs(tiene.get().getCantidadKgs() + cantidad);
+                    tipoAlimento.get().getKilosDisponibles()
+                            .setCantidadDisponible(tipoAlimento.get()
+                                    .getKilosDisponibles()
+                                    .getCantidadDisponible() - cantidad);
+                    return ResponseEntity
+                            .status(HttpStatus.OK)
+                            .body(cajaDtoConverter
+                                    .CreateCajaToCajaResponsePost(caja.get(), tiene.get()));
+                }
+                if (cantidad==0){
+                    tipoAlimentoService.deleteById(IdTipoAlimento);
+                    return ResponseEntity.status(HttpStatus.OK).build();
+
+                }
+
+            }
+
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
     @Operation(summary = "Este método crea una caja")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
