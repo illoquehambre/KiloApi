@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 @Component
 @RequiredArgsConstructor
 public class MainMentira {
-
+/*
     private final TipoAlimentoRepository tipoAlimentoService;
     private final DestinatarioRepository destinatarioRepository;
     private final CajaRepository cajaRepository;
@@ -35,8 +35,8 @@ public class MainMentira {
         tipoAlimentoService.save(t1);
         tipoAlimentoService.save(t2);
 
-        t1.addKilosToTipoAlimento(k);
-        t2.addKilosToTipoAlimento(k);
+        t1.addKilosToTipoAlimento(k, 2);
+        t2.addKilosToTipoAlimento(k, 3);
 
         kilosDisponiblesRepository.save(k);
         tipoAlimentoService.save(t1);
@@ -83,5 +83,5 @@ public class MainMentira {
 
 
     }
-
+*/
 }

@@ -16,7 +16,6 @@ public class KilosDisponibles{
     @Id
     private Long id;
 
-
     @OneToOne
     @MapsId
     private TipoAlimento tipoAlimento;
