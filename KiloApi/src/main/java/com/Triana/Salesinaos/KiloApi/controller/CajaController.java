@@ -31,6 +31,7 @@ import java.util.Optional;
 
 @RequestMapping("/caja")
 @RequiredArgsConstructor
+@RestController
 public class CajaController {
     private final CajaService cajaService;
     private final TipoAlimentoService tipoAlimentoService;
