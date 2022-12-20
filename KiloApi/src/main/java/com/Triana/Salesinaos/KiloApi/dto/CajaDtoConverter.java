@@ -29,7 +29,9 @@ public class CajaDtoConverter {
                 .qr(c.getQr())
                 .numCaja(c.getNumCaja())
                 .kilosTotales(c.getKilosTotales())
-                .destinatarioNombre(c.getDestinatario() == null ? "No asignado" : c.getDestinatario().getNombre())
+                .destinatarioNombre(
+                        c.getDestinatario() == null ?
+                                "No asignado" : c.getDestinatario().getNombre())
                 .tipoAlimentoToCajaDtoList(listadoA)
                 .build();
     }
