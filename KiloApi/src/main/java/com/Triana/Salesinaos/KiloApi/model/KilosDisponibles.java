@@ -13,11 +13,22 @@ import java.io.Serializable;
 @Entity
 public class KilosDisponibles{
 
-    @Builder.Default
-    @EmbeddedId
-    private KilosAportacionPK id =  new KilosAportacionPK();
+    @Id
+    private Long id;
+
+
+    @OneToOne
+    @MapsId
+    private TipoAlimento tipoAlimento;
 
     private double cantidadDisponible;
+
+
+
+
+
+
+
 
 
 }

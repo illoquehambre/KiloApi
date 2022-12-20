@@ -7,28 +7,32 @@ import com.Triana.Salesinaos.KiloApi.model.Destinatario;
 import com.Triana.Salesinaos.KiloApi.service.CajaService;
 import com.Triana.Salesinaos.KiloApi.service.DestinatarioService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/destinatario")
+@Tag(name = "Destinatario", description = "Esta clase implementa Restcontrollers para la entidad Destinatario")
+
 public class DestinatarioController {
 
     private final DestinatarioService destinatarioService;
 
     private final DestinatarioDtoConverter destinatarioDtoConverter;
 
-    private final CajaService cajaService;
 
     @Operation(summary = "Crea un nuevo destinatario")
     @ApiResponses(value = {
@@ -94,6 +98,8 @@ public class DestinatarioController {
     @PutMapping("/{id}")
     public ResponseEntity<Destinatario> edit
             (@RequestBody Destinatario d,
+             @PathParam("id")
+             @Parameter(description = "Id del destinatario al que queremos editar sus datos")
              @PathVariable Long id) {
         Optional<Destinatario> d1 = destinatarioService.findById(id);
         if (destinatarioService.findById(id).isPresent()) {
@@ -126,7 +132,10 @@ public class DestinatarioController {
     })
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(
+            @PathParam("id")
+            @Parameter(description = "Id del destinatario al que queremos eliminar")
+            @PathVariable Long id) {
         Optional<Destinatario> d1 = destinatarioService.findById(id);
         if (d1.isPresent())
             destinatarioService.delete(d1.get());
@@ -160,7 +169,11 @@ public class DestinatarioController {
                     content = @Content),
     })
     @GetMapping("/{id}")
-    public ResponseEntity<DestinatarioResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<DestinatarioResponse> findById(
+
+            @PathParam("id")
+            @Parameter(description = "Id del destinatario a obtener")
+            @PathVariable Long id) {
         Optional<Destinatario> d1 = destinatarioService.findById(id);
         if (d1.isPresent()) {
             return ResponseEntity.ok(destinatarioDtoConverter.destinatarioToDestinatarioResponse(id));
@@ -169,7 +182,10 @@ public class DestinatarioController {
     }
 
     @GetMapping("/{id}/detalle")
-    public ResponseEntity<DestinatarioDetalleResponse> findByIdDetalle(@PathVariable Long id) {
+    public ResponseEntity<DestinatarioDetalleResponse> findByIdDetalle(
+            @PathParam("id")
+            @Parameter(description = "Id del destinatario al que queremos ver más detalles")
+            @PathVariable Long id) {
         Optional<Destinatario> d1 = destinatarioService.findById(id);
         if (d1.isPresent()) {
             return ResponseEntity.ok(destinatarioDtoConverter.destinatarioToDestinatarioDetalleResponse(id));
