@@ -13,12 +13,13 @@ import java.io.Serializable;
 @Entity
 public class KilosDisponibles{
 
+    @Id
+    private Long id;
+
+
     @OneToOne
     @MapsId
     private TipoAlimento tipoAlimento;
-
-    @Id
-    private Long id;
 
     private double cantidadDisponible;
 
