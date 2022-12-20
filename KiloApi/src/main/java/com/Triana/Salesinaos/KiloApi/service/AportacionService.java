@@ -41,6 +41,8 @@ public class AportacionService {
         return repository.sumaKilosAportacion();
     }
 
+    public Optional<DetalleAportacion> findFirstDetalleAportacionById(int id){return repository.findFirstDetalleAportacionById(id);}
+
     public Optional<Aportacion> findById(Long id){return repository.findById(id);}
     public Aportacion toAportacion(CreateAportacion create) {
 
