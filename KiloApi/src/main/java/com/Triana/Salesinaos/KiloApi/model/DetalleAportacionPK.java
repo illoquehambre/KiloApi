@@ -21,6 +21,5 @@ public class DetalleAportacionPK implements Serializable {
     //@Column(insertable = false, updatable = false)
     private Long aportacionId;
 
-    //@Column(insertable = false, updatable = false)
-    private Long numLinea;
+    private int numLinea;
 }

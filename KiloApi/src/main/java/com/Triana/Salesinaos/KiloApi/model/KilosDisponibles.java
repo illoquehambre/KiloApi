@@ -1,10 +1,10 @@
 package com.Triana.Salesinaos.KiloApi.model;
 
-import com.Triana.Salesinaos.KiloApi.dto.TipoAlimentoDto;
+
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,10 +13,6 @@ import java.io.Serializable;
 @Setter
 @Entity
 public class KilosDisponibles{
-
-    // @Builder.Default
-    // @EmbeddedId
-    // private KilosAportacionPK id =  new KilosAportacionPK();
 
 
     @Id

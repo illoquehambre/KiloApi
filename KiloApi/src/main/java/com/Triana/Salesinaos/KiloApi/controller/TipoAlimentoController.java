@@ -1,8 +1,7 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
-import com.Triana.Salesinaos.KiloApi.dto.ClaseResponse;
-import com.Triana.Salesinaos.KiloApi.dto.TipoAlimentoDto;
-import com.Triana.Salesinaos.KiloApi.model.Clase;
+import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
+import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoDto;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -44,9 +43,31 @@ public class TipoAlimentoController {
                             array = @ArraySchema(schema = @Schema(implementation = TipoAlimento.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                            [
-                                                {"id": 1, "nombre": "Lentejas"},
-                                                {"id": 2, "nombre": "Pasta"}
+                                               [
+                                                {
+                                                    "id": 1,
+                                                    "nombre": "Patatas"
+                                                },
+                                                {
+                                                    "id": 2,
+                                                    "nombre": "Arroz"
+                                                },
+                                                {
+                                                    "id": 7,
+                                                    "nombre": "Banana"
+                                                },
+                                                {
+                                                    "id": 8,
+                                                    "nombre": "Pizza"
+                                                },
+                                                {
+                                                    "id": 9,
+                                                    "nombre": "Botella Cocacola"
+                                                },
+                                                {
+                                                    "id": 10,
+                                                    "nombre": "Mejillones"
+                                                }
                                             ]
                                             """
                             )}
@@ -122,11 +143,12 @@ public class TipoAlimentoController {
                     content = @Content),
     })
     @PostMapping("/")
-    public ResponseEntity<TipoAlimento> createTipoAlimento(@RequestBody TipoAlimento tipoAlimento){
-        if(tipoAlimento.getNombre().isBlank())
+    public ResponseEntity<TipoAlimentoDto> createTipoAlimento(@RequestBody TipoAlimentoDto tipoAlimento){//Debe retornar un Dto
+        if(tipoAlimento.nombre().isBlank())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         else
-            return ResponseEntity.status(HttpStatus.CREATED).body(tipoAlimentoService.add(tipoAlimento));
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(TipoAlimentoDto.of(tipoAlimentoService.add(tipoAlimentoService.toTipoAlimento(tipoAlimento))));
         
     }
 

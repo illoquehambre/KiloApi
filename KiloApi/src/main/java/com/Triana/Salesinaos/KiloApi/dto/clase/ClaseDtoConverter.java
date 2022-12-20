@@ -1,4 +1,4 @@
-package com.Triana.Salesinaos.KiloApi.dto;
+package com.Triana.Salesinaos.KiloApi.dto.clase;
 
 import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.service.ClaseService;
@@ -20,7 +20,7 @@ public class ClaseDtoConverter {
                 .id(c.getId())
                 .nombre(c.getNombre())
                 .tutor(c.getTutor())
-                .numAportaciones(service.cantidadAportaciones())
+                .numAportaciones(c.getListadoAportaciones().size())
                 .kilosTotales(service.countKgs())
                 .build();
     }

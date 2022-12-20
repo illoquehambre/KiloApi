@@ -1,5 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,7 +14,8 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-public class Caja{
+
+public class Caja implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
@@ -26,14 +28,15 @@ public class Caja{
 
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(
             name = "caja_id",
             foreignKey = @ForeignKey(name = "FK_CAJA_DESTINATARIO"))
     private Destinatario destinatario;
 
-
-
-
+    @Builder.Default
+    @OneToMany(mappedBy = "caja")
+    private List<Tiene> tieneList = new ArrayList<>();
 
 
 }
