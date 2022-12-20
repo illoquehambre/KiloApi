@@ -67,5 +67,27 @@ public class DestinatarioDtoConverter {
                 .build();
     }
 
+    public DestinatarioGetAll DestinatarioToDestinatarioGetAll(Destinatario destinatario){
+
+        String a ="";
+        List<String>aux= new ArrayList<>();
+
+
+
+        for (Caja c : destinatario.getCajas()){
+            a=c.getNumCaja();
+            aux.add(a);
+        }
+        return DestinatarioGetAll.builder()
+                .id(destinatario.getId())
+                .nombre(destinatario.getNombre())
+                .direccion(destinatario.getDireccion())
+                .personaContacto(destinatario.getPersonaContacto())
+                .telefono(destinatario.getTelefono())
+                .cajasAsignadas(destinatario.getCajas().isEmpty()?null:aux)
+                .kgTotales(destinatarioService.showKgTotal(destinatario))
+                .build();
+    }
+
 
 }
