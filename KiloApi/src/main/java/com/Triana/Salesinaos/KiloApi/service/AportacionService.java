@@ -60,12 +60,18 @@ public class AportacionService {
 
                     if(kilosDisponiblesService.existById(detalle.tipoAlimentoId()))
                         tipoAlimentoService.findById(detalle.tipoAlimentoId()).get().addKilosToTipoAlimento(kilosDisponiblesService.findById(detalle.tipoAlimentoId()).get(), detalle.kilos());
-                    else
-                        KilosDisponibles.builder()
-                                .cantidadDisponible(detalle.kilos())
-                                .tipoAlimento(tipoAlimentoService.findById(detalle.tipoAlimentoId()).get())
-                                .id(detalle.tipoAlimentoId())
-                                .build();
+                    else{
+                       KilosDisponibles k= KilosDisponibles.builder()
+                                                    .tipoAlimento(tipoAlimentoService.findById(detalle.tipoAlimentoId()).get())
+                                                    .id(detalle.tipoAlimentoId())
+                                                    .build();
+                        tipoAlimentoService.findById(detalle.tipoAlimentoId()).get().addKilosToTipoAlimento(k, detalle.kilos());
+                        tipoAlimentoService.add(tipoAlimentoService.findById(detalle.tipoAlimentoId()).get());
+                        kilosDisponiblesService.add(k);
+                    }
+
+
+
 
 
 

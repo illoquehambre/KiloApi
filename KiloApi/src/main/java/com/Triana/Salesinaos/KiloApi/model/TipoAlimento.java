@@ -20,7 +20,7 @@ public class TipoAlimento {
     private Long id;
     private String nombre;
 
-    @OneToOne(mappedBy = "tipoAlimento", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "tipoAlimento", cascade = CascadeType.MERGE)
     private KilosDisponibles kilosDisponibles;
 
     //No se puede setear una primary key
