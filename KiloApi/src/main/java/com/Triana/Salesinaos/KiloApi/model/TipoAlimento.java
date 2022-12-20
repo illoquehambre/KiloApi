@@ -19,8 +19,18 @@ public class TipoAlimento implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
-
     private String nombre;
 
+    @OneToOne
+    @JoinColumn(
+            name = "tipoAlimento")
+    private KilosDisponibles kilosDisponibles;
+
+
+    public void addKilosToTipoAlimento(KilosDisponibles k){
+        k.setId(this.getId());
+        k.setTipoAlimento(this);
+        kilosDisponibles = k;
+    }
 
 }
