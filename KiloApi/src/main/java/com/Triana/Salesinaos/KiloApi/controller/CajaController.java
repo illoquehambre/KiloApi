@@ -1,10 +1,13 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
-import com.Triana.Salesinaos.KiloApi.dto.CajaDtoConverter;
-import com.Triana.Salesinaos.KiloApi.dto.CajaResponseCreate;
-import com.Triana.Salesinaos.KiloApi.dto.CajaResponsePost;
-import com.Triana.Salesinaos.KiloApi.dto.CreateCajaDto;
 
+
+import com.Triana.Salesinaos.KiloApi.dto.CajaResponsePost;
+
+
+import com.Triana.Salesinaos.KiloApi.dto.caja.CajaDtoConverter;
+import com.Triana.Salesinaos.KiloApi.dto.caja.CreateCajaDto;
+import com.Triana.Salesinaos.KiloApi.dto.caja.CajaResponseCreate;
 import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.model.Tiene;
 import com.Triana.Salesinaos.KiloApi.model.TienePK;
@@ -28,9 +31,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
+@RequiredArgsConstructor
+
 
 @RequestMapping("/caja")
-@RequiredArgsConstructor
 @RestController
 public class CajaController {
     private final CajaService cajaService;

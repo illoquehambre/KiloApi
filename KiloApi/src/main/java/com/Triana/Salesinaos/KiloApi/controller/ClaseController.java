@@ -1,9 +1,9 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
 
-import com.Triana.Salesinaos.KiloApi.dto.ClaseDto;
-import com.Triana.Salesinaos.KiloApi.dto.ClaseDtoConverter;
-import com.Triana.Salesinaos.KiloApi.dto.ClaseResponse;
+import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
+import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDtoConverter;
+import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseResponse;
 import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.service.ClaseService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -22,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,9 +69,13 @@ public class ClaseController {
                     description = "No se ha encontrado ninguna clase",
                     content = @Content),
     })
-    @GetMapping("/")
-    public ResponseEntity<List<Clase>> getAllclases(){
-    List<Clase> data = claseService.findAll();
+    @GetMapping("/")//Deberia devolver un Dto
+    public ResponseEntity<List<ClaseDto>> getAllclases(){
+    List<ClaseDto> data = new ArrayList<>();
+
+    claseService.findAll().forEach(clase -> {
+        data.add(claseService.toClaseDto(clase));
+    });
 
         if (data.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -107,6 +112,8 @@ public class ClaseController {
     public ResponseEntity<ClaseResponse> getClaseById(@PathVariable Long id){
         if (!service.existById(id))
             return ResponseEntity.notFound().build();
+         else if(service.findById(id).get().getListadoAportaciones().isEmpty())
+            return ResponseEntity.badRequest().build();//El nulo deberia ser gestionado en la query y la condición para la bad request no sera necesaria
          else
             return ResponseEntity
                     .ok()
@@ -157,9 +164,6 @@ public class ClaseController {
                                             """
                             )}
                     )}),
-            @ApiResponse(responseCode = "404",
-                    description = "No se ha podido encontrar la clase",
-                    content = @Content),
             @ApiResponse(responseCode = "400",
                     description = "No se ha podido modificar la clase",
                     content = @Content),
@@ -167,9 +171,11 @@ public class ClaseController {
     @PutMapping("/{id}")
     public ResponseEntity<ClaseDto> updateClase(@RequestBody ClaseDto clase, @PathVariable Long id){
 
-
+    if(clase.nombre().isBlank()||clase.tutor().isBlank())
+        return ResponseEntity.badRequest().build();
+    else
         return ResponseEntity.of(
-               claseService.findById(id).map(old -> {
+                claseService.findById(id).map(old -> {
                             old.setNombre(clase.nombre());
                             old.setTutor(clase.tutor());
 
@@ -177,6 +183,8 @@ public class ClaseController {
                         })
                         .orElse(Optional.empty())
         );
+
+
 
         // Falta gestionar el Bad REquest
     }

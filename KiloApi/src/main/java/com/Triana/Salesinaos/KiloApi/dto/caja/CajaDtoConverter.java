@@ -1,5 +1,7 @@
-package com.Triana.Salesinaos.KiloApi.dto;
+package com.Triana.Salesinaos.KiloApi.dto.caja;
 
+import com.Triana.Salesinaos.KiloApi.dto.CajaResponsePost;
+import com.Triana.Salesinaos.KiloApi.dto.TipoAlimentoToCajaDto;
 import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.model.Tiene;
 import lombok.RequiredArgsConstructor;

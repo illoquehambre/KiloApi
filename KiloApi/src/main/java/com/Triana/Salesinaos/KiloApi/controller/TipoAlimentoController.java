@@ -1,6 +1,7 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
-import com.Triana.Salesinaos.KiloApi.dto.TipoAlimentoDto;
+import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
+import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoDto;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -87,11 +88,12 @@ public class TipoAlimentoController {
                     content = @Content),
     })
     @PostMapping("/")
-    public ResponseEntity<TipoAlimento> createTipoAlimento(@RequestBody TipoAlimento tipoAlimento){
-        if(tipoAlimento.getNombre().isBlank())
+    public ResponseEntity<TipoAlimentoDto> createTipoAlimento(@RequestBody TipoAlimentoDto tipoAlimento){//Debe retornar un Dto
+        if(tipoAlimento.nombre().isBlank())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         else
-            return ResponseEntity.status(HttpStatus.CREATED).body(tipoAlimentoService.add(tipoAlimento));
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(TipoAlimentoDto.of(tipoAlimentoService.add(tipoAlimentoService.toTipoAlimento(tipoAlimento))));
         
     }
 
