@@ -3,6 +3,8 @@ package com.Triana.Salesinaos.KiloApi.controller;
 import com.Triana.Salesinaos.KiloApi.dto.CajaDtoConverter;
 import com.Triana.Salesinaos.KiloApi.dto.CajaResponseCreate;
 import com.Triana.Salesinaos.KiloApi.dto.CajaResponsePost;
+import com.Triana.Salesinaos.KiloApi.dto.CreateCajaDto;
+
 import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.model.Tiene;
 import com.Triana.Salesinaos.KiloApi.model.TienePK;
@@ -11,7 +13,6 @@ import com.Triana.Salesinaos.KiloApi.service.CajaService;
 import com.Triana.Salesinaos.KiloApi.service.TieneService;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
 import lombok.RequiredArgsConstructor;
-import com.Triana.Salesinaos.KiloApi.dto.CreateCajaDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -26,10 +27,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-
-@RestController
-@RequiredArgsConstructor
 @RequestMapping("/caja")
+@RequiredArgsConstructor
 public class CajaController {
     private final CajaService cajaService;
     private final TipoAlimentoService tipoAlimentoService;
@@ -102,12 +101,12 @@ public class CajaController {
                     content = @Content),
     })
     @PostMapping("/")
-    public ResponseEntity<Caja> addCaja(@RequestBody CreateCajaDto c) {
-        if (c.getNumCaja() != "") {
+    public ResponseEntity<CajaResponseCreate> addCaja(@RequestBody CreateCajaDto c){
+        if (c.getNumCaja() != ""){
             Caja nuevo = cajaDtoConverter.CreateCajaDtoToCaja(c);
             cajaService.add(nuevo);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
+            return ResponseEntity.status(HttpStatus.CREATED).body(cajaDtoConverter.createCajaToCajaResponse(nuevo));
 
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -171,6 +170,22 @@ public class CajaController {
         }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(cajaDtoConverter.createCajaToCajaResponse(cajaService.findById(id).get()));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CajaResponseCreate>editCaja(@RequestBody CreateCajaDto c, @PathVariable Long id){
+
+        if(c.getNumCaja().isEmpty() || c.getQr().isEmpty()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        Caja nueva = cajaService.findById(id).get();
+        nueva.setNumCaja(c.getNumCaja());
+        nueva.setQr(c.getQr());
+        cajaService.edit(nueva);
+        return ResponseEntity.status(HttpStatus.OK).body(cajaDtoConverter.createCajaToCajaResponse(nueva));
+
+
     }
 }
 

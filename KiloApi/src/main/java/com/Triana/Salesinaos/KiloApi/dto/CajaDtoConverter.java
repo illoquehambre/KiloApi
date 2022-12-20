@@ -2,8 +2,6 @@ package com.Triana.Salesinaos.KiloApi.dto;
 
 import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.model.Tiene;
-import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
-import com.Triana.Salesinaos.KiloApi.service.CajaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
