@@ -19,7 +19,7 @@ public class MainMentira {
 
     @PostConstruct
     public void init() {
-
+/*
         TipoAlimento t1 = TipoAlimento.builder()
                 .nombre("Patatas")
                 .build();
@@ -81,7 +81,7 @@ public class MainMentira {
         destinatarioRepository.save(d1);
         destinatarioRepository.save(d2);
 
-
+*/
     }
 */
 }

@@ -1,8 +1,14 @@
 package com.Triana.Salesinaos.KiloApi.service;
 
+import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionListResponse;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateAportacion;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateDetalleAportacion;
 import com.Triana.Salesinaos.KiloApi.model.*;
+import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
+import com.Triana.Salesinaos.KiloApi.model.Aportacion;
+import com.Triana.Salesinaos.KiloApi.model.Clase;
+import com.Triana.Salesinaos.KiloApi.model.DetalleAportacion;
+import com.Triana.Salesinaos.KiloApi.model.DetalleAportacionPK;
 import com.Triana.Salesinaos.KiloApi.repository.AportacionRepository;
 import com.Triana.Salesinaos.KiloApi.repository.KilosDisponiblesRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +31,15 @@ public class AportacionService {
         return repository.save(aportacion);
     }
 
+
+    /*
+    public String findNombreClaseById(Long id) {
+        return claseService.findById(id).get().getNombre();
+    }
+    */
+    public double sumKilosByAportacion() {
+        return repository.sumaKilosAportacion();
+    }
 
     public Optional<Aportacion> findById(Long id){return repository.findById(id);}
     public Aportacion toAportacion(CreateAportacion create) {
@@ -70,6 +85,20 @@ public class AportacionService {
 
 
 
+    }
+
+
+    public AportacionListResponse toAportacionListReponse (Aportacion aportacion){
+        return AportacionListResponse.builder()
+                .fecha(aportacion.getFecha())
+                .nombreClase(aportacion.getClase().getNombre())
+                .kilosTotales(this.sumKilosByAportacion())
+                .build();
+    }
+
+
+    public List<Aportacion> findAll (){
+        return repository.findAll();
     }
 
 

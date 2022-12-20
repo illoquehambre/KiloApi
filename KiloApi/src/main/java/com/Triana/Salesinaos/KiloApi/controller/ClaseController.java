@@ -33,7 +33,6 @@ import java.util.Optional;
 @Tag(name = "Clase", description = "Esta clase implementa Restcontrollers para la entidad Clase")
 public class ClaseController {
 
-
     private final ClaseService claseService;
     private final ClaseService service;
     private final ClaseDtoConverter converter;
@@ -100,7 +99,7 @@ public class ClaseController {
                                             [
                                                 {"id": 1, "nombre": "1ºDAM", "tutor": "Eduardo", "numAportaciones": 4, "kilosTotales": 34},
                                                 {"id": 2, "nombre": "2ºDAM", "tutor": "Luismi", "numAportaciones": 4, "kilosTotales": 32}
-                                            ]                                          
+                                            ]
                                             """
                             )}
                     )}),
