@@ -1,16 +1,16 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
-import com.Triana.Salesinaos.KiloApi.dto.KilosDisponiblesDto;
-import com.Triana.Salesinaos.KiloApi.dto.TipoAlimentoToCajaDto;
-import com.Triana.Salesinaos.KiloApi.model.Aportacion;
+import com.Triana.Salesinaos.KiloApi.dto.kilosDisponibles.KilosDisponiblesDto;
+import com.Triana.Salesinaos.KiloApi.dto.kilosDisponibles.KilosDisponiblesRespo;
+import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoToCajaDto;
 import com.Triana.Salesinaos.KiloApi.model.KilosDisponibles;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.repository.KilosDisponiblesRepository;
 import com.Triana.Salesinaos.KiloApi.service.AportacionService;
-import com.Triana.Salesinaos.KiloApi.service.CajaService;
 import com.Triana.Salesinaos.KiloApi.service.KilosDisponiblesService;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,9 +41,6 @@ public class KilosDisponiblesController {
 
     private final TipoAlimentoService tipoAlimentoService;
 
-    private final KilosDisponiblesRepository kilosDisponiblesRepository;
-
-    private final AportacionService aportacionService;
 
     @Operation(summary = """
             Lista con los datos los kilos disponibles de todos los 
@@ -58,9 +56,9 @@ public class KilosDisponiblesController {
                             examples = {@ExampleObject(
                                     value = """
                                             [
-                                                {{"id": 1, "nombre": "Pasta"}, "kgCantidad" : "5"},
-                                                {{"id": 2, "nombre": "Aceite"}, "kgCantidad" : "15}",
-                                                {{"id": 3, "nombre": "Arroz"}, "kgCantidad" : "25"},
+                                                {"id": 1, "nombre": "Pasta"}, "kgCantidad" : "5"},
+                                                {"id": 2, "nombre": "Aceite"}, "kgCantidad" : "15}",
+                                                {"id": 3, "nombre": "Arroz"}, "kgCantidad" : "25"},
                                             ]                                          
                                             """
                             )}
@@ -69,10 +67,10 @@ public class KilosDisponiblesController {
                     description = "La lista se encuentra vacía",
                     content = @Content),
     })
+
     @GetMapping("/")
     public ResponseEntity<List<TipoAlimentoToCajaDto>> findAll() {
         List<KilosDisponibles> kilosDisponiblesList = kilosDisponiblesService.findAll();
-
         if (kilosDisponiblesList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
@@ -84,14 +82,37 @@ public class KilosDisponiblesController {
         }
     }
 
-
+    @Operation(summary = """
+            Obtiene un alimento con su cantidad disponible y muestra una lista 
+            de los detalles de aportación de dicho alimento
+            """)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = """
+                            Muestra un alimento con su cantidad y detalles de aportación.
+                            """,
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = KilosDisponiblesRespo.class),
+                            examples = {@ExampleObject(
+                                    value = """
+                                           {"nombre":"Patatas"
+                                           ,"cantidadDisponible":7.0,
+                                           "detalleAportacionList":null}                                     
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado un alimento con este Id",
+                    content = @Content)
+    })
     @GetMapping("/{idTipoAlimento}")
-    public ResponseEntity<List<?>> findById(@PathVariable("idTipoAlimento") Long id) {
+    public ResponseEntity<KilosDisponiblesRespo> findById(
+            @PathParam("idTipoAlimento")
+            @Parameter(description = "Id del tipo de alimento")
+                                                              @PathVariable("idTipoAlimento") Long id) {
         Optional<TipoAlimento> tipoAlimento = tipoAlimentoService.findById(id);
         if (tipoAlimento.isPresent()) {
-            kilosDisponiblesRepository.findById(tipoAlimento.get().getId());
-
-
+            return ResponseEntity.ok(kilosDisponiblesDto.kilosDtoKilosResponse(id));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }

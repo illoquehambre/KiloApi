@@ -17,6 +17,9 @@ public class MainMentira {
     private final KilosDisponiblesRepository kilosDisponiblesRepository;
     private final TieneRepository tieneRepository;
 
+    /**
+     * CREADO MAYLOR
+     **/
     @PostConstruct
     public void init() {
 
@@ -42,10 +45,27 @@ public class MainMentira {
         tipoAlimentoService.save(t1);
         tipoAlimentoService.save(t2);
 
+        Destinatario d1 = new Destinatario();
+        d1.setNombre("Maylor");
+        d1.setDireccion("Avenida alvar nuñez");
+        d1.setTelefono("609835692");
+        d1.setPersonaContacto("Maylor Bustamante");
+
+        Destinatario d2 = new Destinatario();
+        d2.setNombre("Juan");
+        d2.setDireccion("Avenida Coria");
+        d2.setTelefono("609835692");
+        d2.setPersonaContacto("Juan Mercado");
+
+        destinatarioRepository.save(d1);
+        destinatarioRepository.save(d2);
+
+
         Caja c1 = Caja.builder()
                 .qr("Codigo-1")
                 .kilosTotales(68)
                 .numCaja("Caja-123")
+                .destinatario(d1)
                 .build();
 
         Caja c2 = Caja.builder()
@@ -65,22 +85,6 @@ public class MainMentira {
 
         tiene1.addToCajaToTipo(c1, t1);
         tieneRepository.save(tiene1);
-
-        Destinatario d1 = new Destinatario();
-        d1.setNombre("Maylor");
-        d1.setDireccion("Avenida alvar nuñez");
-        d1.setTelefono("609835692");
-        d1.setPersonaContacto("Maylor Bustamante");
-
-        Destinatario d2 = new Destinatario();
-        d2.setNombre("Juan");
-        d2.setDireccion("Avenida Coria");
-        d2.setTelefono("609835692");
-        d2.setPersonaContacto("Juan Mercado");
-
-        destinatarioRepository.save(d1);
-        destinatarioRepository.save(d2);
-
 
     }
 

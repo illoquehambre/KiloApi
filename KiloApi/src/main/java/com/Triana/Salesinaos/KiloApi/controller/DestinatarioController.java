@@ -1,10 +1,9 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
-import com.Triana.Salesinaos.KiloApi.dto.DestinatarioDetalleResponse;
-import com.Triana.Salesinaos.KiloApi.dto.DestinatarioDtoConverter;
-import com.Triana.Salesinaos.KiloApi.dto.DestinatarioResponse;
+import com.Triana.Salesinaos.KiloApi.dto.destinatario.DestinatarioDetalleResponse;
+import com.Triana.Salesinaos.KiloApi.dto.destinatario.DestinatarioDtoConverter;
+import com.Triana.Salesinaos.KiloApi.dto.destinatario.DestinatarioResponse;
 import com.Triana.Salesinaos.KiloApi.model.Destinatario;
-import com.Triana.Salesinaos.KiloApi.service.CajaService;
 import com.Triana.Salesinaos.KiloApi.service.DestinatarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,7 +29,6 @@ import java.util.Optional;
 public class DestinatarioController {
 
     private final DestinatarioService destinatarioService;
-
     private final DestinatarioDtoConverter destinatarioDtoConverter;
 
 

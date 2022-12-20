@@ -1,8 +1,7 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
 
-
-import com.Triana.Salesinaos.KiloApi.dto.CajaResponsePost;
+import com.Triana.Salesinaos.KiloApi.dto.caja.CajaResponsePost;
 
 
 import com.Triana.Salesinaos.KiloApi.dto.caja.CajaDtoConverter;
@@ -16,6 +15,7 @@ import com.Triana.Salesinaos.KiloApi.service.CajaService;
 import com.Triana.Salesinaos.KiloApi.service.TieneService;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -31,26 +31,34 @@ import org.springframework.web.bind.annotation.*;
 import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
+
 @RequiredArgsConstructor
-
-
 @RequestMapping("/caja")
 @RestController
+
+@Tag(name = "Caja", description = "Esta clase implementa Restcontrollers para la entidad Caja")
+
 public class CajaController {
     private final CajaService cajaService;
     private final TipoAlimentoService tipoAlimentoService;
     private final CajaDtoConverter cajaDtoConverter;
     private final TieneService tieneService;
 
-    @Operation(summary = "Actualiza la cantidad de kg de la caja")
+    @Operation(summary = "Actualizar la cantidad de kg de la caja")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
-                    description = "Se ha actializado la caja",
+                    description = "Se ha actializado los kg que contiene la caja",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Caja.class),
                             examples = @ExampleObject(value = """
                                             {
-                                            
+                                             "id" : "1",
+                                             "qr": "Link",
+                                             "numCaja":"123",
+                                              "kilosTotales": "69",
+                                              "destinatarioNombre":"Carlo",
+                                              "tipoAlimentoToCajaDtoList" :
+                                               [{"id": "1", "nombre": "Arróz", "kgCantidad": "8"}] 
                                             }
                                     """))}),
             @ApiResponse(responseCode = "400",
@@ -211,8 +219,9 @@ public class CajaController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Caja.class))})
     })
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathParam("id") @Parameter(description = "Id de la caja")
+    public ResponseEntity<?> delete(@PathParam("id") @Parameter(description = "Id de la caja a borrar")
                                     @PathVariable Long id) {
         Optional<Caja> caja = cajaService.findById(id);
         if (caja.isPresent()) {
@@ -220,7 +229,6 @@ public class CajaController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-
     }
 }
 

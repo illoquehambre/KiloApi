@@ -1,11 +1,12 @@
-package com.Triana.Salesinaos.KiloApi.dto;
+package com.Triana.Salesinaos.KiloApi.dto.destinatario;
 
+import com.Triana.Salesinaos.KiloApi.dto.caja.CajaResponsePost;
+import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoToCajaDto;
 import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.model.Destinatario;
 import com.Triana.Salesinaos.KiloApi.model.Tiene;
 import com.Triana.Salesinaos.KiloApi.service.DestinatarioService;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.SuperBuilder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
