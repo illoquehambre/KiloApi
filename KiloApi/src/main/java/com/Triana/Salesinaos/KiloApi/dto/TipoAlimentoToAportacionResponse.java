@@ -1,5 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.dto;
 
+import com.Triana.Salesinaos.KiloApi.model.Aportacion;
 import com.Triana.Salesinaos.KiloApi.model.DetalleAportacion;
 import lombok.*;
 
@@ -13,7 +14,8 @@ import java.util.List;
 @Setter
 public class TipoAlimentoToAportacionResponse {
     private String nombre;
-    private List<DetalleAportacion> detalleAportacionList = new ArrayList<>();
+    private double kilosDisponibles;
+    private List<Aportacion> aportacionList = new ArrayList<>();
 
 
 }

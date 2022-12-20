@@ -2,8 +2,12 @@ package com.Triana.Salesinaos.KiloApi.controller;
 
 import com.Triana.Salesinaos.KiloApi.dto.KilosDisponiblesDto;
 import com.Triana.Salesinaos.KiloApi.dto.TipoAlimentoToCajaDto;
+import com.Triana.Salesinaos.KiloApi.model.Aportacion;
 import com.Triana.Salesinaos.KiloApi.model.KilosDisponibles;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
+import com.Triana.Salesinaos.KiloApi.repository.KilosDisponiblesRepository;
+import com.Triana.Salesinaos.KiloApi.service.AportacionService;
+import com.Triana.Salesinaos.KiloApi.service.CajaService;
 import com.Triana.Salesinaos.KiloApi.service.KilosDisponiblesService;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,6 +40,10 @@ public class KilosDisponiblesController {
 
     private final TipoAlimentoService tipoAlimentoService;
 
+    private final KilosDisponiblesRepository kilosDisponiblesRepository;
+
+    private final AportacionService aportacionService;
+
     @Operation(summary = """
             Lista con los datos los kilos disponibles de todos los 
             alimentos: id del tipo de alimento, nombre y cantidad de kilos
@@ -50,9 +58,9 @@ public class KilosDisponiblesController {
                             examples = {@ExampleObject(
                                     value = """
                                             [
-                                                {{"id": 1, "nombre": "Pasta"}, "cantidadDisponible" : "5"},
-                                                {{"id": 2, "nombre": "Aceite"}, "cantidadDisponible" : "15}",
-                                                {{"id": 3, "nombre": "Arroz"}, "cantidadDisponible" : "25"},
+                                                {{"id": 1, "nombre": "Pasta"}, "kgCantidad" : "5"},
+                                                {{"id": 2, "nombre": "Aceite"}, "kgCantidad" : "15}",
+                                                {{"id": 3, "nombre": "Arroz"}, "kgCantidad" : "25"},
                                             ]                                          
                                             """
                             )}
@@ -78,16 +86,15 @@ public class KilosDisponiblesController {
 
 
     @GetMapping("/{idTipoAlimento}")
-    public ResponseEntity<List<?>>findById(@PathVariable("idTipoAlimento") Long id){
+    public ResponseEntity<List<?>> findById(@PathVariable("idTipoAlimento") Long id) {
         Optional<TipoAlimento> tipoAlimento = tipoAlimentoService.findById(id);
-        if (tipoAlimento.isPresent()){
+        if (tipoAlimento.isPresent()) {
+            kilosDisponiblesRepository.findById(tipoAlimento.get().getId());
+
 
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-
-
-
 
 
 }
