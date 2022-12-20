@@ -13,20 +13,16 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Embeddable
-public class TipoAlimento implements Serializable {
+public class TipoAlimento {
 
     @Id
     @GeneratedValue
     private Long id;
     private String nombre;
 
-    @OneToOne
-    @JoinColumn(
-            name = "tipoAlimento")
+    @OneToOne(mappedBy = "tipoAlimento", cascade = CascadeType.ALL)
     private KilosDisponibles kilosDisponibles;
-
-
+ 
     public void addKilosToTipoAlimento(KilosDisponibles k){
         k.setId(this.getId());
         k.setTipoAlimento(this);
