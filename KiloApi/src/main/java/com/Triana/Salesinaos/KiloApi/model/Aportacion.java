@@ -26,7 +26,7 @@ public class Aportacion {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @CreationTimestamp
     private LocalDate fecha;
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "clase_id", foreignKey = @ForeignKey(name= "FK_CLASE_APORTACION"))
     @JsonIgnore
