@@ -142,9 +142,6 @@ public class AportacionController {
             if ((createDetalleAportacion.tipoAlimentoId()==null || !(tipoAlimentoService.existById(createDetalleAportacion.tipoAlimentoId()))))
                 comprobarId.set(false);
         });
-
-
-
         if(!(create.claseId()==null || create.listadoDetallesAportacion().isEmpty() || !comprobarId.get()))
 
             return ResponseEntity.status(HttpStatus.CREATED)
