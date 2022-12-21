@@ -11,6 +11,7 @@ import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.model.Tiene;
 import com.Triana.Salesinaos.KiloApi.model.TienePK;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
+import com.Triana.Salesinaos.KiloApi.repository.TieneRepository;
 import com.Triana.Salesinaos.KiloApi.service.CajaService;
 import com.Triana.Salesinaos.KiloApi.service.TieneService;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
@@ -43,6 +44,8 @@ public class CajaController {
     private final TipoAlimentoService tipoAlimentoService;
     private final CajaDtoConverter cajaDtoConverter;
     private final TieneService tieneService;
+
+    private final TieneRepository tieneRepository;
 
     @Operation(summary = "Actualizar la cantidad de kg de la caja")
     @ApiResponses(value = {
@@ -80,26 +83,38 @@ public class CajaController {
             @PathVariable("id") Long id,
             @PathVariable("IdtipoAlimento") Long IdTipoAlimento,
             @PathVariable("cantidad") double cantidad) {
+        /**Obtenemos la caja por el id y obtenemos el TipoAlimento por su id**/
         Optional<Caja> c = cajaService.findById(id);
         Optional<TipoAlimento> t = tipoAlimentoService.findById(IdTipoAlimento);
-        /**COMPROBAMOMS SI EXISTE LA CAJA, EL TIPO ALIMENTO Y SI EXISTE UNA LISTA EN CAJA**/
-        if (c.isPresent() && t.isPresent() && !c.get().getTieneList().isEmpty()) {
-            TienePK tienePK = new TienePK(id, IdTipoAlimento);
-            Optional<Tiene> tiene = tieneService.findById(tienePK);
-            if (tiene.isPresent()) {
-                if (cantidad > 0 && cantidad < t.get().getKilosDisponibles().getCantidadDisponible()) {
-                    c.get().setKilosTotales(c.get().getKilosTotales() + cantidad);
-                    tiene.get().setCantidadKgs(tiene.get().getCantidadKgs() + cantidad);
-                    t.get().getKilosDisponibles()
-                            .setCantidadDisponible(t.get()
-                                    .getKilosDisponibles()
-                                    .getCantidadDisponible() - cantidad);
-                    return ResponseEntity
-                            .status(HttpStatus.CREATED)
-                            .body(cajaDtoConverter
-                                    .CreateCajaToCajaResponsePost(c.get(), tiene.get()));
-                }
+        TienePK tienePK = new TienePK(c.get().getId(), t.get().getId());
+        Optional<Tiene> aux = tieneRepository.findById(tienePK);
+        /**COMPROBAMOMS SI EXISTE LA CAJA, EL TIPO ALIMENTO**/
+        if (c.isPresent() && t.isPresent()) {
+            /**Y SI EXISTE UNA LISTA EN CAJA, si esta vacía se mete el alimento en caso de que no esté vacía pasa**/
+            if (c.get().getTieneList().isEmpty() ||
+                    !tieneService.findById(new TienePK(c.get().getId(), t.get().getId()))
+                            .get().getTipoAlimmento().equals(t.get())) {
+                TienePK tienePKAux = new TienePK(id, IdTipoAlimento);
+                Tiene tiene = Tiene.builder()
+                        .id(tienePKAux)
+                        .build();
+                tiene.addToCajaToTipo(c.get(), t.get());
+                tieneRepository.save(tiene);
+                cajaService.edit(c.get());
             }
+            if (cantidad > 0 && cantidad < t.get().getKilosDisponibles().getCantidadDisponible()) {
+                c.get().setKilosTotales(c.get().getKilosTotales() + cantidad);
+                aux.get().setCantidadKgs(aux.get().getCantidadKgs() + cantidad);
+                t.get().getKilosDisponibles()
+                        .setCantidadDisponible(t.get()
+                                .getKilosDisponibles()
+                                .getCantidadDisponible() - cantidad);
+                return ResponseEntity
+                        .status(HttpStatus.CREATED)
+                        .body(cajaDtoConverter
+                                .CreateCajaToCajaResponsePost(c.get(), aux.get()));
+            }
+
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }

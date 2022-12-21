@@ -35,13 +35,19 @@ public class MainMentira {
                 .cantidadDisponible(7)
                 .build();
 
+        KilosDisponibles k2 = KilosDisponibles.builder()
+                .cantidadDisponible(9)
+                .build();
+
         tipoAlimentoService.save(t1);
         tipoAlimentoService.save(t2);
 
         t1.addKilosToTipoAlimento(k);
-        t2.addKilosToTipoAlimento(k);
+        t2.addKilosToTipoAlimento(k2);
 
         kilosDisponiblesRepository.save(k);
+        kilosDisponiblesRepository.save(k2);
+
         tipoAlimentoService.save(t1);
         tipoAlimentoService.save(t2);
 
@@ -85,6 +91,7 @@ public class MainMentira {
 
         tiene1.addToCajaToTipo(c1, t1);
         tieneRepository.save(tiene1);
+        cajaRepository.save(c1);
 
     }
 

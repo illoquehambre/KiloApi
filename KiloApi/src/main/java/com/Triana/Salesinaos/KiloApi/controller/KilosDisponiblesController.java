@@ -78,6 +78,7 @@ public class KilosDisponiblesController {
                     kilosDisponiblesList.stream()
                             .map(k -> kilosDisponiblesDto.kilosDisponiblesToAlimento(k))
                             .collect(Collectors.toList());
+
             return ResponseEntity.ok(resultado);
         }
     }
