@@ -12,6 +12,7 @@ import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.model.Tiene;
 import com.Triana.Salesinaos.KiloApi.model.TienePK;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
+import com.Triana.Salesinaos.KiloApi.repository.TieneRepository;
 import com.Triana.Salesinaos.KiloApi.service.CajaService;
 import com.Triana.Salesinaos.KiloApi.service.TieneService;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
@@ -41,6 +42,7 @@ public class CajaController {
     private final TipoAlimentoService tipoAlimentoService;
     private final CajaDtoConverter cajaDtoConverter;
     private final TieneService tieneService;
+    private final TieneRepository tieneRepository;
 
     @Operation(summary = "Actualiza la cantidad de kg de la caja")
     @ApiResponses(value = {
@@ -158,6 +160,28 @@ public class CajaController {
         }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+
+    @DeleteMapping("/caja/{id}/tipo /{idTipoAlim}")
+    public ResponseEntity<?> deleteTipoAlimentoCaja(@PathVariable Long id, @PathVariable Long idTipoAlimento){
+        Optional<Caja> caja = cajaService.findById(id);
+        Optional<TipoAlimento> tipoAlimento = tipoAlimentoService.findById(idTipoAlimento);
+        if (caja.isPresent() && tipoAlimento.isPresent()){
+            TienePK tienePK = new TienePK(id, idTipoAlimento);
+            Optional<Tiene> tiene = tieneService.findById(tienePK);
+
+            tipoAlimento.get().getKilosDisponibles()
+                    .setCantidadDisponible(tipoAlimento.get().getKilosDisponibles().getCantidadDisponible()+tiene.get().getCantidadKgs());
+
+            tieneService.deleteById(tienePK);
+
+            return ResponseEntity.status(HttpStatus.OK).build();
+
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
     }
 
     @Operation(summary = "Este método crea una caja")
