@@ -1,6 +1,5 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
-import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
 import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoDto;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
@@ -15,15 +14,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.asm.Advice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -98,8 +95,14 @@ public class TipoAlimentoController {
                             examples = {@ExampleObject(
                                     value = """
                                             [
-                                                {"id": 2,
-                                                "nombre": "Mejillones en escabeche"},
+                                                {
+                                                    "id": 1,
+                                                    "nombre": "Mejillones",
+                                                    "kilosDisponibles": {
+                                                        "id": 1,
+                                                        "cantidadDisponible": 8.0
+                                                    }
+                                                }
                                             ]
                                             """
                             )}
@@ -112,12 +115,10 @@ public class TipoAlimentoController {
     public ResponseEntity<TipoAlimentoDto> getOneTipoAlimento (
             @Parameter(description = "Id del tipo de alimento que se quiere encontrar")
             @PathVariable Long id){
-        if (!tipoAlimentoService.existById(id))
+        if (tipoAlimentoService.findById(id).isEmpty() || id == null)
             return ResponseEntity.notFound().build();
         else
             return ResponseEntity.ok(TipoAlimentoDto.of(tipoAlimentoService.findById(id).get()));
-        // return ResponseEntity.of(songService.findById(id).map(SingleSongResponseDTO::of));
-
     }
 
 
@@ -161,8 +162,14 @@ public class TipoAlimentoController {
                             examples = {@ExampleObject(
                                     value = """
                                             [
-                                               {"id": 2,
-                                                "nombre": "Atún en manteca",
+                                                {
+                                                    "id": 1,
+                                                    "nombre": "Atún en manteca",
+                                                    "kilosDisponibles": {
+                                                        "id": 1,
+                                                        "cantidadDisponible": 8.0
+                                                    }
+                                                }
                                             ]
                                             """
                             )}

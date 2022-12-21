@@ -1,14 +1,21 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
+import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionClassPairDto;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionListResponse;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionResponse;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateAportacion;
+import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
+import com.Triana.Salesinaos.KiloApi.service.KilosDisponiblesService;
+import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoDto;
+import com.Triana.Salesinaos.KiloApi.model.Aportacion;
+import com.Triana.Salesinaos.KiloApi.model.Clase;
+import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.service.AportacionService;
 import com.Triana.Salesinaos.KiloApi.service.ClaseService;
-import com.Triana.Salesinaos.KiloApi.service.KilosDisponiblesService;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -51,28 +58,14 @@ public class AportacionController {
                                     value = """
                                             [
                                                 {
-                                                    "id": 1,
-                                                    "nombre": "Patatas"
+                                                    "fecha": "2022-12-21",
+                                                    "nombreClase": "2ºDAM",
+                                                    "kilosTotales": 7.0
                                                 },
                                                 {
-                                                    "id": 2,
-                                                    "nombre": "Arroz"
-                                                },
-                                                {
-                                                    "id": 7,
-                                                    "nombre": "Banana"
-                                                },
-                                                {
-                                                    "id": 8,
-                                                    "nombre": "Pizza"
-                                                },
-                                                {
-                                                    "id": 9,
-                                                    "nombre": "Botella Cocacola"
-                                                },
-                                                {
-                                                    "id": 10,
-                                                    "nombre": "Mejillones"
+                                                    "fecha": "2022-12-21",
+                                                    "nombreClase": "1ºDAM",
+                                                    "kilosTotales": 5.0
                                                 }
                                             ]
                                             """
@@ -96,6 +89,54 @@ public class AportacionController {
                     .ok(aportacionListResponseList);
         }
     }
+
+
+
+    @Operation(summary = "Este método lista una lista de pares de tipo de alimento y kilos de una aportación " +
+            "y su fecha si la localiza por el id de la clase")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se han encontrado la aportación de la clase que buscaba",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = AportacionClassPairDto.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                            [
+                                                {
+                                                    "fecha": "2022-12-21",
+                                                    "detallesAportacion": {
+                                                        "Atún": 3.0,
+                                                        "Pizza": 3.0
+                                                    }
+                                                },
+                                                {
+                                                    "fecha": "2022-12-21",
+                                                    "detallesAportacion": {
+                                                        "Atún": 5.0,
+                                                        "Pizza": 4.0
+                                                    }
+                                                }
+                                            ]
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado ninguna clase con ese id",
+                    content = @Content),
+    })
+    @GetMapping("/clase/{id}")
+    public ResponseEntity <List<AportacionClassPairDto>> getOneTipoAlimento (
+            @Parameter(description = "Id de la clase de la que se quiere consultar la aportación")
+            @PathVariable Long id) {
+
+        Optional<Clase> c = claseService.findById(id);
+        if (c.isEmpty() || id == null)
+            return ResponseEntity.notFound().build();
+        else{
+            return ResponseEntity.ok().body(aportacionService.toAportacionClassPairDtoList(c.get()));
+        }
+    }
+
 
     @Operation(summary = "Este método crea una nueva aportacion y sus detalles de aportacion pertinentes")
     @ApiResponses(value = {
