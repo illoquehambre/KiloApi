@@ -236,16 +236,10 @@ public class AportacionController {
                         tipoAlimentoService.findById(detalle.getTipoAlimento().getId()).get()
                                 .addKilosToTipoAlimento(kilosDisponiblesService.findById(detalle.getTipoAlimento().getId()).get(), (numKg-detalle.getCantidadEnKilos()));
                         detalle.setCantidadEnKilos(numKg);
-                        kilosDisponiblesService.add(kilosDisponiblesService.findById(detalle.getTipoAlimento().getId()).get());
-                    }
-
+                        kilosDisponiblesService.add(kilosDisponiblesService.findById(detalle.getTipoAlimento().getId()).get());                    }
                 }else if(encontrado.get())
                     bad.set(true);
-
-
             });
-
-
         }else
             bad.set(true);
 
