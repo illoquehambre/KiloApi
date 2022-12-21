@@ -6,5 +6,5 @@ import java.time.LocalDate;
 import java.util.Map;
 
 @Builder
-public record AportacionClassPairDto (LocalDate fecha, Map<String, Double> listaDePares){
+public record AportacionClassPairDto (LocalDate fecha, Map<String, Double> detallesAportacion){
 }

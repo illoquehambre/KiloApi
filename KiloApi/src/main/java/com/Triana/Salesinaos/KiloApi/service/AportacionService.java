@@ -35,8 +35,8 @@ public class AportacionService {
         return claseService.findById(id).get().getNombre();
     }
     */
-    public double sumKilosByAportacion() {
-        return repository.sumaKilosAportacion();
+    public double sumKilosByAportacion(Long id) {
+        return repository.sumaKilosAportacion(id);
     }
 
     public Optional<Aportacion> findById(Long id){return repository.findById(id);}
@@ -96,7 +96,7 @@ public class AportacionService {
         return AportacionListResponse.builder()
                 .fecha(aportacion.getFecha())
                 .nombreClase(aportacion.getClase().getNombre())
-                .kilosTotales(this.sumKilosByAportacion())
+                .kilosTotales(this.sumKilosByAportacion(aportacion.getId()))
                 .build();
     }
 
@@ -114,7 +114,7 @@ public class AportacionService {
             auxiliar.add(
             AportacionClassPairDto.builder()
                     .fecha(aportacion.getFecha())
-                    .listaDePares(this.createPairList(aportacion))
+                    .detallesAportacion(this.createPairList(aportacion))
                     .build()
             );
         });
@@ -136,7 +136,6 @@ public class AportacionService {
 
         return mapClassKilos;
     }
-
 
 
 }

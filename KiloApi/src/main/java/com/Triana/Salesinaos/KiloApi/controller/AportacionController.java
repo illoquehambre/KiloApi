@@ -54,28 +54,14 @@ public class AportacionController {
                                     value = """
                                             [
                                                 {
-                                                    "id": 1,
-                                                    "nombre": "Patatas"
+                                                    "fecha": "2022-12-21",
+                                                    "nombreClase": "2ºDAM",
+                                                    "kilosTotales": 7.0
                                                 },
                                                 {
-                                                    "id": 2,
-                                                    "nombre": "Arroz"
-                                                },
-                                                {
-                                                    "id": 7,
-                                                    "nombre": "Banana"
-                                                },
-                                                {
-                                                    "id": 8,
-                                                    "nombre": "Pizza"
-                                                },
-                                                {
-                                                    "id": 9,
-                                                    "nombre": "Botella Cocacola"
-                                                },
-                                                {
-                                                    "id": 10,
-                                                    "nombre": "Mejillones"
+                                                    "fecha": "2022-12-21",
+                                                    "nombreClase": "1ºDAM",
+                                                    "kilosTotales": 5.0
                                                 }
                                             ]
                                             """
@@ -103,10 +89,10 @@ public class AportacionController {
 
 
     @Operation(summary = "Este método lista una lista de pares de tipo de alimento y kilos de una aportación " +
-            "y su fecha si la localiza por su id")
+            "y su fecha si la localiza por el id de la clase")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Se han encontrado lo que buscaba",
+                    description = "Se han encontrado la aportación de la clase que buscaba",
                     content = { @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = AportacionClassPairDto.class)),
                             examples = {@ExampleObject(
@@ -114,16 +100,16 @@ public class AportacionController {
                                             [
                                                 {
                                                     "fecha": "2022-12-21",
-                                                    "listaDePares": {
-                                                        "macarrones": 3.0,
-                                                        "pasta": 2.0
+                                                    "detallesAportacion": {
+                                                        "Atún": 3.0,
+                                                        "Pizza": 3.0
                                                     }
                                                 },
                                                 {
                                                     "fecha": "2022-12-21",
-                                                    "listaDePares": {
-                                                        "macarrones": 3.0,
-                                                        "pasta": 2.0
+                                                    "detallesAportacion": {
+                                                        "Atún": 5.0,
+                                                        "Pizza": 4.0
                                                     }
                                                 }
                                             ]
@@ -131,7 +117,7 @@ public class AportacionController {
                             )}
                     )}),
             @ApiResponse(responseCode = "404",
-                    description = "No se ha encontrado nada con ese id",
+                    description = "No se ha encontrado ninguna clase con ese id",
                     content = @Content),
     })
     @GetMapping("/clase/{id}")
