@@ -1,5 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.service;
 
+import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionClassPairDto;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionListResponse;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateAportacion;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateDetalleAportacion;
@@ -14,10 +15,7 @@ import com.Triana.Salesinaos.KiloApi.repository.KilosDisponiblesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -30,16 +28,20 @@ public class AportacionService {
     public Aportacion add(Aportacion aportacion) {
         return repository.save(aportacion);
     }
-
-
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+    public List<DetalleAportacion> findByTipoAlimentoId(Long id) { return repository.findByTipoAlimento(id); }
     /*
     public String findNombreClaseById(Long id) {
         return claseService.findById(id).get().getNombre();
     }
     */
-    public double sumKilosByAportacion() {
-        return repository.sumaKilosAportacion();
+    public double sumKilosByAportacion(Long id) {
+        return repository.sumaKilosAportacion(id);
     }
+
+    public Optional<DetalleAportacion> findFirstDetalleAportacionById(int id){return repository.findFirstDetalleAportacionById(id);}
 
     public Optional<Aportacion> findById(Long id){return repository.findById(id);}
     public Aportacion toAportacion(CreateAportacion create) {
@@ -70,11 +72,6 @@ public class AportacionService {
                         kilosDisponiblesService.add(k);
                     }
 
-
-
-
-
-
                     detalleAportacionesList.add(aportacion.addDetalleAportacion(
                             DetalleAportacion.builder()
 
@@ -88,23 +85,52 @@ public class AportacionService {
                         });
 
                 return aportacion;
-
-
-
     }
 
 
     public AportacionListResponse toAportacionListReponse (Aportacion aportacion){
         return AportacionListResponse.builder()
                 .fecha(aportacion.getFecha())
-                .nombreClase(aportacion.getClase().getNombre())
-                .kilosTotales(this.sumKilosByAportacion())
+                .nombreClase(aportacion.getClase() != null ? aportacion.getClase().getNombre() : null)
+                .kilosTotales(this.sumKilosByAportacion(aportacion.getId()))
                 .build();
     }
 
 
     public List<Aportacion> findAll (){
         return repository.findAll();
+    }
+
+
+    public List<AportacionClassPairDto> toAportacionClassPairDtoList (Clase c) {
+
+        List <AportacionClassPairDto> auxiliar = new ArrayList<>();
+
+        c.getListadoAportaciones().forEach(aportacion -> {
+            auxiliar.add(
+            AportacionClassPairDto.builder()
+                    .fecha(aportacion.getFecha())
+                    .detallesAportacion(this.createPairList(aportacion))
+                    .build()
+            );
+        });
+
+        return auxiliar;
+    }
+
+
+
+    public Map<String, Double> createPairList (Aportacion aportacion) {
+        Clase c = null;
+        String nombre;
+        Map<String, Double> mapClassKilos = new TreeMap<>();
+        List<Aportacion> aportacionList = new ArrayList<>();
+
+        aportacion.getDetalleAportacionList().forEach(detalleAportacion-> {
+            mapClassKilos.put(detalleAportacion.getTipoAlimento().getNombre(), detalleAportacion.getCantidadEnKilos());
+        });
+
+        return mapClassKilos;
     }
 
 

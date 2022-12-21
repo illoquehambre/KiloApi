@@ -1,8 +1,8 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
-import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
 import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoDto;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
+import com.Triana.Salesinaos.KiloApi.service.AportacionService;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,15 +15,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.asm.Advice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,6 +31,7 @@ import java.util.stream.Collectors;
 public class TipoAlimentoController {
 
     private final TipoAlimentoService tipoAlimentoService;
+    private final AportacionService aportacionService;
 
 
     @Operation(summary = "Este método lista todos tipos de alimentos")
@@ -40,33 +39,19 @@ public class TipoAlimentoController {
             @ApiResponse(responseCode = "200",
                     description = "Se han encontrado al menos un tipo de alimento",
                     content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = TipoAlimento.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = TipoAlimentoDto.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                               [
+                                            [
                                                 {
                                                     "id": 1,
-                                                    "nombre": "Patatas"
+                                                    "nombre": "cerveza",
+                                                    "kilosDisponibles": 7.0
                                                 },
                                                 {
-                                                    "id": 2,
-                                                    "nombre": "Arroz"
-                                                },
-                                                {
-                                                    "id": 7,
-                                                    "nombre": "Banana"
-                                                },
-                                                {
-                                                    "id": 8,
-                                                    "nombre": "Pizza"
-                                                },
-                                                {
-                                                    "id": 9,
-                                                    "nombre": "Botella Cocacola"
-                                                },
-                                                {
-                                                    "id": 10,
-                                                    "nombre": "Mejillones"
+                                                    "id": 4,
+                                                    "nombre": "patatas",
+                                                    "kilosDisponibles": 0.0
                                                 }
                                             ]
                                             """
@@ -97,10 +82,11 @@ public class TipoAlimentoController {
                             array = @ArraySchema(schema = @Schema(implementation = TipoAlimentoDto.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                            [
-                                                {"id": 2,
-                                                "nombre": "Mejillones en escabeche"},
-                                            ]
+                                            {
+                                                "id": 1,
+                                                "nombre": "cerveza",
+                                                "kilosDisponibles": 7.0
+                                            }
                                             """
                             )}
                     )}),
@@ -110,14 +96,12 @@ public class TipoAlimentoController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<TipoAlimentoDto> getOneTipoAlimento (
-            @Parameter(description = "Id del tipo de alimento que se quiere encontrar")
+            @Parameter(description = "Id del tipo de alimento que se quiere encontrar", name = "id", required = true)
             @PathVariable Long id){
-        if (!tipoAlimentoService.existById(id))
+        if (tipoAlimentoService.findById(id).isEmpty() || id == null)
             return ResponseEntity.notFound().build();
         else
             return ResponseEntity.ok(TipoAlimentoDto.of(tipoAlimentoService.findById(id).get()));
-        // return ResponseEntity.of(songService.findById(id).map(SingleSongResponseDTO::of));
-
     }
 
 
@@ -130,11 +114,11 @@ public class TipoAlimentoController {
                             array = @ArraySchema(schema = @Schema(implementation = TipoAlimento.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                            [
-                                                {"id": 1, "nombre": "Pasta"},
-                                                {"id": 2, "nombre": "Aceite"},
-                                                {"id": 3, "nombre": "Arroz"}
-                                            ]
+                                            {
+                                                    "id": 1,
+                                                    "nombre": "cerveza",
+                                                    "kilosDisponibles": 0.0
+                                                }
                                             """
                             )}
                     )}),
@@ -160,10 +144,11 @@ public class TipoAlimentoController {
                             array = @ArraySchema(schema = @Schema(implementation = TipoAlimentoDto.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                            [
-                                               {"id": 2,
-                                                "nombre": "Atún en manteca",
-                                            ]
+                                            {
+                                                "id": 1,
+                                                "nombre": "aceitunas",
+                                                "kilosDisponibles": 7.0
+                                            }
                                             """
                             )}
                     )}),
@@ -173,7 +158,7 @@ public class TipoAlimentoController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<TipoAlimentoDto> editTipoAlimento(
-            @Parameter(description = "Id del tipo de alimento que se quiera editar")
+            @Parameter(description = "Id del tipo de alimento que se quiera editar", name = "id", required = true)
             @RequestBody TipoAlimentoDto tipoAlimentoDtoRequest,
             @PathVariable Long id) {
         if(tipoAlimentoService.existById(id) && !tipoAlimentoDtoRequest.nombre().isBlank()) {
@@ -199,10 +184,9 @@ public class TipoAlimentoController {
 
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<TipoAlimento> deleteTipoAlimento(@PathVariable Long id){
-        if(tipoAlimentoService.existById(id))
+    public ResponseEntity<?> deleteTipoAlimento(@PathVariable Long id){
+        if(tipoAlimentoService.existById(id)&& aportacionService.findByTipoAlimentoId(id).isEmpty())
             tipoAlimentoService.deleteById(id);
-        //
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

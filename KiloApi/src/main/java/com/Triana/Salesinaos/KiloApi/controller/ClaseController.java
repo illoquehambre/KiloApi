@@ -44,7 +44,7 @@ public class ClaseController {
             @ApiResponse(responseCode = "200",
                     description = "Se han encontrado clases",
                     content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = Clase.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = ClaseDto.class)),
                             examples = {@ExampleObject(
                                     value = """
                                                 [
@@ -83,8 +83,6 @@ public class ClaseController {
                     .ok()
                     .body(data);
         }
-
-        // Retocar este get cambiar el response entity y probablemente el .body()
     }
 
 
@@ -93,7 +91,7 @@ public class ClaseController {
             @ApiResponse(responseCode = "200",
                     description = "Se ha encontrado la clase",
                     content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = Clase.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = ClaseDto.class)),
                             examples = {@ExampleObject(
                                     value = """
                                             [
@@ -105,6 +103,9 @@ public class ClaseController {
                     )}),
             @ApiResponse(responseCode = "404",
                     description = "No se ha encontrado ninguna clase",
+                    content = @Content),
+            @ApiResponse(responseCode = "400",
+                    description = "No existen aportaciones realizadas por esta clase",
                     content = @Content),
     })
     @GetMapping("/{id}")
@@ -153,13 +154,13 @@ public class ClaseController {
             @ApiResponse(responseCode = "200",
                     description = "Se ha modificado corrrectamente una clase ",
                     content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = Clase.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = ClaseDto.class)),
                             examples = {@ExampleObject(
                                     value = """
                                             [
                                                 {"id": 1, "nombre": "1ºDAM", "tutor": "Miguel" },
                                                 {"id": 1, "nombre": "2ºDAM", "tutor": "Luismi" }
-                                            ]                                          
+                                            ]
                                             """
                             )}
                     )}),
@@ -171,7 +172,7 @@ public class ClaseController {
     public ResponseEntity<ClaseDto> updateClase(@RequestBody ClaseDto clase, @PathVariable Long id){
 
     if(clase.nombre().isBlank()||clase.tutor().isBlank())
-        return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().build();
     else
         return ResponseEntity.of(
                 claseService.findById(id).map(old -> {
@@ -182,20 +183,14 @@ public class ClaseController {
                         })
                         .orElse(Optional.empty())
         );
-
-
-
-        // Falta gestionar el Bad REquest
     }
 
     @Operation(summary = "Este método elimina una clase localizada por su id")
     @ApiResponse(responseCode = "204", description = "Clase borrada con éxito",
             content = @Content)
     @Parameter(description = "El id de la clase que se quiere eliminar", name = "id", required = true)
-    @DeleteMapping("/")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteClase(@PathVariable Long id){
-
-        // Una vez se cree el ranking quizás haya que hacer gestiones desde aquí
 
         if(claseService.existById(id)) {
             claseService.deleteById(id);
