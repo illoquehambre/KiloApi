@@ -1,9 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
-import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionClassPairDto;
-import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionListResponse;
-import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionResponse;
-import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateAportacion;
+import com.Triana.Salesinaos.KiloApi.dto.aportacion.*;
 import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
 import com.Triana.Salesinaos.KiloApi.model.DetalleAportacion;
 import com.Triana.Salesinaos.KiloApi.service.KilosDisponiblesService;
@@ -86,18 +83,17 @@ public class AportacionController {
             aportacionListResponseList.add(aportacionService.toAportacionListReponse(aportacion));
         });
 
-        if (aportacionListResponseList.isEmpty()) {
+        if (aportacionListResponseList.isEmpty())
             return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity
-                    .ok(aportacionListResponseList);
-        }
+        else
+            return ResponseEntity.ok(aportacionListResponseList);
+
     }
 
 
 
     @Operation(summary = "Este método lista una lista de pares de tipo de alimento y kilos de una aportación " +
-            "y su fecha si la localiza por el id de la clase")
+            "y su fecha si la localiza por el id de la clase y si, además, esa clase tiene aportaciones")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Se han encontrado la aportación de la clase que buscaba",
@@ -130,15 +126,16 @@ public class AportacionController {
     })
     @GetMapping("/clase/{id}")
     public ResponseEntity <List<AportacionClassPairDto>> getOneTipoAlimento (
-            @Parameter(description = "Id de la clase de la que se quiere consultar la aportación")
+            @Parameter(description = "Id de la clase de la que se quiere consultar la aportación", name = "id", required = true)
             @PathVariable Long id) {
 
         Optional<Clase> c = claseService.findById(id);
-        if (c.isEmpty() || id == null)
+
+        if (c.isEmpty() || id == null || c.get().getListadoAportaciones().isEmpty())
             return ResponseEntity.notFound().build();
-        else{
+        else
             return ResponseEntity.ok().body(aportacionService.toAportacionClassPairDtoList(c.get()));
-        }
+
     }
 
 
@@ -330,6 +327,52 @@ public class AportacionController {
         }
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
+    @Operation(summary = "Este método elimina un detalle de una aportación si encuentra la aportación por el id y " +
+            "puede borrar sus detalles")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se han encontrado el detalle de aportación que buscaba y ha eliminado lo que es posible elimnar",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = DetalleAportacionResponse.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                            [
+                                                {
+                                                    "fecha": "2022-12-21",
+                                                    "detallesAportacion": {
+                                                        "Atún": 3.0,
+                                                        "Pizza": 3.0
+                                                    }
+                                                },
+                                                {
+                                                    "fecha": "2022-12-21",
+                                                    "detallesAportacion": {
+                                                        "Atún": 5.0,
+                                                        "Pizza": 4.0
+                                                    }
+                                                }
+                                            ]
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado ninguna aportación con ese id",
+                    content = @Content),
+    })
+    @DeleteMapping("/{id}/linea/{num}")
+    public ResponseEntity<DetalleAportacionResponse> deleteDetalleAportacion(
+            @Parameter(description = "Id de la aportación de la que quiere borrar sus detalles", name = "id", required = true)
+            @PathVariable Long id,
+            @PathVariable int numLinea) {
+
+        Optional<Aportacion> aportacion = aportacionService.findById(id);
+
+        if(aportacion.isEmpty() || id == null)
+            return ResponseEntity.notFound().build();  // he añadido esta opción porque encuentro lógico que devuelva un 404 en lugar de un 200 si no encuentra aportaciones con ese id
+        else
+            return ResponseEntity.ok().build();
+
     }
 
 }
