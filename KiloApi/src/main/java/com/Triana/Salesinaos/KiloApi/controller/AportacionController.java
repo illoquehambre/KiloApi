@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -104,31 +105,19 @@ public class AportacionController {
                             array = @ArraySchema(schema = @Schema(implementation = AportacionResponse.class)),
                             examples = @ExampleObject(value = """
                                     {
-                                        "id": 4,
-                                        "claseId": 4,
-                                        "fecha": "2022-12-19",
+                                        "id": 3,
+                                        "claseId": 3,
+                                        "fecha": "2022-12-21",
                                         "detallesAportacion": [
                                             {
-                                                "id": {
-                                                    "aportacionId": 4,
-                                                    "numLinea": 1
-                                                },
-                                                "cantidadEnKilos": 2.0,
-                                                "tipoAlimento": {
-                                                    "id": 1,
-                                                    "nombre": "verveverv"
-                                                }
+                                                "numLinea": 1,
+                                                "tipoAlimento": "cerveza",
+                                                "kilos": 2.0
                                             },
                                             {
-                                                "id": {
-                                                    "aportacionId": 4,
-                                                    "numLinea": 2
-                                                },
-                                                "cantidadEnKilos": 2.0,
-                                                "tipoAlimento": {
-                                                    "id": 2,
-                                                    "nombre": "verveverv"
-                                                }
+                                                "numLinea": 2,
+                                                "tipoAlimento": "cerveza",
+                                                "kilos": 3.0
                                             }
                                         ]
                                     }
@@ -160,42 +149,22 @@ public class AportacionController {
                             array = @ArraySchema(schema = @Schema(implementation = AportacionResponse.class)),
                             examples = @ExampleObject(value = """
                                     {
-                                         "id": 3,
-                                         "claseId": 3,
-                                         "fecha": "2022-12-20",
-                                         "detallesAportacion": [
-                                             {
-                                                 "id": {
-                                                     "aportacionId": 3,
-                                                     "numLinea": 1
-                                                 },
-                                                 "cantidadEnKilos": 4.0,
-                                                 "tipoAlimento": {
-                                                     "id": 1,
-                                                     "nombre": "cerveza",
-                                                     "kilosDisponibles": {
-                                                         "id": 1,
-                                                         "cantidadDisponible": 7.0
-                                                     }
-                                                 }
-                                             },
-                                             {
-                                                 "id": {
-                                                     "aportacionId": 3,
-                                                     "numLinea": 2
-                                                 },
-                                                 "cantidadEnKilos": 3.0,
-                                                 "tipoAlimento": {
-                                                     "id": 1,
-                                                     "nombre": "cerveza",
-                                                     "kilosDisponibles": {
-                                                         "id": 1,
-                                                         "cantidadDisponible": 7.0
-                                                     }
-                                                 }
-                                             }
-                                         ]
-                                     }
+                                        "id": 3,
+                                        "claseId": 3,
+                                        "fecha": "2022-12-21",
+                                        "detallesAportacion": [
+                                            {
+                                                "numLinea": 1,
+                                                "tipoAlimento": "cerveza",
+                                                "kilos": 2.0
+                                            },
+                                            {
+                                                "numLinea": 2,
+                                                "tipoAlimento": "cerveza",
+                                                "kilos": 3.0
+                                            }
+                                        ]
+                                    }
                                     """)) }),
             @ApiResponse(responseCode = "400",
                     description = "No se han introducido correctamente los datos de aportacion",
@@ -246,6 +215,44 @@ public class AportacionController {
 
 
 
+    }
+    @Operation(summary = "Este método busca una aportacion por su id y la muestra junto con un listado de sus detalles")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado correctamente la aportacion",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = AportacionResponse.class)),
+                            examples = @ExampleObject(value = """
+                                    {
+                                        "id": 3,
+                                        "claseId": 3,
+                                        "fecha": "2022-12-21",
+                                        "detallesAportacion": [
+                                            {
+                                                "numLinea": 1,
+                                                "tipoAlimento": "cerveza",
+                                                "kilos": 2.0
+                                            },
+                                            {
+                                                "numLinea": 2,
+                                                "tipoAlimento": "cerveza",
+                                                "kilos": 3.0
+                                            }
+                                        ]
+                                    }
+                                    """)) }),
+            @ApiResponse(responseCode = "404",
+                    description = "No se han podido encontrar correctamente los datos de aportacion",
+                    content = @Content),
+    })
+    @GetMapping("/{id}")
+    ResponseEntity<AportacionResponse> getById(@PathVariable Long id){
+        if (aportacionService.findById(id).isEmpty())
+            return ResponseEntity.notFound().build();
+        else
+            return ResponseEntity
+                    .ok()
+                    .body(AportacionResponse.of(aportacionService.findById(id).get()));
     }
 
 }
