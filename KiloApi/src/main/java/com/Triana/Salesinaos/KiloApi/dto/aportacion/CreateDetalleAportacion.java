@@ -5,7 +5,4 @@ import lombok.*;
 
 @Builder
 public record CreateDetalleAportacion(Long tipoAlimentoId, double kilos){
-
-
-
 }

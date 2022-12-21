@@ -1,6 +1,5 @@
 package com.Triana.Salesinaos.KiloApi.dto.tipoAlimento;
 
-import com.Triana.Salesinaos.KiloApi.model.KilosDisponibles;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
