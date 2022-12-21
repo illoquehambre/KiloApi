@@ -299,35 +299,35 @@ public class AportacionController {
 
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteAportacion(@PathVariable Long id){
-        if(aportacionService.findById(id).isPresent()){
-            Aportacion aportacion=aportacionService.findById(id).get();
-            if(aportacionService.findById(id).get().getDetalleAportacionList().isEmpty())
+    public ResponseEntity<?> deleteAportacion(@PathVariable Long id) {
+        if (aportacionService.findById(id).isPresent()) {
+            Aportacion aportacion = aportacionService.findById(id).get();
+            if (aportacionService.findById(id).get().getDetalleAportacionList().isEmpty())
                 aportacionService.deleteById(id);
             else {
                 //itera todos sus detalles aportacion
                 //se debe usar iterator paa crear una lista copia auxiliar
 
                 //comprueba si los kilos aportados son menores o iguales a los kilos disponibles de ese tipo
-                    //Si: Resta los kilos a kilos disponibles y elimina el detalle
-                    //No: No lo elimina
+                //Si: Resta los kilos a kilos disponibles y elimina el detalle
+                //No: No lo elimina
                 //Comprueba si el listado esta vacio, si es asi elimina la aportacion
-                Iterator<DetalleAportacion> aux= aportacion.getDetalleAportacionList().iterator();
-                while(aux.hasNext()){
-                    DetalleAportacion detalle= aux.next();
-                    TipoAlimento tipoAlimento=tipoAlimentoService.findById(detalle.getTipoAlimento().getId()).get();
-                    double cantidadDisponible=tipoAlimento.getKilosDisponibles().getCantidadDisponible();
-                    if(detalle.getCantidadEnKilos()<=cantidadDisponible)
-                        tipoAlimento.getKilosDisponibles().setCantidadDisponible(cantidadDisponible-detalle.getCantidadEnKilos());
-                        aux.remove();
+                Iterator<DetalleAportacion> aux = aportacion.getDetalleAportacionList().iterator();
+                while (aux.hasNext()) {
+                    DetalleAportacion detalle = aux.next();
+                    TipoAlimento tipoAlimento = tipoAlimentoService.findById(detalle.getTipoAlimento().getId()).get();
+                    double cantidadDisponible = tipoAlimento.getKilosDisponibles().getCantidadDisponible();
+                    if (detalle.getCantidadEnKilos() <= cantidadDisponible)
+                        tipoAlimento.getKilosDisponibles().setCantidadDisponible(cantidadDisponible - detalle.getCantidadEnKilos());
+                    aux.remove();
                 }
-                if(aportacion.getDetalleAportacionList().isEmpty())
+                if (aportacion.getDetalleAportacionList().isEmpty())
                     aportacionService.deleteById(id);
             }
         }
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-
+    }
     @Operation(summary = "Este método elimina un detalle de una aportación si encuentra la aportación por el id y " +
             "puede borrar sus detalles")
     @ApiResponses(value = {
