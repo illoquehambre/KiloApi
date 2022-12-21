@@ -5,8 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Table;
+import java.io.Serial;
 import java.io.Serializable;
 
 
@@ -15,11 +16,12 @@ import java.io.Serializable;
 @NoArgsConstructor @AllArgsConstructor
 public class TienePK implements Serializable {
 
-    //private static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-    //@Column(insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false)
     private Long tipoAlimento_id;
 
-    //@Column(insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false)
     private Long caja_id;
 }
