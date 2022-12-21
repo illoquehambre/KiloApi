@@ -163,7 +163,7 @@ public class CajaController {
     }
 
 
-    @DeleteMapping("/caja/{id}/tipo /{idTipoAlim}")
+    @DeleteMapping("/caja/{id}/tipo/{idTipoAlim}")
     public ResponseEntity<?> deleteTipoAlimentoCaja(@PathVariable Long id, @PathVariable Long idTipoAlimento){
         Optional<Caja> caja = cajaService.findById(id);
         Optional<TipoAlimento> tipoAlimento = tipoAlimentoService.findById(idTipoAlimento);
