@@ -136,5 +136,7 @@ public class AportacionService {
         return mapClassKilos;
     }
 
-
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
 }
