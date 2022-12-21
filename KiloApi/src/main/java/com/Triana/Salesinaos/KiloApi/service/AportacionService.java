@@ -94,7 +94,7 @@ public class AportacionService {
     public AportacionListResponse toAportacionListReponse (Aportacion aportacion){
         return AportacionListResponse.builder()
                 .fecha(aportacion.getFecha())
-                .nombreClase(aportacion.getClase().getNombre())
+                .nombreClase(aportacion.getClase() != null ? aportacion.getClase().getNombre() : null)
                 .kilosTotales(this.sumKilosByAportacion(aportacion.getId()))
                 .build();
     }
