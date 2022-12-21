@@ -7,12 +7,12 @@ import lombok.Builder;
 
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public record TipoAlimentoDto (Long id, String nombre, KilosDisponibles kilosDisponibles) {
+public record TipoAlimentoDto (Long id, String nombre, double kilosDisponibles) {
     public static TipoAlimentoDto of(TipoAlimento tipoAlimento){
         return TipoAlimentoDto.builder()
                 .id(tipoAlimento.getId())
                 .nombre(tipoAlimento.getNombre())
-                .kilosDisponibles(tipoAlimento.getKilosDisponibles())
+                .kilosDisponibles(tipoAlimento.getKilosDisponibles()==null?0:tipoAlimento.getKilosDisponibles().getCantidadDisponible())
                 .build();
     }
 }

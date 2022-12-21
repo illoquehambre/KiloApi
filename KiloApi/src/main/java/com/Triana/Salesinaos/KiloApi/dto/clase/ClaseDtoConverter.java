@@ -21,7 +21,7 @@ public class ClaseDtoConverter {
                 .nombre(c.getNombre())
                 .tutor(c.getTutor())
                 .numAportaciones(c.getListadoAportaciones().size())
-                .kilosTotales(service.countKgs())
+                .kilosTotales(service.countKgs(c.getId()))
                 .build();
     }
 }

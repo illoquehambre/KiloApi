@@ -2,6 +2,7 @@ package com.Triana.Salesinaos.KiloApi.controller;
 
 import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoDto;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
+import com.Triana.Salesinaos.KiloApi.service.AportacionService;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,6 +31,7 @@ import java.util.List;
 public class TipoAlimentoController {
 
     private final TipoAlimentoService tipoAlimentoService;
+    private final AportacionService aportacionService;
 
 
     @Operation(summary = "Este método lista todos tipos de alimentos")
@@ -40,30 +42,16 @@ public class TipoAlimentoController {
                             array = @ArraySchema(schema = @Schema(implementation = TipoAlimento.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                               [
+                                            [
                                                 {
                                                     "id": 1,
-                                                    "nombre": "Patatas"
+                                                    "nombre": "cerveza",
+                                                    "kilosDisponibles": 7.0
                                                 },
                                                 {
-                                                    "id": 2,
-                                                    "nombre": "Arroz"
-                                                },
-                                                {
-                                                    "id": 7,
-                                                    "nombre": "Banana"
-                                                },
-                                                {
-                                                    "id": 8,
-                                                    "nombre": "Pizza"
-                                                },
-                                                {
-                                                    "id": 9,
-                                                    "nombre": "Botella Cocacola"
-                                                },
-                                                {
-                                                    "id": 10,
-                                                    "nombre": "Mejillones"
+                                                    "id": 4,
+                                                    "nombre": "patatas",
+                                                    "kilosDisponibles": 0.0
                                                 }
                                             ]
                                             """
@@ -94,16 +82,11 @@ public class TipoAlimentoController {
                             array = @ArraySchema(schema = @Schema(implementation = TipoAlimentoDto.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                            [
-                                                {
-                                                    "id": 1,
-                                                    "nombre": "Mejillones",
-                                                    "kilosDisponibles": {
-                                                        "id": 1,
-                                                        "cantidadDisponible": 8.0
-                                                    }
-                                                }
-                                            ]
+                                            {
+                                                "id": 1,
+                                                "nombre": "cerveza",
+                                                "kilosDisponibles": 7.0
+                                            }
                                             """
                             )}
                     )}),
@@ -131,11 +114,11 @@ public class TipoAlimentoController {
                             array = @ArraySchema(schema = @Schema(implementation = TipoAlimento.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                            [
-                                                {"id": 1, "nombre": "Pasta"},
-                                                {"id": 2, "nombre": "Aceite"},
-                                                {"id": 3, "nombre": "Arroz"}
-                                            ]
+                                            {
+                                                    "id": 1,
+                                                    "nombre": "cerveza",
+                                                    "kilosDisponibles": 0.0
+                                                }
                                             """
                             )}
                     )}),
@@ -161,16 +144,11 @@ public class TipoAlimentoController {
                             array = @ArraySchema(schema = @Schema(implementation = TipoAlimentoDto.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                            [
-                                                {
-                                                    "id": 1,
-                                                    "nombre": "Atún en manteca",
-                                                    "kilosDisponibles": {
-                                                        "id": 1,
-                                                        "cantidadDisponible": 8.0
-                                                    }
-                                                }
-                                            ]
+                                            {
+                                                "id": 1,
+                                                "nombre": "aceitunas",
+                                                "kilosDisponibles": 7.0
+                                            }
                                             """
                             )}
                     )}),
@@ -207,9 +185,8 @@ public class TipoAlimentoController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<TipoAlimento> deleteTipoAlimento(@PathVariable Long id){
-        if(tipoAlimentoService.existById(id))
+        if(tipoAlimentoService.existById(id)&& aportacionService.findByTipoAlimentoId(id).isEmpty())
             tipoAlimentoService.deleteById(id);
-        //
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

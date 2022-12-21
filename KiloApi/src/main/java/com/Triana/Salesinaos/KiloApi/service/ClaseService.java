@@ -15,7 +15,7 @@ public class ClaseService {
     private final ClaseRepository repository;
     public List<Clase> findAll(){return repository.findAll();}
     public Optional<Clase> findById(Long id){return repository.findById(id);}
-    public double countKgs(){return repository.sumCantidadEnkilos();}
+    public double countKgs(Long id){return repository.sumCantidadEnkilos(id);}
 
     public Boolean existById(Long id ){
         return repository.existsById(id );

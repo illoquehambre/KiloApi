@@ -104,6 +104,9 @@ public class ClaseController {
             @ApiResponse(responseCode = "404",
                     description = "No se ha encontrado ninguna clase",
                     content = @Content),
+            @ApiResponse(responseCode = "400",
+                    description = "No existen aportaciones realizadas por esta clase",
+                    content = @Content),
     })
     @GetMapping("/{id}")
     public ResponseEntity<ClaseResponse> getClaseById(@PathVariable Long id){
