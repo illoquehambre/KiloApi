@@ -90,7 +90,7 @@ public class AportacionController {
 
 
     @Operation(summary = "Este método lista una lista de pares de tipo de alimento y kilos de una aportación " +
-            "y su fecha si la localiza por el id de la clase")
+            "y su fecha si la localiza por el id de la clase y si, además, esa clase tiene aportaciones")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Se han encontrado la aportación de la clase que buscaba",
@@ -128,7 +128,7 @@ public class AportacionController {
 
         Optional<Clase> c = claseService.findById(id);
 
-        if (c.isEmpty() || id == null)
+        if (c.isEmpty() || id == null || c.get().getListadoAportaciones().isEmpty())
             return ResponseEntity.notFound().build();
         else
             return ResponseEntity.ok().body(aportacionService.toAportacionClassPairDtoList(c.get()));
