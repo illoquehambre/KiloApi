@@ -28,7 +28,9 @@ public class AportacionService {
     public Aportacion add(Aportacion aportacion) {
         return repository.save(aportacion);
     }
-
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
     public List<DetalleAportacion> findByTipoAlimentoId(Long id) { return repository.findByTipoAlimento(id); }
     /*
     public String findNombreClaseById(Long id) {
@@ -70,11 +72,6 @@ public class AportacionService {
                         kilosDisponiblesService.add(k);
                     }
 
-
-
-
-
-
                     detalleAportacionesList.add(aportacion.addDetalleAportacion(
                             DetalleAportacion.builder()
 
@@ -94,7 +91,7 @@ public class AportacionService {
     public AportacionListResponse toAportacionListReponse (Aportacion aportacion){
         return AportacionListResponse.builder()
                 .fecha(aportacion.getFecha())
-                .nombreClase(aportacion.getClase().getNombre())
+                .nombreClase(aportacion.getClase() != null ? aportacion.getClase().getNombre() : null)
                 .kilosTotales(this.sumKilosByAportacion(aportacion.getId()))
                 .build();
     }

@@ -39,7 +39,7 @@ public class TipoAlimentoController {
             @ApiResponse(responseCode = "200",
                     description = "Se han encontrado al menos un tipo de alimento",
                     content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = TipoAlimento.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = TipoAlimentoDto.class)),
                             examples = {@ExampleObject(
                                     value = """
                                             [
@@ -96,7 +96,7 @@ public class TipoAlimentoController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<TipoAlimentoDto> getOneTipoAlimento (
-            @Parameter(description = "Id del tipo de alimento que se quiere encontrar")
+            @Parameter(description = "Id del tipo de alimento que se quiere encontrar", name = "id", required = true)
             @PathVariable Long id){
         if (tipoAlimentoService.findById(id).isEmpty() || id == null)
             return ResponseEntity.notFound().build();
@@ -158,7 +158,7 @@ public class TipoAlimentoController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<TipoAlimentoDto> editTipoAlimento(
-            @Parameter(description = "Id del tipo de alimento que se quiera editar")
+            @Parameter(description = "Id del tipo de alimento que se quiera editar", name = "id", required = true)
             @RequestBody TipoAlimentoDto tipoAlimentoDtoRequest,
             @PathVariable Long id) {
         if(tipoAlimentoService.existById(id) && !tipoAlimentoDtoRequest.nombre().isBlank()) {
@@ -184,7 +184,7 @@ public class TipoAlimentoController {
 
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<TipoAlimento> deleteTipoAlimento(@PathVariable Long id){
+    public ResponseEntity<?> deleteTipoAlimento(@PathVariable Long id){
         if(tipoAlimentoService.existById(id)&& aportacionService.findByTipoAlimentoId(id).isEmpty())
             tipoAlimentoService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
