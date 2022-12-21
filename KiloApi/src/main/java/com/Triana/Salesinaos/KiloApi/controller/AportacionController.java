@@ -1,15 +1,20 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
+import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionClassPairDto;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionListResponse;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionResponse;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateAportacion;
 import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
 import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoDto;
+import com.Triana.Salesinaos.KiloApi.model.Aportacion;
+import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.service.AportacionService;
+import com.Triana.Salesinaos.KiloApi.service.ClaseService;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
@@ -36,7 +42,7 @@ public class AportacionController {
 
     private final AportacionService aportacionService;
     private final TipoAlimentoService tipoAlimentoService;
-
+    private final ClaseService claseService;
 
     @Operation(summary = "Este método lista todas las aportaciones")
     @ApiResponses(value = {
@@ -93,6 +99,54 @@ public class AportacionController {
                     .ok(aportacionListResponseList);
         }
     }
+
+
+
+    @Operation(summary = "Este método lista una lista de pares de tipo de alimento y kilos de una aportación " +
+            "y su fecha si la localiza por su id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se han encontrado lo que buscaba",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = AportacionClassPairDto.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                            [
+                                                {
+                                                    "fecha": "2022-12-21",
+                                                    "listaDePares": {
+                                                        "macarrones": 3.0,
+                                                        "pasta": 2.0
+                                                    }
+                                                },
+                                                {
+                                                    "fecha": "2022-12-21",
+                                                    "listaDePares": {
+                                                        "macarrones": 3.0,
+                                                        "pasta": 2.0
+                                                    }
+                                                }
+                                            ]
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado nada con ese id",
+                    content = @Content),
+    })
+    @GetMapping("/clase/{id}")
+    public ResponseEntity <List<AportacionClassPairDto>> getOneTipoAlimento (
+            @Parameter(description = "Id de la clase de la que se quiere consultar la aportación")
+            @PathVariable Long id) {
+
+        Optional<Clase> c = claseService.findById(id);
+        if (c.isEmpty() || id == null)
+            return ResponseEntity.notFound().build();
+        else{
+            return ResponseEntity.ok().body(aportacionService.toAportacionClassPairDtoList(c.get()));
+        }
+    }
+
 
     @Operation(summary = "Este método crea una nueva aportacion y sus detalles de aportacion pertinentes")
     @ApiResponses(value = {

@@ -4,7 +4,7 @@ import com.Triana.Salesinaos.KiloApi.model.KilosDisponibles;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
-/***HECHO POR ROGE PERO HE TENIDO QUE MODIFICARLO POR CONFLICTO**/
+
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record TipoAlimentoDto (Long id, String nombre, KilosDisponibles kilosDisponibles) {

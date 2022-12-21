@@ -1,5 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.service;
 
+import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionClassPairDto;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionListResponse;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateAportacion;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateDetalleAportacion;
@@ -14,10 +15,7 @@ import com.Triana.Salesinaos.KiloApi.repository.KilosDisponiblesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -106,6 +104,39 @@ public class AportacionService {
     public List<Aportacion> findAll (){
         return repository.findAll();
     }
+
+
+    public List<AportacionClassPairDto> toAportacionClassPairDtoList (Clase c) {
+
+        List <AportacionClassPairDto> auxiliar = new ArrayList<>();
+
+        c.getListadoAportaciones().forEach(aportacion -> {
+            auxiliar.add(
+            AportacionClassPairDto.builder()
+                    .fecha(aportacion.getFecha())
+                    .listaDePares(this.createPairList(aportacion))
+                    .build()
+            );
+        });
+
+        return auxiliar;
+    }
+
+
+
+    public Map<String, Double> createPairList (Aportacion aportacion) {
+        Clase c = null;
+        String nombre;
+        Map<String, Double> mapClassKilos = new TreeMap<>();
+        List<Aportacion> aportacionList = new ArrayList<>();
+
+        aportacion.getDetalleAportacionList().forEach(detalleAportacion-> {
+            mapClassKilos.put(detalleAportacion.getTipoAlimento().getNombre(), detalleAportacion.getCantidadEnKilos());
+        });
+
+        return mapClassKilos;
+    }
+
 
 
 }

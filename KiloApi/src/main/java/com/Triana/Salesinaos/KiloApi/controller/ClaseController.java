@@ -83,8 +83,6 @@ public class ClaseController {
                     .ok()
                     .body(data);
         }
-
-        // Retocar este get cambiar el response entity y probablemente el .body()
     }
 
 
@@ -182,10 +180,6 @@ public class ClaseController {
                         })
                         .orElse(Optional.empty())
         );
-
-
-
-        // Falta gestionar el Bad REquest
     }
 
     @Operation(summary = "Este método elimina una clase localizada por su id")

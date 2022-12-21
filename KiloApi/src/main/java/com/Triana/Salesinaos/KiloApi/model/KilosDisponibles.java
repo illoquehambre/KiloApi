@@ -21,8 +21,7 @@ public class KilosDisponibles{
 
     private double cantidadDisponible;
     @JsonIgnore
-    @MapsId
-    @OneToOne
-    @JoinColumn(name = "tipo_alimento_id", foreignKey = @ForeignKey(name = "FK_KILOSDISPONIBLES_KILOALIMENTO"))
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tipo_alimento_id", nullable = false, foreignKey = @ForeignKey(name = "FK_KILOSDISPONIBLES_KILOALIMENTO"))
     private TipoAlimento tipoAlimento;
 }

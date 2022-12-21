@@ -35,7 +35,7 @@ public class MainMentira {
         kilosDisponiblesService.add(k);
 
     }
-/*
+
         TipoAlimento t1 = TipoAlimento.builder()
                 .nombre("Patatas")
                 .build();

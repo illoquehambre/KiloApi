@@ -14,6 +14,9 @@ import java.util.List;
 
 @Builder
 public record AportacionResponse(Long id,Long claseId,LocalDate fecha, List<DetalleAportacion> detallesAportacion) {
+
+    // preguntar a luismi sobre detallesAportacion o detallesAportacionDTO
+
     public static AportacionResponse of(Aportacion aportacion){
         return AportacionResponse.builder()
                 .id(aportacion.getId())
