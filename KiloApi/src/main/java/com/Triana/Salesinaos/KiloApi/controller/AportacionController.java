@@ -172,10 +172,12 @@ public class AportacionController {
     public ResponseEntity<AportacionResponse> createAportcion(@RequestBody CreateAportacion create){
         AtomicReference<Boolean> comprobarId= new AtomicReference<>(true);
         create.listadoDetallesAportacion().forEach(createDetalleAportacion -> {
-            if ((createDetalleAportacion.kilos()<=0 || createDetalleAportacion.tipoAlimentoId()==null || !(tipoAlimentoService.existById(createDetalleAportacion.tipoAlimentoId()))))
+            if ((createDetalleAportacion.kilos()<=0 || createDetalleAportacion.tipoAlimentoId()==null
+                    || !(tipoAlimentoService.existById(createDetalleAportacion.tipoAlimentoId()))))
                 comprobarId.set(false);
         });
-        if(!(create.claseId()==null || claseService.findById(create.claseId()).isEmpty() || create.listadoDetallesAportacion().isEmpty() || !comprobarId.get()))
+        if(!(create.claseId()==null || claseService.findById(create.claseId()).isEmpty()
+                || create.listadoDetallesAportacion().isEmpty() || !comprobarId.get()))
 
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(AportacionResponse.of(aportacionService.add(aportacionService.toAportacion(create))));
@@ -213,12 +215,16 @@ public class AportacionController {
                     content = @Content),
     })
     @PutMapping("/{id}/linea/{num}/kg/{numKg}")
-    public ResponseEntity<AportacionResponse> updateAportacion(@PathVariable Long id, @PathVariable int num, @PathVariable double numKg){
+    public ResponseEntity<AportacionResponse> updateAportacion(@PathVariable Long id,
+                                                               @PathVariable int num,
+                                                               @PathVariable double numKg){
         AtomicReference<Boolean> bad= new AtomicReference<>(false);
         AtomicReference<Boolean> encontrado= new AtomicReference<>(false);
 
-        if (aportacionService.findById(id).isPresent() ){
-            aportacionService.findById(id).get().getDetalleAportacionList().forEach(detalle->{
+        Optional<Aportacion> aportacion = aportacionService.findById(id);
+
+        if (aportacion.isPresent() ){
+            aportacion.get().getDetalleAportacionList().forEach(detalle->{
 
                 if(detalle.getId().getNumLinea()==num && !encontrado.get()){
                     if(numKg<detalle.getCantidadEnKilos()){
@@ -241,7 +247,7 @@ public class AportacionController {
             bad.set(true);
 
         if(!bad.get())
-            return ResponseEntity.ok(AportacionResponse.of(aportacionService.add(aportacionService.findById(id).get())));
+            return ResponseEntity.ok(AportacionResponse.of(aportacionService.add(aportacion.get())));
         else
             return ResponseEntity.badRequest().build();
 
@@ -280,7 +286,9 @@ public class AportacionController {
                     content = @Content),
     })
     @GetMapping("/{id}")
-    ResponseEntity<AportacionResponse> getById(@PathVariable Long id){
+    ResponseEntity<AportacionResponse> getById(
+            @Parameter(description = "Id de la aportación de la que quiere encontrar", name = "id", required = true)
+            @PathVariable Long id){
         if (aportacionService.findById(id).isEmpty())
             return ResponseEntity.notFound().build();
         else
@@ -299,7 +307,9 @@ public class AportacionController {
 
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteAportacion(@PathVariable Long id) {
+    public ResponseEntity<?> deleteAportacion(
+            @Parameter(description = "Id de la aportación de la que quiere borrar", name = "id", required = true)
+            @PathVariable Long id) {
         if (aportacionService.findById(id).isPresent()) {
             Aportacion aportacion = aportacionService.findById(id).get();
             if (aportacionService.findById(id).get().getDetalleAportacionList().isEmpty())
