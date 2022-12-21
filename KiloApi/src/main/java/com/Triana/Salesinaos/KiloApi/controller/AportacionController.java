@@ -130,7 +130,7 @@ public class AportacionController {
     public ResponseEntity<AportacionResponse> createAportcion(@RequestBody CreateAportacion create){
         AtomicReference<Boolean> comprobarId= new AtomicReference<>(true);
         create.listadoDetallesAportacion().forEach(createDetalleAportacion -> {
-            if ((createDetalleAportacion.tipoAlimentoId()==null || !(tipoAlimentoService.existById(createDetalleAportacion.tipoAlimentoId()))))
+            if ((createDetalleAportacion.kilos()<=0 || createDetalleAportacion.tipoAlimentoId()==null || !(tipoAlimentoService.existById(createDetalleAportacion.tipoAlimentoId()))))
                 comprobarId.set(false);
         });
         if(!(create.claseId()==null || claseService.findById(create.claseId()).isEmpty() || create.listadoDetallesAportacion().isEmpty() || !comprobarId.get()))
@@ -174,13 +174,11 @@ public class AportacionController {
     public ResponseEntity<AportacionResponse> updateAportacion(@PathVariable Long id, @PathVariable int num, @PathVariable double numKg){
         AtomicReference<Boolean> bad= new AtomicReference<>(false);
         AtomicReference<Boolean> encontrado= new AtomicReference<>(false);
-      //Este put no tiene cuerpo de peticion
-        //Solo modifica los kg de un detalle aportacion
-        //se comprueba que es viable con los kilos disponibles y siu no lanza bad request
+
         if (aportacionService.findById(id).isPresent() ){
             aportacionService.findById(id).get().getDetalleAportacionList().forEach(detalle->{
 
-                if(detalle.getId().getNumLinea()==num && !encontrado.get()){//se comprueba que existe el detalle aportacion ene la aportacion y que la cantidad de kilos disponibles a modificar sea valida
+                if(detalle.getId().getNumLinea()==num && !encontrado.get()){
                     if(numKg<detalle.getCantidadEnKilos()){
                         if((kilosDisponiblesService.findById(detalle.getTipoAlimento().getId()).get().getCantidadDisponible()+(numKg-detalle.getCantidadEnKilos())>=0)){
                             tipoAlimentoService.findById(detalle.getTipoAlimento().getId()).get()

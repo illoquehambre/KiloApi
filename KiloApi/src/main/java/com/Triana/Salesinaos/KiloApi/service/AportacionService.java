@@ -31,7 +31,7 @@ public class AportacionService {
         return repository.save(aportacion);
     }
 
-
+    public List<DetalleAportacion> findByTipoAlimentoId(Long id) { return repository.findByTipoAlimento(id); }
     /*
     public String findNombreClaseById(Long id) {
         return claseService.findById(id).get().getNombre();
