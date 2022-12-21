@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface AportacionRepository extends JpaRepository<Aportacion, Long> {
-    Optional<DetalleAportacion> findFirstDetalleAportacionById(Long id);
+    Optional<DetalleAportacion> findFirstDetalleAportacionById(int id);
 
     @Query(value="select sum(d.cantidadEnKilos) from Aportacion a left join a.detalleAportacionList d where a.id = :id")
     double sumaKilosAportacion(@Param("id") Long id);
