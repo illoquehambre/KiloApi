@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
@@ -74,6 +73,7 @@ public class AportacionController {
     })
     @GetMapping("/")
     public ResponseEntity <List<AportacionListResponse>> findAll() {
+
         List<AportacionListResponse> aportacionListResponseList = new ArrayList<>();
 
         aportacionService.findAll().forEach(aportacion -> {
@@ -232,16 +232,10 @@ public class AportacionController {
                         tipoAlimentoService.findById(detalle.getTipoAlimento().getId()).get()
                                 .addKilosToTipoAlimento(kilosDisponiblesService.findById(detalle.getTipoAlimento().getId()).get(), (numKg-detalle.getCantidadEnKilos()));
                         detalle.setCantidadEnKilos(numKg);
-                        kilosDisponiblesService.add(kilosDisponiblesService.findById(detalle.getTipoAlimento().getId()).get());
-                    }
-
+                        kilosDisponiblesService.add(kilosDisponiblesService.findById(detalle.getTipoAlimento().getId()).get());                    }
                 }else if(encontrado.get())
                     bad.set(true);
-
-
             });
-
-
         }else
             bad.set(true);
 
@@ -294,7 +288,45 @@ public class AportacionController {
                     .body(AportacionResponse.of(aportacionService.findById(id).get()));
     }
 
+    @Operation(summary = "Elimina un tipo de aportacion junto con todos sus detalles de aportacion ")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Aportacion eliminada",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = TipoAlimento.class))
+                    )}),
 
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteAportacion(@PathVariable Long id) {
+        if (aportacionService.findById(id).isPresent()) {
+            Aportacion aportacion = aportacionService.findById(id).get();
+            if (aportacionService.findById(id).get().getDetalleAportacionList().isEmpty())
+                aportacionService.deleteById(id);
+            else {
+                //itera todos sus detalles aportacion
+                //se debe usar iterator paa crear una lista copia auxiliar
+
+                //comprueba si los kilos aportados son menores o iguales a los kilos disponibles de ese tipo
+                //Si: Resta los kilos a kilos disponibles y elimina el detalle
+                //No: No lo elimina
+                //Comprueba si el listado esta vacio, si es asi elimina la aportacion
+                Iterator<DetalleAportacion> aux = aportacion.getDetalleAportacionList().iterator();
+                while (aux.hasNext()) {
+                    DetalleAportacion detalle = aux.next();
+                    TipoAlimento tipoAlimento = tipoAlimentoService.findById(detalle.getTipoAlimento().getId()).get();
+                    double cantidadDisponible = tipoAlimento.getKilosDisponibles().getCantidadDisponible();
+                    if (detalle.getCantidadEnKilos() <= cantidadDisponible)
+                        tipoAlimento.getKilosDisponibles().setCantidadDisponible(cantidadDisponible - detalle.getCantidadEnKilos());
+                    aux.remove();
+                }
+                if (aportacion.getDetalleAportacionList().isEmpty())
+                    aportacionService.deleteById(id);
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
     @Operation(summary = "Este método elimina un detalle de una aportación si encuentra la aportación por el id y " +
             "puede borrar sus detalles")
     @ApiResponses(value = {

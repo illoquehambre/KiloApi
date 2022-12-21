@@ -5,8 +5,6 @@ import lombok.Builder;
 
 @Builder
 public record ClaseDto (Long id, String nombre, String tutor){
-
-
     public static ClaseDto of(Clase clase){
         return ClaseDto.builder()
                 .id(clase.getId())

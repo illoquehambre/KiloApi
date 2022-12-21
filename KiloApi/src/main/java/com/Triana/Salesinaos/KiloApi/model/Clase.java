@@ -29,7 +29,9 @@ public class Clase {
     @OneToMany(mappedBy = "clase", cascade = CascadeType.ALL)
     private List<Aportacion> listadoAportaciones = new ArrayList<>();
     @PreRemove
+
     public void preRemoveClase() {
+
         listadoAportaciones.forEach(aport -> aport.setClase(null));
         this.setListadoAportaciones(null);
      }

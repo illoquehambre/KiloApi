@@ -184,7 +184,7 @@ public class TipoAlimentoController {
 
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<TipoAlimento> deleteTipoAlimento(@PathVariable Long id){
+    public ResponseEntity<?> deleteTipoAlimento(@PathVariable Long id){
         if(tipoAlimentoService.existById(id)&& aportacionService.findByTipoAlimentoId(id).isEmpty())
             tipoAlimentoService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

@@ -19,7 +19,7 @@ public record AportacionResponse(Long id,Long claseId,LocalDate fecha, List<Deta
         });
         return AportacionResponse.builder()
                 .id(aportacion.getId())
-                .claseId(aportacion.getId())
+                .claseId(aportacion.getClase()!=null?aportacion.getClase().getId():null)
                 .detallesAportacion(detallesResponse)
                 .fecha(aportacion.getFecha())
                 .build();

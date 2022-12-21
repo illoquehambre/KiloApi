@@ -28,7 +28,9 @@ public class AportacionService {
     public Aportacion add(Aportacion aportacion) {
         return repository.save(aportacion);
     }
-
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
     public List<DetalleAportacion> findByTipoAlimentoId(Long id) { return repository.findByTipoAlimento(id); }
     /*
     public String findNombreClaseById(Long id) {
@@ -69,11 +71,6 @@ public class AportacionService {
                         tipoAlimentoService.add(tipoAlimentoService.findById(detalle.tipoAlimentoId()).get());
                         kilosDisponiblesService.add(k);
                     }
-
-
-
-
-
 
                     detalleAportacionesList.add(aportacion.addDetalleAportacion(
                             DetalleAportacion.builder()
@@ -136,7 +133,4 @@ public class AportacionService {
         return mapClassKilos;
     }
 
-    public void deleteById(Long id) {
-        repository.deleteById(id);
-    }
 }
