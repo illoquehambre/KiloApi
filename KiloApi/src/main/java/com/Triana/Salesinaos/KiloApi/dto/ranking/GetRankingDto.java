@@ -12,6 +12,7 @@ public class GetRankingDto {
     private String nombre;
     private double cantidadKg;
     private double media;
+    private long numAportaciones;
 
 
 
