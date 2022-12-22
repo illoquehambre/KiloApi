@@ -23,6 +23,7 @@ public class MainMentira {
     /**
      * CREADO MAYLOR
      **/
+    /*
     @PostConstruct
     public void init() {
 
@@ -57,7 +58,7 @@ public class MainMentira {
                 .cantidadDisponible(9)
                 .build();
 
-        tipoAlimentoService.save(t1);
+        tipoAlimentoService.add(t1);
         tipoAlimentoService.save(t2);
 
         t1.addKilosToTipoAlimento(k);

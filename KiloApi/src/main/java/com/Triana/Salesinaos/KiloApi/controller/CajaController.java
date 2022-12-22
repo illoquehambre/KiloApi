@@ -152,7 +152,7 @@ public class CajaController {
                     return ResponseEntity
                             .status(HttpStatus.OK)
                             .body(cajaDtoConverter
-                                    .CreateCajaToCajaResponsePost(caja.get(), tiene.get()));
+                                    .CreateCajaToCajaResponsePost(caja.get()));
                 }
                 if (cantidad < 0 && tipoAlimento.get().getKilosDisponibles().getCantidadDisponible()>=cantidad){
                     caja.get().setKilosTotales(caja.get().getKilosTotales() + cantidad);
@@ -164,7 +164,7 @@ public class CajaController {
                     return ResponseEntity
                             .status(HttpStatus.OK)
                             .body(cajaDtoConverter
-                                    .CreateCajaToCajaResponsePost(caja.get(), tiene.get()));
+                                    .CreateCajaToCajaResponsePost(caja.get()));
                 }
                 if (cantidad==0){
                     tipoAlimentoService.deleteById(IdTipoAlimento);

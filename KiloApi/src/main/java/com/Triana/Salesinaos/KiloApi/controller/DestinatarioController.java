@@ -1,9 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
-import com.Triana.Salesinaos.KiloApi.dto.DestinatarioDetalleResponse;
-import com.Triana.Salesinaos.KiloApi.dto.DestinatarioDtoConverter;
-import com.Triana.Salesinaos.KiloApi.dto.DestinatarioGetAll;
-import com.Triana.Salesinaos.KiloApi.dto.DestinatarioResponse;
+import com.Triana.Salesinaos.KiloApi.dto.destinatario.DestinatarioGetAll;
 import com.Triana.Salesinaos.KiloApi.dto.destinatario.DestinatarioDetalleResponse;
 import com.Triana.Salesinaos.KiloApi.dto.destinatario.DestinatarioDtoConverter;
 import com.Triana.Salesinaos.KiloApi.dto.destinatario.DestinatarioResponse;
