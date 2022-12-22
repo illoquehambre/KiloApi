@@ -1,12 +1,11 @@
 package com.Triana.Salesinaos.KiloApi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,12 +22,16 @@ public class Clase {
     private String nombre;
 
     private String tutor;
+
     @Builder.Default
     @OneToMany(mappedBy = "clase", cascade = CascadeType.ALL)
     private List<Aportacion> listadoAportaciones = new ArrayList<>();
     @PreRemove
+
     public void preRemoveClase() {
+
         listadoAportaciones.forEach(aport -> aport.setClase(null));
+        this.setListadoAportaciones(null);
      }
 
 

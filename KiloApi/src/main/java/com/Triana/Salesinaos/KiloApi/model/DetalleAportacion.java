@@ -1,5 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,10 +13,10 @@ import javax.persistence.*;
 @Entity
 public class DetalleAportacion {
 
-    @Builder.Default
-    @EmbeddedId
-    private DetalleAportacionPK id =  new DetalleAportacionPK();
 
+    @EmbeddedId
+    private DetalleAportacionPK id ;
+    @JsonIgnore
     @MapsId("aportacionId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "aportacion_id", foreignKey = @ForeignKey(name="FK_DETALLEAPORTACION_APORTACION"))

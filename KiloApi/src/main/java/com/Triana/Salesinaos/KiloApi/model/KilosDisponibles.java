@@ -1,9 +1,11 @@
 package com.Triana.Salesinaos.KiloApi.model;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,9 +15,16 @@ import java.io.Serializable;
 @Entity
 public class KilosDisponibles{
 
-    @Builder.Default
-    @EmbeddedId
-    private KilosAportacionPK id =  new KilosAportacionPK();
+
+    @Id
+    private Long id;
 
     private double cantidadDisponible;
+    @JsonIgnore
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tipo_alimento_id", nullable = false, foreignKey = @ForeignKey(name = "FK_KILOSDISPONIBLES_KILOALIMENTO"))
+    private TipoAlimento tipoAlimento;
 }
+
+

@@ -1,5 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.service;
 
+import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoDto;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.repository.TipoAlimentoRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,6 @@ public class TipoAlimentoService {
 
     public List<TipoAlimento> findAll() { return repository.findAll(); }
 
-
     public TipoAlimento add(TipoAlimento tipo) {
         return repository.save(tipo);
     }
@@ -31,7 +31,7 @@ public class TipoAlimentoService {
     public Optional<TipoAlimento> findByName(String name) {
         return repository.findFirstByNombre(name);
     }
-
+  
     public Optional<TipoAlimento> findById(Long id) {
         return repository.findById(id);
     }
@@ -40,6 +40,11 @@ public class TipoAlimentoService {
         return repository.save(oldTipoAlimento);
     }
 
-
+    public TipoAlimento toTipoAlimento(TipoAlimentoDto alimentoDto) {
+        return TipoAlimento.builder()
+                .id(alimentoDto.id())
+                .nombre(alimentoDto.nombre())
+                .build();
+    }
 
 }

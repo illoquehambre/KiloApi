@@ -1,6 +1,7 @@
 package com.Triana.Salesinaos.KiloApi.service;
 
-import com.Triana.Salesinaos.KiloApi.dto.ClaseDto;
+import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
+import com.Triana.Salesinaos.KiloApi.dto.ranking.GetRankingDto;
 import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.repository.ClaseRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +14,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ClaseService {
     private final ClaseRepository repository;
+
+    public List<GetRankingDto> getRanking(){return  repository.rankingClases();}
     public List<Clase> findAll(){return repository.findAll();}
     public Optional<Clase> findById(Long id){return repository.findById(id);}
-    public double countKgs(){return repository.sumCantidadEnkilos();}
-    public int cantidadAportaciones(){return  repository.numAportaciones();}
+    public double countKgs(Long id){return repository.sumCantidadEnkilos(id);}
+
     public Boolean existById(Long id ){
         return repository.existsById(id );
     }
@@ -40,10 +43,8 @@ public class ClaseService {
                 .build();
     }
 
-
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
-
 
 }

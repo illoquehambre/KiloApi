@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.io.Serial;
 import java.io.Serializable;
 
 @Embeddable
@@ -16,11 +17,12 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class DetalleAportacionPK implements Serializable {
 
-    //private static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-    //@Column(insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false)
     private Long aportacionId;
 
-    //@Column(insertable = false, updatable = false)
-    private Long numLinea;
+    @Column(insertable = false, updatable = false)
+    private int numLinea;
 }

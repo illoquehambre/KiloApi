@@ -1,10 +1,9 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
 
-import com.Triana.Salesinaos.KiloApi.dto.ClaseDto;
-import com.Triana.Salesinaos.KiloApi.dto.ClaseDtoConverter;
-import com.Triana.Salesinaos.KiloApi.dto.ClaseResponse;
-import com.Triana.Salesinaos.KiloApi.model.Clase;
+import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
+import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDtoConverter;
+import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseResponse;
 import com.Triana.Salesinaos.KiloApi.service.ClaseService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +33,6 @@ import java.util.Optional;
 public class ClaseController {
 
     private final ClaseService claseService;
-    private final ClaseService service;
     private final ClaseDtoConverter converter;
 
 
@@ -43,23 +42,21 @@ public class ClaseController {
             @ApiResponse(responseCode = "200",
                     description = "Se han encontrado clases",
                     content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = Clase.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = ClaseDto.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                                [
-                                                    {
-                                                        "id": 1,
-                                                        "nombre": "2ºDAM",
-                                                        "tutor": "Luismi",
-                                                        "listadoAportaciones": []
-                                                    },
-                                                    {
-                                                        "id": 2,
-                                                        "nombre": "1ºDAM",
-                                                        "tutor": "Eduardo",
-                                                        "listadoAportaciones": []
-                                                    }
-                                                ]
+                                            [
+                                                {
+                                                    "id": 1,
+                                                    "nombre": "2ºDam",
+                                                    "tutor": "Luismi"
+                                                },
+                                                {
+                                                    "id": 2,
+                                                    "nombre": "1ºDam",
+                                                    "tutor": "Eduardo"
+                                                }
+                                            ]
                                             """
                             )}
                     )}),
@@ -68,8 +65,12 @@ public class ClaseController {
                     content = @Content),
     })
     @GetMapping("/")
-    public ResponseEntity<List<Clase>> getAllclases(){
-    List<Clase> data = claseService.findAll();
+    public ResponseEntity<List<ClaseDto>> getAllclases(){
+    List<ClaseDto> data = new ArrayList<>();
+
+    claseService.findAll().forEach(clase -> {
+        data.add(claseService.toClaseDto(clase));
+    });
 
         if (data.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -78,8 +79,6 @@ public class ClaseController {
                     .ok()
                     .body(data);
         }
-
-        // Retocar este get cambiar el response entity y probablemente el .body()
     }
 
 
@@ -88,28 +87,34 @@ public class ClaseController {
             @ApiResponse(responseCode = "200",
                     description = "Se ha encontrado la clase",
                     content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = Clase.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = ClaseDto.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                            [
-                                                {"id": 1, "nombre": "1ºDAM", "tutor": "Eduardo", "numAportaciones": 4, "kilosTotales": 34},
-                                                {"id": 2, "nombre": "2ºDAM", "tutor": "Luismi", "numAportaciones": 4, "kilosTotales": 32}
-                                            ]                                          
+                                            {
+                                                "id": 1,
+                                                "nombre": "2ºDam",
+                                                "tutor": "Luismi",
+                                                "numAportaciones": 0,
+                                                "kilosTotales": 0.0
+                                            }
                                             """
                             )}
                     )}),
             @ApiResponse(responseCode = "404",
                     description = "No se ha encontrado ninguna clase",
                     content = @Content),
+            @ApiResponse(responseCode = "400",
+                    description = "No existen aportaciones realizadas por esta clase",
+                    content = @Content),
     })
     @GetMapping("/{id}")
     public ResponseEntity<ClaseResponse> getClaseById(@PathVariable Long id){
-        if (!service.existById(id))
+        if (!claseService.existById(id))
             return ResponseEntity.notFound().build();
          else
             return ResponseEntity
                     .ok()
-                    .body(converter.ClaseToClaseResponse(service.findById(id).get()));
+                    .body(converter.ClaseToClaseResponse(claseService.findById(id).get()));
 
     }
 
@@ -146,19 +151,17 @@ public class ClaseController {
             @ApiResponse(responseCode = "200",
                     description = "Se ha modificado corrrectamente una clase ",
                     content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = Clase.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = ClaseDto.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                            [
-                                                {"id": 1, "nombre": "1ºDAM", "tutor": "Miguel" },
-                                                {"id": 1, "nombre": "2ºDAM", "tutor": "Luismi" }
-                                            ]                                          
+                                            {
+                                                "id": 2,
+                                                "nombre": "1ºDam",
+                                                "tutor": "Miguel"
+                                            }
                                             """
                             )}
                     )}),
-            @ApiResponse(responseCode = "404",
-                    description = "No se ha podido encontrar la clase",
-                    content = @Content),
             @ApiResponse(responseCode = "400",
                     description = "No se ha podido modificar la clase",
                     content = @Content),
@@ -166,9 +169,11 @@ public class ClaseController {
     @PutMapping("/{id}")
     public ResponseEntity<ClaseDto> updateClase(@RequestBody ClaseDto clase, @PathVariable Long id){
 
-
+    if(clase.nombre().isBlank()||clase.tutor().isBlank())
+            return ResponseEntity.badRequest().build();
+    else
         return ResponseEntity.of(
-               claseService.findById(id).map(old -> {
+                claseService.findById(id).map(old -> {
                             old.setNombre(clase.nombre());
                             old.setTutor(clase.tutor());
 
@@ -176,25 +181,19 @@ public class ClaseController {
                         })
                         .orElse(Optional.empty())
         );
-
-        // Falta gestionar el Bad REquest
     }
 
     @Operation(summary = "Este método elimina una clase localizada por su id")
     @ApiResponse(responseCode = "204", description = "Clase borrada con éxito",
             content = @Content)
     @Parameter(description = "El id de la clase que se quiere eliminar", name = "id", required = true)
-    @DeleteMapping("/")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteClase(@PathVariable Long id){
-
-        // Una vez se cree el ranking quizás haya que hacer gestiones desde aquí
 
         if(claseService.existById(id)) {
             claseService.deleteById(id);
         }
         return ResponseEntity.noContent().build();
     }
-
-
 
 }

@@ -13,7 +13,8 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-public class Destinatario{
+
+public class Destinatario implements Serializable {
 
     @Id
     @GeneratedValue
@@ -30,4 +31,6 @@ public class Destinatario{
     @OneToMany(mappedBy = "destinatario", fetch = FetchType.LAZY)
     @Builder.Default
     private List<Caja> cajas = new ArrayList<>();
+
+
 }
