@@ -15,6 +15,7 @@ public interface AportacionRepository extends JpaRepository<Aportacion, Long> {
     @Query(value="select sum(d.cantidadEnKilos) from Aportacion a left join a.detalleAportacionList d where a.id = :id")
     double sumaKilosAportacion(@Param("id") Long id);
 
+
     @Query(value="select d from DetalleAportacion d join d.tipoAlimento t where t.id = :id")
     List<DetalleAportacion> findByTipoAlimento(@Param("id") Long id);
 }

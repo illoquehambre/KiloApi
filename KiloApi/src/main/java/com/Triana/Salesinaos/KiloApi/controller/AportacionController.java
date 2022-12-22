@@ -2,12 +2,15 @@ package com.Triana.Salesinaos.KiloApi.controller;
 
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.*;
 import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
-import com.Triana.Salesinaos.KiloApi.model.DetalleAportacion;
+import com.Triana.Salesinaos.KiloApi.model.*;
 import com.Triana.Salesinaos.KiloApi.service.KilosDisponiblesService;
 import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoDto;
+import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionResponse;
+import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateAportacion;
+import com.Triana.Salesinaos.KiloApi.model.DetalleAportacion;
+import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.model.Aportacion;
 import com.Triana.Salesinaos.KiloApi.model.Clase;
-import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.service.AportacionService;
 import com.Triana.Salesinaos.KiloApi.service.ClaseService;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
@@ -22,7 +25,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -126,7 +128,8 @@ public class AportacionController {
     })
     @GetMapping("/clase/{id}")
     public ResponseEntity <List<AportacionClassPairDto>> getOneTipoAlimento (
-            @Parameter(description = "Id de la clase de la que se quiere consultar la aportación", name = "id", required = true)
+            @Parameter(description = "Id de la clase de la que se quiere consultar la aportación", name = "id",
+                    required = true)
             @PathVariable Long id) {
 
         Optional<Clase> c = claseService.findById(id);
@@ -172,10 +175,12 @@ public class AportacionController {
     public ResponseEntity<AportacionResponse> createAportcion(@RequestBody CreateAportacion create){
         AtomicReference<Boolean> comprobarId= new AtomicReference<>(true);
         create.listadoDetallesAportacion().forEach(createDetalleAportacion -> {
-            if ((createDetalleAportacion.kilos()<=0 || createDetalleAportacion.tipoAlimentoId()==null || !(tipoAlimentoService.existById(createDetalleAportacion.tipoAlimentoId()))))
+            if ((createDetalleAportacion.kilos()<=0 || createDetalleAportacion.tipoAlimentoId()==null
+                    || !(tipoAlimentoService.existById(createDetalleAportacion.tipoAlimentoId()))))
                 comprobarId.set(false);
         });
-        if(!(create.claseId()==null || claseService.findById(create.claseId()).isEmpty() || create.listadoDetallesAportacion().isEmpty() || !comprobarId.get()))
+        if(!(create.claseId()==null || claseService.findById(create.claseId()).isEmpty()
+                || create.listadoDetallesAportacion().isEmpty() || !comprobarId.get()))
 
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(AportacionResponse.of(aportacionService.add(aportacionService.toAportacion(create))));
@@ -183,7 +188,8 @@ public class AportacionController {
             return ResponseEntity.badRequest().build();
     }
 
-    @Operation(summary = "Este método actualiza los kilos de un detalle aportacion, modificandolos tambien en kilos disponibles")
+    @Operation(summary = "Este método actualiza los kilos de un detalle aportacion, modificandolos tambien en " +
+            "kilos disponibles")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Se ha actualizado correctamente la aportacion",
@@ -213,27 +219,31 @@ public class AportacionController {
                     content = @Content),
     })
     @PutMapping("/{id}/linea/{num}/kg/{numKg}")
-    public ResponseEntity<AportacionResponse> updateAportacion(@PathVariable Long id, @PathVariable int num, @PathVariable double numKg){
+    public ResponseEntity<AportacionResponse> updateAportacion(@PathVariable Long id,
+                                                               @PathVariable int num,
+                                                               @PathVariable double numKg){
         AtomicReference<Boolean> bad= new AtomicReference<>(false);
         AtomicReference<Boolean> encontrado= new AtomicReference<>(false);
 
-        if (aportacionService.findById(id).isPresent() ){
-            aportacionService.findById(id).get().getDetalleAportacionList().forEach(detalle->{
+        Optional<Aportacion> aportacion = aportacionService.findById(id);
 
-                if(detalle.getId().getNumLinea()==num && !encontrado.get()){
-                    if(numKg<detalle.getCantidadEnKilos()){
-                        if((kilosDisponiblesService.findById(detalle.getTipoAlimento().getId()).get().getCantidadDisponible()+(numKg-detalle.getCantidadEnKilos())>=0)){
-                            tipoAlimentoService.findById(detalle.getTipoAlimento().getId()).get()
-                                    .addKilosToTipoAlimento(kilosDisponiblesService.findById(detalle.getTipoAlimento().getId()).get(), (numKg-detalle.getCantidadEnKilos()));
+        if (aportacion.isPresent() ){
+            aportacion.get().getDetalleAportacionList().forEach(detalle->{
+
+                Optional<KilosDisponibles> kilosDisponibles =kilosDisponiblesService.findById(detalle.getTipoAlimento().getId());
+                TipoAlimento tipoAlimento = tipoAlimentoService.findById(detalle.getTipoAlimento().getId()).get();
+                if(detalle.getId().getNumLinea()==num && !encontrado.get() && kilosDisponibles.isPresent()) {
+                    if(numKg<detalle.getCantidadEnKilos() ){
+                        if((kilosDisponibles.get().getCantidadDisponible()+(numKg-detalle.getCantidadEnKilos())>=0)){
+                            tipoAlimento.addKilosToTipoAlimento(kilosDisponibles.get(), (numKg-detalle.getCantidadEnKilos()));
                             detalle.setCantidadEnKilos(numKg);
-                            kilosDisponiblesService.add(kilosDisponiblesService.findById(detalle.getTipoAlimento().getId()).get());
+                            kilosDisponiblesService.add(kilosDisponibles.get());
                         }else
                             bad.set(true);
                     }else{
-                        tipoAlimentoService.findById(detalle.getTipoAlimento().getId()).get()
-                                .addKilosToTipoAlimento(kilosDisponiblesService.findById(detalle.getTipoAlimento().getId()).get(), (numKg-detalle.getCantidadEnKilos()));
+                        tipoAlimento.addKilosToTipoAlimento(kilosDisponibles.get(), (numKg-detalle.getCantidadEnKilos()));
                         detalle.setCantidadEnKilos(numKg);
-                        kilosDisponiblesService.add(kilosDisponiblesService.findById(detalle.getTipoAlimento().getId()).get());                    }
+                        kilosDisponiblesService.add(kilosDisponibles.get());                    }
                 }else if(encontrado.get())
                     bad.set(true);
             });
@@ -241,14 +251,9 @@ public class AportacionController {
             bad.set(true);
 
         if(!bad.get())
-            return ResponseEntity.ok(AportacionResponse.of(aportacionService.add(aportacionService.findById(id).get())));
+            return ResponseEntity.ok(AportacionResponse.of(aportacionService.add(aportacion.get())));
         else
             return ResponseEntity.badRequest().build();
-
-        //s modifican los kilos de kilosDisponibles en funcion de la diferencia entre lo que se haya indicado y lo aportado anteriormente
-
-
-
     }
     @Operation(summary = "Este método busca una aportacion por su id y la muestra junto con un listado de sus detalles")
     @ApiResponses(value = {
@@ -280,7 +285,9 @@ public class AportacionController {
                     content = @Content),
     })
     @GetMapping("/{id}")
-    ResponseEntity<AportacionResponse> getById(@PathVariable Long id){
+    ResponseEntity<AportacionResponse> getById(
+            @Parameter(description = "Id de la aportación de la que quiere encontrar", name = "id", required = true)
+            @PathVariable Long id){
         if (aportacionService.findById(id).isEmpty())
             return ResponseEntity.notFound().build();
         else
@@ -299,19 +306,14 @@ public class AportacionController {
 
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteAportacion(@PathVariable Long id) {
+    public ResponseEntity<?> deleteAportacion(
+            @Parameter(description = "Id de la aportación de la que quiere borrar", name = "id", required = true)
+            @PathVariable Long id) {
         if (aportacionService.findById(id).isPresent()) {
             Aportacion aportacion = aportacionService.findById(id).get();
             if (aportacionService.findById(id).get().getDetalleAportacionList().isEmpty())
                 aportacionService.deleteById(id);
             else {
-                //itera todos sus detalles aportacion
-                //se debe usar iterator paa crear una lista copia auxiliar
-
-                //comprueba si los kilos aportados son menores o iguales a los kilos disponibles de ese tipo
-                //Si: Resta los kilos a kilos disponibles y elimina el detalle
-                //No: No lo elimina
-                //Comprueba si el listado esta vacio, si es asi elimina la aportacion
                 Iterator<DetalleAportacion> aux = aportacion.getDetalleAportacionList().iterator();
                 while (aux.hasNext()) {
                     DetalleAportacion detalle = aux.next();
@@ -332,7 +334,8 @@ public class AportacionController {
             "puede borrar sus detalles")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Se han encontrado el detalle de aportación que buscaba y ha eliminado lo que es posible elimnar",
+                    description = "Se han encontrado el detalle de aportación que buscaba y ha eliminado lo que " +
+                            "es posible elimnar",
                     content = { @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = DetalleAportacionResponse.class)),
                             examples = {@ExampleObject(
@@ -356,22 +359,60 @@ public class AportacionController {
                                             """
                             )}
                     )}),
-            @ApiResponse(responseCode = "404",
+            @ApiResponse(responseCode = "204",
                     description = "No se ha encontrado ninguna aportación con ese id",
                     content = @Content),
     })
     @DeleteMapping("/{id}/linea/{num}")
-    public ResponseEntity<DetalleAportacionResponse> deleteDetalleAportacion(
-            @Parameter(description = "Id de la aportación de la que quiere borrar sus detalles", name = "id", required = true)
+    public ResponseEntity<AportacionResponse> deleteDetalleAportacion(
+            @Parameter(description = "Id de la aportación de la que quiere borrar sus detalles", name = "id",
+                    required = true)
             @PathVariable Long id,
-            @PathVariable int numLinea) {
+            @Parameter(description = "Id de la aportación de la que quiere borrar sus detalles", name = "num",
+                    required = true)
+            @PathVariable int num) {
 
         Optional<Aportacion> aportacion = aportacionService.findById(id);
 
-        if(aportacion.isEmpty() || id == null)
-            return ResponseEntity.notFound().build();  // he añadido esta opción porque encuentro lógico que devuelva un 404 en lugar de un 200 si no encuentra aportaciones con ese id
-        else
-            return ResponseEntity.ok().build();
+
+        if(aportacion.isEmpty() || id == null || num <= 0)
+            return ResponseEntity.noContent().build();
+            // he añadido esta opción porque encuentro lógico que devuelva
+            // un 404 en lugar de un 200 si no encuentra aportaciones con ese id
+        else {
+
+            List<DetalleAportacion> detalleAportacions = aportacion.get().getDetalleAportacionList();
+
+            if(!detalleAportacions.isEmpty()) {
+                Iterator<DetalleAportacion> iter = detalleAportacions.iterator();
+
+                while (iter.hasNext()) {
+                    DetalleAportacion detalleAportacion = iter.next();
+                    double cantidadKilosDetalleAportacion = detalleAportacion.getCantidadEnKilos();
+                    int idDetalleAportacion = detalleAportacion.getId().getNumLinea();
+                    TipoAlimento tipoAlimento = tipoAlimentoService.findById(detalleAportacion.getTipoAlimento().getId()).get();
+                    double cantKilosTipoAlimento = tipoAlimento.getKilosDisponibles().getCantidadDisponible();
+
+                    if(idDetalleAportacion == num && cantidadKilosDetalleAportacion > 0
+                            && cantKilosTipoAlimento >= cantidadKilosDetalleAportacion){
+                        tipoAlimento.getKilosDisponibles()
+                                .setCantidadDisponible(cantKilosTipoAlimento - cantidadKilosDetalleAportacion);
+                        iter.remove();
+                    }
+                }
+
+                if(detalleAportacions.isEmpty()){
+                    aportacionService.deleteById(id);
+                    return ResponseEntity.noContent().build();
+                    // Este return es necesario puesto que si una aportación queda vacía, se borra,
+                    // y al intentar encontrarla por el id puede devolver un 500
+                }
+
+            }
+            return ResponseEntity
+                    .ok()
+                    .body(AportacionResponse.of(aportacionService.add(aportacion.get())));
+        }
 
     }
 
