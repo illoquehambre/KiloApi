@@ -19,6 +19,8 @@ public class TieneService {
         return tieneRepository.findById(tienePK);
     }
 
+    public void deleteById(TienePK tienePK){tieneRepository.deleteById(tienePK); }
+
 
 
 }

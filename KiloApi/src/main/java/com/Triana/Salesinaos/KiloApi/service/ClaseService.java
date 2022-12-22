@@ -1,6 +1,7 @@
 package com.Triana.Salesinaos.KiloApi.service;
 
 import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
+import com.Triana.Salesinaos.KiloApi.dto.ranking.GetRankingDto;
 import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.repository.ClaseRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ClaseService {
     private final ClaseRepository repository;
+
+    public List<GetRankingDto> getRanking(){return  repository.rankingClases();}
     public List<Clase> findAll(){return repository.findAll();}
     public Optional<Clase> findById(Long id){return repository.findById(id);}
     public double countKgs(Long id){return repository.sumCantidadEnkilos(id);}

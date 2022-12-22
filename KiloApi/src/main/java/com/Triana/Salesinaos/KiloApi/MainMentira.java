@@ -11,6 +11,44 @@ import javax.annotation.PostConstruct;
 @Component
 @RequiredArgsConstructor
 public class MainMentira {
+    private final TipoAlimentoRepository tipoAlimentoService;
+    private final DestinatarioRepository destinatarioRepository;
+    private final CajaRepository cajaRepository;
+    private final KilosDisponiblesService kilosDisponiblesService;
+    private final TieneRepository tieneRepository;
+    @PostConstruct
+    public void init(){
+        TipoAlimento t1 = TipoAlimento.builder()
+                .nombre("Patatas")
+                .build();
+        tipoAlimentoService.save(t1);
+
+        KilosDisponibles k = KilosDisponibles.builder()
+                .tipoAlimento(t1)
+                .id(t1.getId())
+                .build();
+        t1.addKilosToTipoAlimento(k, 7);
+        tipoAlimentoService.save(t1);
+        kilosDisponiblesService.add(k);
+        Caja c1 = Caja.builder()
+                .qr("Codigo-1")
+                .kilosTotales(68)
+                .numCaja("Caja-123")
+                .build();
+
+        cajaRepository.save(c1);
+
+        TienePK tienePK = new TienePK(t1.getId(), c1.getId());
+
+        Tiene tiene1 = Tiene.builder()
+                .id(tienePK)
+                .build();
+
+        tiene1.addToCajaToTipo(c1, t1);
+        tieneRepository.save(tiene1);
+
+
+    }
 
 
 /*
