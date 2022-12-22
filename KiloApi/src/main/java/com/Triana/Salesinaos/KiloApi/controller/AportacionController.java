@@ -2,12 +2,9 @@ package com.Triana.Salesinaos.KiloApi.controller;
 
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.*;
 import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
-import com.Triana.Salesinaos.KiloApi.model.DetalleAportacion;
+import com.Triana.Salesinaos.KiloApi.model.*;
 import com.Triana.Salesinaos.KiloApi.service.KilosDisponiblesService;
 import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoDto;
-import com.Triana.Salesinaos.KiloApi.model.Aportacion;
-import com.Triana.Salesinaos.KiloApi.model.Clase;
-import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.service.AportacionService;
 import com.Triana.Salesinaos.KiloApi.service.ClaseService;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
@@ -226,20 +223,20 @@ public class AportacionController {
         if (aportacion.isPresent() ){
             aportacion.get().getDetalleAportacionList().forEach(detalle->{
 
-                if(detalle.getId().getNumLinea()==num && !encontrado.get()){
-                    if(numKg<detalle.getCantidadEnKilos()){
-                        if((kilosDisponiblesService.findById(detalle.getTipoAlimento().getId()).get().getCantidadDisponible()+(numKg-detalle.getCantidadEnKilos())>=0)){
-                            tipoAlimentoService.findById(detalle.getTipoAlimento().getId()).get()
-                                    .addKilosToTipoAlimento(kilosDisponiblesService.findById(detalle.getTipoAlimento().getId()).get(), (numKg-detalle.getCantidadEnKilos()));
+                Optional<KilosDisponibles> kilosDisponibles =kilosDisponiblesService.findById(detalle.getTipoAlimento().getId());
+                TipoAlimento tipoAlimento = tipoAlimentoService.findById(detalle.getTipoAlimento().getId()).get();
+                if(detalle.getId().getNumLinea()==num && !encontrado.get() && kilosDisponibles.isPresent()) {
+                    if(numKg<detalle.getCantidadEnKilos() ){
+                        if((kilosDisponibles.get().getCantidadDisponible()+(numKg-detalle.getCantidadEnKilos())>=0)){
+                            tipoAlimento.addKilosToTipoAlimento(kilosDisponibles.get(), (numKg-detalle.getCantidadEnKilos()));
                             detalle.setCantidadEnKilos(numKg);
-                            kilosDisponiblesService.add(kilosDisponiblesService.findById(detalle.getTipoAlimento().getId()).get());
+                            kilosDisponiblesService.add(kilosDisponibles.get());
                         }else
                             bad.set(true);
                     }else{
-                        tipoAlimentoService.findById(detalle.getTipoAlimento().getId()).get()
-                                .addKilosToTipoAlimento(kilosDisponiblesService.findById(detalle.getTipoAlimento().getId()).get(), (numKg-detalle.getCantidadEnKilos()));
+                        tipoAlimento.addKilosToTipoAlimento(kilosDisponibles.get(), (numKg-detalle.getCantidadEnKilos()));
                         detalle.setCantidadEnKilos(numKg);
-                        kilosDisponiblesService.add(kilosDisponiblesService.findById(detalle.getTipoAlimento().getId()).get());                    }
+                        kilosDisponiblesService.add(kilosDisponibles.get());                    }
                 }else if(encontrado.get())
                     bad.set(true);
             });
@@ -250,11 +247,6 @@ public class AportacionController {
             return ResponseEntity.ok(AportacionResponse.of(aportacionService.add(aportacion.get())));
         else
             return ResponseEntity.badRequest().build();
-
-        //s modifican los kilos de kilosDisponibles en funcion de la diferencia entre lo que se haya indicado y lo aportado anteriormente
-
-
-
     }
     @Operation(summary = "Este método busca una aportacion por su id y la muestra junto con un listado de sus detalles")
     @ApiResponses(value = {
@@ -315,13 +307,6 @@ public class AportacionController {
             if (aportacionService.findById(id).get().getDetalleAportacionList().isEmpty())
                 aportacionService.deleteById(id);
             else {
-                //itera todos sus detalles aportacion
-                //se debe usar iterator paa crear una lista copia auxiliar
-
-                //comprueba si los kilos aportados son menores o iguales a los kilos disponibles de ese tipo
-                //Si: Resta los kilos a kilos disponibles y elimina el detalle
-                //No: No lo elimina
-                //Comprueba si el listado esta vacio, si es asi elimina la aportacion
                 Iterator<DetalleAportacion> aux = aportacion.getDetalleAportacionList().iterator();
                 while (aux.hasNext()) {
                     DetalleAportacion detalle = aux.next();

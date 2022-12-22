@@ -4,13 +4,16 @@ import com.Triana.Salesinaos.KiloApi.model.KilosDisponibles;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.service.KilosDisponiblesService;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +26,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/kilosDisponibles")
 @RequiredArgsConstructor
+@OpenAPIDefinition(info = @Info(title ="Operación-Kilo API"))
+@Tag(name = "Kilos Disponibles", description = "Esta clase implementa Restcontrollers para la entidad Kilos disponibles")
 public class KilosDisponiblesController {
 
     private final KilosDisponiblesService kilosDisponiblesService;

@@ -15,7 +15,10 @@ import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.service.CajaService;
 import com.Triana.Salesinaos.KiloApi.service.TieneService;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -36,6 +39,8 @@ import java.util.Optional;
 
 @RequestMapping("/caja")
 @RestController
+@OpenAPIDefinition(info = @Info(title ="Operación-Kilo API"))
+@Tag(name = "Caja", description = "Esta clase implementa Restcontrollers para la entidad Caja")
 public class CajaController {
     private final CajaService cajaService;
     private final TipoAlimentoService tipoAlimentoService;
