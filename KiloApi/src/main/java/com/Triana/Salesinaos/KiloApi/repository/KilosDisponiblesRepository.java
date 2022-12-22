@@ -1,12 +1,7 @@
 package com.Triana.Salesinaos.KiloApi.repository;
 
-import com.Triana.Salesinaos.KiloApi.dto.kilosDisponibles.KilosDisponiblesRespo;
-import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoToCajaDto;
 import com.Triana.Salesinaos.KiloApi.model.KilosDisponibles;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
 
 public interface KilosDisponiblesRepository extends JpaRepository<KilosDisponibles, Long> {
     /**KILOSDISPONIBLES CONSULTAS MAYLOR**/

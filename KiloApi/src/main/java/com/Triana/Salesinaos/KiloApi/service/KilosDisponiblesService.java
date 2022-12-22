@@ -1,7 +1,5 @@
 package com.Triana.Salesinaos.KiloApi.service;
 
-import com.Triana.Salesinaos.KiloApi.dto.kilosDisponibles.KilosDisponiblesRespo;
-import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoToCajaDto;
 import com.Triana.Salesinaos.KiloApi.model.KilosDisponibles;
 import com.Triana.Salesinaos.KiloApi.repository.KilosDisponiblesRepository;
 import lombok.RequiredArgsConstructor;

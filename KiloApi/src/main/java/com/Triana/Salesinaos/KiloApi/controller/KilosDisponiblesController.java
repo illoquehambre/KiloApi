@@ -1,12 +1,10 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
-import com.Triana.Salesinaos.KiloApi.dto.kilosDisponibles.KilosDisponiblesDto;
+import com.Triana.Salesinaos.KiloApi.dto.kilosDisponibles.KilosDisponiblesDtoConverter;
 import com.Triana.Salesinaos.KiloApi.dto.kilosDisponibles.KilosDisponiblesRespo;
-import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoToCajaDto;
+import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoToCajaRespon;
 import com.Triana.Salesinaos.KiloApi.model.KilosDisponibles;
 import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
-import com.Triana.Salesinaos.KiloApi.repository.KilosDisponiblesRepository;
-import com.Triana.Salesinaos.KiloApi.service.AportacionService;
 import com.Triana.Salesinaos.KiloApi.service.KilosDisponiblesService;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -42,7 +40,7 @@ public class KilosDisponiblesController {
 
     private final KilosDisponiblesService kilosDisponiblesService;
 
-    private final KilosDisponiblesDto kilosDisponiblesDto;
+    private final KilosDisponiblesDtoConverter kilosDisponiblesDtoConverter;
 
     private final TipoAlimentoService tipoAlimentoService;
 
@@ -57,7 +55,7 @@ public class KilosDisponiblesController {
                             Muestra la lista usando un Dto que muestra tres simples datos
                             """,
                     content = {@Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = TipoAlimentoToCajaDto.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = TipoAlimentoToCajaRespon.class)),
                             examples = {@ExampleObject(
                                     value = """
                                             [
@@ -74,14 +72,14 @@ public class KilosDisponiblesController {
     })
 
     @GetMapping("/")
-    public ResponseEntity<List<TipoAlimentoToCajaDto>> findAllTipoAlimento() {
+    public ResponseEntity<List<TipoAlimentoToCajaRespon>> findAllTipoAlimento() {
         List<KilosDisponibles> kilosDisponiblesList = kilosDisponiblesService.findAll();
         if (kilosDisponiblesList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
-            List<TipoAlimentoToCajaDto> resultado =
+            List<TipoAlimentoToCajaRespon> resultado =
                     kilosDisponiblesList.stream()
-                            .map(k -> kilosDisponiblesDto.kilosDisponiblesToAlimento(k))
+                            .map(k -> kilosDisponiblesDtoConverter.kilosDisponiblesToAlimento(k))
                             .collect(Collectors.toList());
 
             return ResponseEntity.ok(resultado);
@@ -118,7 +116,7 @@ public class KilosDisponiblesController {
                                                               @PathVariable("idTipoAlimento") Long id) {
         Optional<TipoAlimento> tipoAlimento = tipoAlimentoService.findById(id);
         if (tipoAlimento.isPresent()) {
-            return ResponseEntity.ok(kilosDisponiblesDto.kilosDtoKilosResponse(id));
+            return ResponseEntity.ok(kilosDisponiblesDtoConverter.kilosDtoKilosResponse(id));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }

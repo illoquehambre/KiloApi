@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-public class TipoAlimentoToCajaDto {
+public class TipoAlimentoToCajaRespon {
     private Long id;
     private String nombre;
     private double kgCantidad;

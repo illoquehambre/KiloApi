@@ -1,6 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.dto.caja;
 
-import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoToCajaDto;
+import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoToCajaRespon;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -17,6 +17,6 @@ public class CajaResponsePost {
     private String qr, numCaja;
     private double kilosTotales;
     private String destinatarioNombre;
-    private List<TipoAlimentoToCajaDto> tipoAlimentoToCajaDtoList = new ArrayList<>();
+    private List<TipoAlimentoToCajaRespon> alimentos = new ArrayList<>();
 
 }

@@ -19,9 +19,6 @@ import java.util.Optional;
 public class DestinatarioService {
 
     private final DestinatarioRepository repository;
-
-    private Caja caja;
-
     private final CajaService cajaService;
 
     public Destinatario add(Destinatario destinatario) {
