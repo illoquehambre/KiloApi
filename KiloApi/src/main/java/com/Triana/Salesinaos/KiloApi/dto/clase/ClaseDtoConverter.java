@@ -8,11 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class ClaseDtoConverter {
-
-
     private final ClaseService service;
-
-
 
     public ClaseResponse ClaseToClaseResponse(Clase c) {
         return ClaseResponse.

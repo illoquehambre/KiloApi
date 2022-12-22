@@ -10,14 +10,11 @@ import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateAportacion;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateDetalleAportacion;
 import com.Triana.Salesinaos.KiloApi.model.*;
 import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
-import com.Triana.Salesinaos.KiloApi.model.Aportacion;
 import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.model.DetalleAportacion;
 import com.Triana.Salesinaos.KiloApi.model.DetalleAportacionPK;
 import com.Triana.Salesinaos.KiloApi.repository.AportacionRepository;
 import com.Triana.Salesinaos.KiloApi.repository.KilosDisponiblesRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.*;
 
@@ -135,4 +132,5 @@ public class AportacionService {
 
         return mapClassKilos;
     }
+
 }
