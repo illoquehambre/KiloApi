@@ -71,9 +71,9 @@ public class CajaController {
                     content = @Content),
     })
 
-    @PostMapping("/{id}/tipo/{IdtipoAlimento}/{cantidad}")
+    @PostMapping("/{id}/tipo/{idtipoAlimento}/{cantidad}")
     public ResponseEntity<CajaResponsePost> addCantidadToCaja(
-            @PathParam("id, IdTipoAlimento, cantidad")
+            @PathParam("id, idTipoAlimento, cantidad")
             @Parameter(description = """
                     Id de la caja
                     Id del tipo de alimento al que le restaremos la
@@ -81,22 +81,19 @@ public class CajaController {
                     cantidad de kg para añadirle a la caja de los kilos totales que posee dicha caja.
                      """)
             @PathVariable("id") Long id,
-            @PathVariable("IdtipoAlimento") Long IdTipoAlimento,
+            @PathVariable("idtipoAlimento") Long idTipoAlimento,
             @PathVariable("cantidad") double cantidad) {
         /**Obtenemos la caja por el id y obtenemos el TipoAlimento por su id**/
         Optional<Caja> c = cajaService.findById(id);
-        Optional<TipoAlimento> t = tipoAlimentoService.findById(IdTipoAlimento);
-        TienePK tienePK = new TienePK(c.get().getId(), t.get().getId());
+        Optional<TipoAlimento> t = tipoAlimentoService.findById(idTipoAlimento);
+        TienePK tienePK = new TienePK(t.get().getId(), c.get().getId());
         Optional<Tiene> aux = tieneRepository.findById(tienePK);
         /**COMPROBAMOMS SI EXISTE LA CAJA, EL TIPO ALIMENTO**/
-        if (c.isPresent() && t.isPresent()) {
-            /**Y SI EXISTE UNA LISTA EN CAJA, si esta vacía se mete el alimento en caso de que no esté vacía pasa**/
-            if (c.get().getTieneList().isEmpty() ||
-                    !tieneService.findById(new TienePK(c.get().getId(), t.get().getId()))
-                            .get().getTipoAlimmento().equals(t.get())) {
-                TienePK tienePKAux = new TienePK(id, IdTipoAlimento);
+        if (c.isEmpty() || t.isEmpty()) {
+            if (aux.isEmpty()) {
+                TienePK tienePK1 = new TienePK(t.get().getId(), c.get().getId());
                 Tiene tiene = Tiene.builder()
-                        .id(tienePKAux)
+                        .id(tienePK1)
                         .build();
                 tiene.addToCajaToTipo(c.get(), t.get());
                 tieneRepository.save(tiene);
@@ -105,18 +102,16 @@ public class CajaController {
             if (cantidad > 0 && cantidad < t.get().getKilosDisponibles().getCantidadDisponible()) {
                 c.get().setKilosTotales(c.get().getKilosTotales() + cantidad);
                 aux.get().setCantidadKgs(aux.get().getCantidadKgs() + cantidad);
-                t.get().getKilosDisponibles()
-                        .setCantidadDisponible(t.get()
-                                .getKilosDisponibles()
-                                .getCantidadDisponible() - cantidad);
-                return ResponseEntity
-                        .status(HttpStatus.CREATED)
-                        .body(cajaDtoConverter
-                                .CreateCajaToCajaResponsePost(c.get(), aux.get()));
+                t.get().getKilosDisponibles().setCantidadDisponible(t.get().getKilosDisponibles().getCantidadDisponible() - cantidad);
+                cajaService.edit(c.get());
+                tieneRepository.save(aux.get());
+                tipoAlimentoService.edit(t.get());
             }
-
+            return ResponseEntity.status(HttpStatus.CREATED).body(cajaDtoConverter.CreateCajaToCajaResponsePost(c.get()));
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
+
     }
 
     @Operation(summary = "Este método crea una caja")

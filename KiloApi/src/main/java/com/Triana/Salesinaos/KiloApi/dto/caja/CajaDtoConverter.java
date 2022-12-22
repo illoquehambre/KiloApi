@@ -3,6 +3,7 @@ package com.Triana.Salesinaos.KiloApi.dto.caja;
 import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoToCajaDto;
 import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.model.Tiene;
+import com.Triana.Salesinaos.KiloApi.service.CajaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CajaDtoConverter {
 
-    public CajaResponsePost CreateCajaToCajaResponsePost(Caja c, Tiene t) {
+    private final CajaService cajaService;
+    public CajaResponsePost CreateCajaToCajaResponsePost(Caja c) {
         TipoAlimentoToCajaDto tipoAlimentoCajaDto = new TipoAlimentoToCajaDto();
         List<TipoAlimentoToCajaDto> listadoA = new ArrayList<>();
         for (Tiene listado : c.getTieneList()) {
@@ -27,7 +29,7 @@ public class CajaDtoConverter {
                 .id(c.getId())
                 .qr(c.getQr())
                 .numCaja(c.getNumCaja())
-                .kilosTotales(c.getKilosTotales())
+                .kilosTotales(cajaService.obtenerKgCaja(c))
                 .destinatarioNombre(
                         c.getDestinatario() == null ?
                                 "No asignado" : c.getDestinatario().getNombre())

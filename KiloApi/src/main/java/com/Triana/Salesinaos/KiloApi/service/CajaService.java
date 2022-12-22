@@ -60,9 +60,21 @@ public class CajaService {
                     .setCantidadDisponible(select.getKilosDisponibles()
                             .getCantidadDisponible() + tiene.getTipoAlimmento().getKilosDisponibles()
                             .getCantidadDisponible());
+
         });
 
         repository.deleteById(id);
+    }
+
+    public double obtenerKgCaja(Caja c) {
+        double aux = 0;
+        if (!c.getTieneList().isEmpty()) {
+            for (Tiene t : c.getTieneList()) {
+                aux += t.getCantidadKgs();
+            }
+            return aux;
+        }
+        return 0;
     }
 
 }
