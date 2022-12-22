@@ -5,6 +5,8 @@ import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
 import com.Triana.Salesinaos.KiloApi.model.*;
 import com.Triana.Salesinaos.KiloApi.service.KilosDisponiblesService;
 import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoDto;
+import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionResponse;
+import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateAportacion;
 import com.Triana.Salesinaos.KiloApi.service.AportacionService;
 import com.Triana.Salesinaos.KiloApi.service.ClaseService;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;

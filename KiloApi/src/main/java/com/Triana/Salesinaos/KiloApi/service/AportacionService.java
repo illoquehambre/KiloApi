@@ -2,6 +2,10 @@ package com.Triana.Salesinaos.KiloApi.service;
 
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionClassPairDto;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionListResponse;
+import com.Triana.Salesinaos.KiloApi.model.Aportacion;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateAportacion;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateDetalleAportacion;
 import com.Triana.Salesinaos.KiloApi.model.*;
@@ -20,7 +24,6 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class AportacionService {
-
     private final AportacionRepository repository;
     private final TipoAlimentoService tipoAlimentoService;
     private final KilosDisponiblesService kilosDisponiblesService;
@@ -132,6 +135,4 @@ public class AportacionService {
 
         return mapClassKilos;
     }
-
-
 }

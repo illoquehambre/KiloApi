@@ -1,6 +1,6 @@
-package com.Triana.Salesinaos.KiloApi.dto;
+package com.Triana.Salesinaos.KiloApi.dto.destinatario;
 
-import com.Triana.Salesinaos.KiloApi.dto.caja.CajaResponse;
+import com.Triana.Salesinaos.KiloApi.dto.caja.CajaResponsePost;
 import lombok.*;
 
 import java.util.ArrayList;
