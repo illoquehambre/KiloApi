@@ -192,6 +192,33 @@ public class CajaController {
     }
 
 
+    @Operation(summary = "Este método borra los tipo alimento de una caja")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado la caja",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = Caja.class)),
+                            examples = @ExampleObject(value = """
+                                        {
+                                            "id": 2,
+                                            "qr": "01",
+                                            "numCaja": "123",
+                                            "kilosTotales": 65.0,
+                                            "destinatarioNombre": "No asignado",
+                                            "alimentos": [
+                                                {
+                                                    "id": 1,
+                                                    "nombre": "aceitunas",
+                                                    "kgCantidad": 2.0
+                                                }
+                                            ]
+                                        }
+                                    """
+                            ))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha encontrado niguna caja con ese ID o tipo alimento con ese ID",
+                    content = @Content),
+    })
     @DeleteMapping("/{id}/tipo/{idTipoAlim}")
 
     public ResponseEntity<CajaDtoDelete> deleteTipoAlimentoCaja(@PathVariable("id") Long id, @PathVariable("idTipoAlim") Long idTipoAlimento) {
@@ -307,6 +334,26 @@ public class CajaController {
                 .body(cajaDtoConverter.createCajaToCajaResponse(cajaService.findById(id).get()));
     }
 
+    @Operation(summary = "Este método actualiza los datos de caja")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado la caja",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = Caja.class)),
+                            examples = @ExampleObject(value = """
+                                        {
+                                            "id": 1,
+                                            "qr": "123",
+                                            "numCaja": "1",
+                                            "kilosTotales": 10.0,
+                                            "destinatario": null
+                                        }
+                                    """
+                            ))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha encontrado niguna caja con ese ID",
+                    content = @Content),
+    })
     @PutMapping("/{id}")
     public ResponseEntity<CajaResponseCreate> editCaja(@RequestBody CreateCajaDto c, @PathVariable Long id) {
 
