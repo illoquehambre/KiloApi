@@ -47,7 +47,6 @@ public class CajaController {
     private final TieneService tieneService;
     private final TieneRepository tieneRepository;
 
-    private final TieneRepository tieneRepository;
 
     @Operation(summary = "Actualizar la cantidad de kg de la caja")
     @ApiResponses(value = {
@@ -87,31 +86,12 @@ public class CajaController {
             @PathVariable("cantidad") double cantidad) {
         /**Obtenemos la caja por el id y obtenemos el TipoAlimento por su id**/
         Optional<Caja> c = cajaService.findById(id);
-<<<<<<< HEAD
-        Optional<TipoAlimento> t = tipoAlimentoService.findById(IdTipoAlimento);
-        /**COMPROBAMOMS SI EXISTE LA CAJA, EL TIPO ALIMENTO Y SI EXISTE UNA LISTA EN CAJA**/
-        if (c.isPresent() && t.isPresent() && !c.get().getTieneList().isEmpty()) {
-            TienePK tienePK = new TienePK(IdTipoAlimento, id);
-            Optional<Tiene> tiene = tieneService.findById(tienePK);
-            if (tiene.isPresent()) {
-                if (cantidad > 0 && cantidad < t.get().getKilosDisponibles().getCantidadDisponible()) {
-                    c.get().setKilosTotales(c.get().getKilosTotales() + cantidad);
-                    tiene.get().setCantidadKgs(tiene.get().getCantidadKgs() + cantidad);
-                    t.get().getKilosDisponibles()
-                            .setCantidadDisponible(t.get()
-                                    .getKilosDisponibles()
-                                    .getCantidadDisponible() - cantidad);
-                    return ResponseEntity
-                            .status(HttpStatus.CREATED)
-                            .body(cajaDtoConverter
-                                    .CreateCajaToCajaResponsePost(c.get(), tiene.get()));
-                }
-=======
+
         Optional<TipoAlimento> t = tipoAlimentoService.findById(idTipoAlimento);
         TienePK tienePK = new TienePK(t.get().getId(), c.get().getId());
         Optional<Tiene> aux = tieneRepository.findById(tienePK);
         /**COMPROBAMOMS SI EXISTE LA CAJA, EL TIPO ALIMENTO**/
-        if (c.isEmpty() || t.isEmpty()) {
+        if (c.isPresent() || t.isPresent()) {
             if (aux.isEmpty()) {
                 TienePK tienePK1 = new TienePK(t.get().getId(), c.get().getId());
                 Tiene tiene = Tiene.builder()
@@ -120,7 +100,6 @@ public class CajaController {
                 tiene.addToCajaToTipo(c.get(), t.get());
                 tieneRepository.save(tiene);
                 cajaService.edit(c.get());
->>>>>>> Develop
             }
             if (cantidad > 0 && cantidad < t.get().getKilosDisponibles().getCantidadDisponible()) {
                 c.get().setKilosTotales(c.get().getKilosTotales() + cantidad);
