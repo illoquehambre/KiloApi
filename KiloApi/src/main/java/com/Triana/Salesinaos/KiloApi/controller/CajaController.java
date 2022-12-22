@@ -151,11 +151,12 @@ public class CajaController {
 
             TienePK tienePK = new TienePK(tipoAlimento.get().getId(), caja.get().getId());
             Optional<Tiene> tiene = tieneRepository.findById(tienePK);
-            tieneRepository.save(tiene.get());
-            double cantidadDisponible=tipoAlimento.get().getKilosDisponibles().getCantidadDisponible();
-            double cantidadEnCaja=tiene.get().getCantidadKgs();
+
+
 
             if (tiene.isPresent()){
+                double cantidadDisponible=tipoAlimento.get().getKilosDisponibles().getCantidadDisponible();
+                double cantidadEnCaja=tiene.get().getCantidadKgs();
 
                 if (cantidad > 0 && cantidadDisponible-(cantidad-cantidadEnCaja)>=0 && (caja.get().getKilosTotales() + cantidad-cantidadEnCaja)>=0){
                     caja.get().setKilosTotales(caja.get().getKilosTotales() + (cantidad-cantidadEnCaja));
@@ -167,7 +168,7 @@ public class CajaController {
                     return ResponseEntity
                             .status(HttpStatus.OK)
                             .body(cajaDtoConverter
-                                    .CreateCajaToCajaResponsePost(caja.get()));
+                                    .CreateCajaToCajaResponsePost(cajaService.add(caja.get())));
                 }
                 if (cantidad > 0 && tipoAlimento.get().getKilosDisponibles().getCantidadDisponible()<cantidad){
                     caja.get().setKilosTotales(caja.get().getKilosTotales() - cantidad);
@@ -182,20 +183,14 @@ public class CajaController {
                 if (cantidad==0){
                     tieneService.deleteById(tienePK);
                     return ResponseEntity.status(HttpStatus.OK).build();
-
                 }
 
             }else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
             }
-
-        }else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-
         }
-
-
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
 
