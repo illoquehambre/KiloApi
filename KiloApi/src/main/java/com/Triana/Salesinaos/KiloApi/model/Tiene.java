@@ -1,5 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class Tiene implements Serializable {
     private TipoAlimento tipoAlimmento;
 
     @ManyToOne
+    @JsonIgnore
     @MapsId("caja_id")
     @JoinColumn(name = "caja_id", foreignKey = @ForeignKey(name = "FK_CAJA_TIENE"))
     private Caja caja;

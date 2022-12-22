@@ -30,7 +30,7 @@ public class Caja implements Serializable {
     @ManyToOne
     @JsonIgnore
     @JoinColumn(
-            name = "caja_id",
+            name = "destinatario_id",
             foreignKey = @ForeignKey(name = "FK_CAJA_DESTINATARIO"))
     private Destinatario destinatario;
 
