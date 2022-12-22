@@ -1,9 +1,7 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
 
-import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionResponse;
 import com.Triana.Salesinaos.KiloApi.dto.caja.*;
-
 
 
 import com.Triana.Salesinaos.KiloApi.dto.caja.CajaDtoConverter;
@@ -48,9 +46,8 @@ public class CajaController {
     private final CajaService cajaService;
     private final TipoAlimentoService tipoAlimentoService;
     private final CajaDtoConverter cajaDtoConverter;
-    private final TieneService tieneService;
-    private final TieneRepository tieneRepository;
 
+    private final TieneService tieneService;
     private final DestinatarioService destinatarioService;
 
 
@@ -59,16 +56,17 @@ public class CajaController {
             @ApiResponse(responseCode = "201",
                     description = "Se ha actializado los kg que contiene la caja",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Caja.class),
+                            schema = @Schema(implementation = CajaResponsePost.class),
                             examples = @ExampleObject(value = """
                                             {
                                              "id" : "1",
                                              "qr": "Link",
                                              "numCaja":"123",
-                                              "kilosTotales": "69",
+                                              "kilosTotales": "18",
                                               "destinatarioNombre":"Carlo",
-                                              "tipoAlimentoToCajaDtoList" :
-                                               [{"id": "1", "nombre": "Arróz", "kgCantidad": "8"}] 
+                                              "alimentos" :
+                                               [{"id": "1", "nombre": "Arróz", "kgCantidad": "8"},
+                                               {"id": "2", "nombre": "Patatas", "kgCantidad": "10"}] 
                                             }
                                     """))}),
             @ApiResponse(responseCode = "400",
@@ -92,32 +90,33 @@ public class CajaController {
             @PathVariable("cantidad") double cantidad) {
         /**Obtenemos la caja por el id y obtenemos el TipoAlimento por su id**/
         Optional<Caja> c = cajaService.findById(id);
-
         Optional<TipoAlimento> t = tipoAlimentoService.findById(idTipoAlimento);
         TienePK tienePK = new TienePK(t.get().getId(), c.get().getId());
-        Optional<Tiene> aux = tieneRepository.findById(tienePK);
+        Optional<Tiene> aux = tieneService.findById(tienePK);
         /**COMPROBAMOMS SI EXISTE LA CAJA, EL TIPO ALIMENTO**/
-        if (c.isPresent() || t.isPresent()) {
-            if (aux.isEmpty()) {
-                TienePK tienePK1 = new TienePK(t.get().getId(), c.get().getId());
-                Tiene tiene = Tiene.builder()
-                        .id(tienePK1)
-                        .build();
-                tiene.addToCajaToTipo(c.get(), t.get());
-                tieneRepository.save(tiene);
-                cajaService.edit(c.get());
-            }
+        if (c.isPresent() && t.isPresent() || (c.isPresent() || t.isPresent())) {
             if (cantidad > 0 && cantidad < t.get().getKilosDisponibles().getCantidadDisponible()) {
                 c.get().setKilosTotales(c.get().getKilosTotales() + cantidad);
-                aux.get().setCantidadKgs(aux.get().getCantidadKgs() + cantidad);
-                t.get().getKilosDisponibles().setCantidadDisponible(t.get().getKilosDisponibles().getCantidadDisponible() - cantidad);
                 cajaService.edit(c.get());
-                tieneRepository.save(aux.get());
+                t.get().getKilosDisponibles().setCantidadDisponible(t.get().getKilosDisponibles().getCantidadDisponible() - cantidad);
                 tipoAlimentoService.edit(t.get());
+            }
+            if (aux.isEmpty() || !aux.isPresent()) {
+                Tiene nuevoTiene = Tiene.builder()
+                        .id(tienePK)
+                        .build();
+                nuevoTiene.addToCajaToTipo(c.get(), t.get(), cantidad);
+                nuevoTiene.setCantidadKgs(cantidad);
+                tieneService.save(nuevoTiene);
+                c.get().getTieneList().add(nuevoTiene);
+                cajaService.edit(c.get());
+            } else {
+                aux.get().setCantidadKgs(aux.get().getCantidadKgs() + cantidad);
+                tieneService.save(aux.get());
             }
             return ResponseEntity.status(HttpStatus.CREATED).body(cajaDtoConverter.CreateCajaToCajaResponsePost(c.get()));
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
 
     }
@@ -146,31 +145,30 @@ public class CajaController {
         Optional<TipoAlimento> tipoAlimento = tipoAlimentoService.findById(IdTipoAlimento);
 
 
-        if (caja.isPresent() && tipoAlimento.isPresent()){
+        if (caja.isPresent() && tipoAlimento.isPresent()) {
 
 
             TienePK tienePK = new TienePK(tipoAlimento.get().getId(), caja.get().getId());
-            Optional<Tiene> tiene = tieneRepository.findById(tienePK);
+            Optional<Tiene> tiene = tieneService.findById(tienePK);
 
 
+            if (tiene.isPresent()) {
+                double cantidadDisponible = tipoAlimento.get().getKilosDisponibles().getCantidadDisponible();
+                double cantidadEnCaja = tiene.get().getCantidadKgs();
 
-            if (tiene.isPresent()){
-                double cantidadDisponible=tipoAlimento.get().getKilosDisponibles().getCantidadDisponible();
-                double cantidadEnCaja=tiene.get().getCantidadKgs();
-
-                if (cantidad > 0 && cantidadDisponible-(cantidad-cantidadEnCaja)>=0 && (caja.get().getKilosTotales() + cantidad-cantidadEnCaja)>=0){
-                    caja.get().setKilosTotales(caja.get().getKilosTotales() + (cantidad-cantidadEnCaja));
+                if (cantidad > 0 && cantidadDisponible - (cantidad - cantidadEnCaja) >= 0 && (caja.get().getKilosTotales() + cantidad - cantidadEnCaja) >= 0) {
+                    caja.get().setKilosTotales(caja.get().getKilosTotales() + (cantidad - cantidadEnCaja));
                     tiene.get().setCantidadKgs(cantidad);
-                    tieneRepository.save(tiene.get());
+                    tieneService.save(tiene.get());
                     tipoAlimento.get().getKilosDisponibles()
                             .setCantidadDisponible(tipoAlimento.get()
-                                    .getKilosDisponibles().getCantidadDisponible() - (cantidad-cantidadEnCaja));
+                                    .getKilosDisponibles().getCantidadDisponible() - (cantidad - cantidadEnCaja));
                     return ResponseEntity
                             .status(HttpStatus.OK)
                             .body(cajaDtoConverter
                                     .CreateCajaToCajaResponsePost(cajaService.add(caja.get())));
                 }
-                if (cantidad > 0 && tipoAlimento.get().getKilosDisponibles().getCantidadDisponible()<cantidad){
+                if (cantidad > 0 && tipoAlimento.get().getKilosDisponibles().getCantidadDisponible() < cantidad) {
                     caja.get().setKilosTotales(caja.get().getKilosTotales() - cantidad);
                     tiene.get().setCantidadKgs(cantidad);
                     tipoAlimento.get().getKilosDisponibles().setCantidadDisponible(tipoAlimento.get()
@@ -180,12 +178,12 @@ public class CajaController {
                             .body(cajaDtoConverter
                                     .CreateCajaToCajaResponsePost(caja.get()));
                 }
-                if (cantidad==0){
+                if (cantidad == 0) {
                     tieneService.deleteById(tienePK);
                     return ResponseEntity.status(HttpStatus.OK).build();
                 }
 
-            }else {
+            } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
             }
@@ -196,19 +194,19 @@ public class CajaController {
 
     @DeleteMapping("/{id}/tipo/{idTipoAlim}")
 
-    public ResponseEntity<CajaDtoDelete> deleteTipoAlimentoCaja(@PathVariable("id") Long id, @PathVariable("idTipoAlim") Long idTipoAlimento){
+    public ResponseEntity<CajaDtoDelete> deleteTipoAlimentoCaja(@PathVariable("id") Long id, @PathVariable("idTipoAlim") Long idTipoAlimento) {
         Optional<Caja> caja = cajaService.findById(id);
         Optional<TipoAlimento> tipoAlimento = tipoAlimentoService.findById(idTipoAlimento);
-        if (caja.isPresent() && tipoAlimento.isPresent()){
+        if (caja.isPresent() && tipoAlimento.isPresent()) {
 
 
             TienePK tienePK = new TienePK(idTipoAlimento, id);
-            Optional<Tiene> tiene = tieneRepository.findById(tienePK);
+            Optional<Tiene> tiene = tieneService.findById(tienePK);
 
             tipoAlimento.get().getKilosDisponibles()
                     .setCantidadDisponible(tipoAlimento.get().getKilosDisponibles().getCantidadDisponible() + tiene.get().getCantidadKgs());
 
-            tieneRepository.deleteById(tienePK);
+            tieneService.deleteById(tienePK);
 
             return ResponseEntity.status(HttpStatus.OK).body(cajaDtoConverter.cajaToCajaDeleteDto(caja.get()));
 

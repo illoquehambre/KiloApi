@@ -1,7 +1,7 @@
 package com.Triana.Salesinaos.KiloApi.dto.destinatario;
 
 import com.Triana.Salesinaos.KiloApi.dto.caja.CajaResponsePost;
-import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoToCajaDto;
+import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoToCajaRespon;
 import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.model.Destinatario;
 import com.Triana.Salesinaos.KiloApi.model.Tiene;
@@ -15,9 +15,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class DestinatarioDtoConverter {
-
     private final DestinatarioService destinatarioService;
-
 
     public DestinatarioResponse destinatarioToDestinatarioResponse(Long id) {
         Destinatario d = destinatarioService.findById(id).get();
@@ -34,12 +32,12 @@ public class DestinatarioDtoConverter {
 
     public DestinatarioDetalleResponse destinatarioToDestinatarioDetalleResponse(Long id) {
         Destinatario d = destinatarioService.findById(id).get();
-        TipoAlimentoToCajaDto tipoAlimentoCajaDto = new TipoAlimentoToCajaDto();
+        TipoAlimentoToCajaRespon tipoAlimentoCajaDto = new TipoAlimentoToCajaRespon();
         /**Tenemos un listado de alimentos de cada caja***/
-        List<TipoAlimentoToCajaDto> listadoA = new ArrayList<>();
+        List<TipoAlimentoToCajaRespon> listadoA = new ArrayList<>();
         CajaResponsePost cajaResponsePost = new CajaResponsePost();
         /**Tenemos un listado de caja que proviene de que el destinatario tiene cajas
-         * y cajas tiene un listado de tiene*/
+         * y cajas tiene un listado de tiene de alimentos*/
         List<CajaResponsePost> cajas = new ArrayList<>();
         for (Caja c : d.getCajas()) {
             cajaResponsePost.setId(c.getId());
@@ -53,7 +51,7 @@ public class DestinatarioDtoConverter {
                 tipoAlimentoCajaDto.setKgCantidad(listado.getTipoAlimmento().getKilosDisponibles().getCantidadDisponible());
                 listadoA.add(tipoAlimentoCajaDto);
             }
-            cajaResponsePost.setTipoAlimentoToCajaDtoList(listadoA);
+            cajaResponsePost.setAlimentos(listadoA);
             cajas.add(cajaResponsePost);
         }
 
@@ -64,19 +62,18 @@ public class DestinatarioDtoConverter {
                 .direccion(d.getDireccion())
                 .personaContacto(d.getPersonaContacto())
                 .telefono(d.getTelefono())
-                .cajaResponsePosts(d.getCajas().isEmpty() ? null : cajas)
+                .cajas(d.getCajas().isEmpty() ? null : cajas)
                 .build();
     }
 
-    public DestinatarioGetAll DestinatarioToDestinatarioGetAll(Destinatario destinatario){
+    public DestinatarioGetAll DestinatarioToDestinatarioGetAll(Destinatario destinatario) {
 
-        String a ="";
-        List<String>aux= new ArrayList<>();
+        String a = "";
+        List<String> aux = new ArrayList<>();
 
 
-
-        for (Caja c : destinatario.getCajas()){
-            a=c.getNumCaja();
+        for (Caja c : destinatario.getCajas()) {
+            a = c.getNumCaja();
             aux.add(a);
         }
         return DestinatarioGetAll.builder()
@@ -85,7 +82,7 @@ public class DestinatarioDtoConverter {
                 .direccion(destinatario.getDireccion())
                 .personaContacto(destinatario.getPersonaContacto())
                 .telefono(destinatario.getTelefono())
-                .cajasAsignadas(destinatario.getCajas().isEmpty()?null:aux)
+                .cajasAsignadas(destinatario.getCajas().isEmpty() ? null : aux)
                 .kgTotales(destinatarioService.showKgTotal(destinatario))
                 .build();
     }

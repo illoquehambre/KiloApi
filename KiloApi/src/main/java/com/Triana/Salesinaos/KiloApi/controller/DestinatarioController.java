@@ -35,10 +35,10 @@ public class DestinatarioController {
     private final DestinatarioDtoConverter destinatarioDtoConverter;
 
     @GetMapping("/")
-    public ResponseEntity<List<DestinatarioGetAll>> getAllDestinatarios(){
+    public ResponseEntity<List<DestinatarioGetAll>> getAllDestinatarios() {
 
-        List<Destinatario> destinatarios=destinatarioService.findAll();
-        if (destinatarioService.findAll().isEmpty()){
+        List<Destinatario> destinatarios = destinatarioService.findAll();
+        if (destinatarioService.findAll().isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
 
@@ -185,7 +185,6 @@ public class DestinatarioController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<DestinatarioResponse> findById(
-
             @PathParam("id")
             @Parameter(description = "Id del destinatario a obtener")
             @PathVariable Long id) {

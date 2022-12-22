@@ -30,17 +30,17 @@ public class Tiene implements Serializable {
     @JoinColumn(name = "caja_id", foreignKey = @ForeignKey(name = "FK_CAJA_TIENE"))
     private Caja caja;
 
-    @Column(name = "cantidadKgs")
+    @Column(name = "cantidadKgsEnCaja")
     private double cantidadKgs;
 
      /*
         HELPERS
      */
 
-    public void addToCajaToTipo(Caja c, TipoAlimento tipo) {
+    public void addToCajaToTipo(Caja c, TipoAlimento tipo, double cantidadAgregar) {
         this.setTipoAlimmento(tipo);
         this.setCaja(c);
-        this.setCantidadKgs(tipo.getKilosDisponibles().getCantidadDisponible());
+        this.setCantidadKgs(cantidadAgregar);
         c.getTieneList().add(this);
     }
 

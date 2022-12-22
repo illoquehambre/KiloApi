@@ -12,15 +12,19 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TieneService {
 
-    private TieneRepository tieneRepository;
+    private final TieneRepository repository;
 
-
-    public Optional<Tiene> findById(TienePK tienePK){
-        return tieneRepository.findById(tienePK);
+    public Optional<Tiene> findById(TienePK tienePK) {
+        return repository.findById(tienePK);
     }
 
-    public void deleteById(TienePK tienePK){tieneRepository.deleteById(tienePK); }
+    public Tiene save(Tiene tiene) {
+        return repository.save(tiene);
+    }
 
+    public void deleteById(TienePK tienePK) {
+        repository.deleteById(tienePK);
+    }
 
 
 }

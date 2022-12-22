@@ -44,7 +44,7 @@ public class MainMentira {
                 .id(tienePK)
                 .build();
 
-        tiene1.addToCajaToTipo(c1, t1);
+        tiene1.addToCajaToTipo(c1, t1, 5);
         tieneRepository.save(tiene1);
 
 
