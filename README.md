@@ -189,14 +189,14 @@ Si diese algún error, realiza el siguiente comando:
     ---> 100% 
 
 ___
-## **Autor**
+## **Autores**
 
 Este proyecto ha sido realizado por: 
 
 * [Rogelio Mohigefer Barrera - GITHUB](https://github.com/RogeMB)
 * [Ignacio Moreno Gómez - GITHUB](https://github.com/illoquehambre)
-* [Maylor David Bustamante Mercado ](https://github.com/MaylorSr)
-* [Carlos Ortega Reina](https://github.com/CarlitrosPicaTecla)
+* [Maylor David Bustamante Mercado - GITHUB](https://github.com/MaylorSr)
+* [Carlos Ortega Reina - GITHUB](https://github.com/CarlitrosPicaTecla)
 
 Estudiantes de 2º Desarrollo de Aplicaciones Multiplataforma, grado 
 superior de formación profesional en la ciudad de Sevilla, España.
