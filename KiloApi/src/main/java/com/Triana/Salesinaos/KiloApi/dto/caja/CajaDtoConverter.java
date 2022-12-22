@@ -56,6 +56,13 @@ public class CajaDtoConverter {
                 .destinatario(c.getDestinatario())
                 .build();
     }
+    public CajaDtoDelete cajaToCajaDeleteDto(Caja c){
+        return CajaDtoDelete.builder()
+                .id(c.getId())
+                .tieneList(c.getTieneList())
+                .build();
+
+    }
 
 
 }

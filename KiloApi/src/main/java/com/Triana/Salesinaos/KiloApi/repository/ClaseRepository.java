@@ -17,7 +17,7 @@ public interface ClaseRepository extends JpaRepository<Clase, Long> {
     */
 
     @Query("""
-            SELECT NEW com.Triana.Salesinaos.KiloApi.dto.ranking.GetRankingDto(C.id, C.nombre,SUM(DA.cantidadEnKilos)) FROM Clase C JOIN Aportacion A ON C.id = A.clase.id JOIN DetalleAportacion DA ON A.id = DA.aportacion.id GROUP BY C.id ORDER BY SUM(DA.cantidadEnKilos) DESC""")
+            SELECT NEW com.Triana.Salesinaos.KiloApi.dto.ranking.GetRankingDto(C.id, C.nombre,SUM(DA.cantidadEnKilos),AVG(DA.cantidadEnKilos)) FROM Clase C JOIN Aportacion A ON C.id = A.clase.id JOIN DetalleAportacion DA ON A.id = DA.aportacion.id GROUP BY C.id ORDER BY SUM(DA.cantidadEnKilos) DESC""")
     List<GetRankingDto> rankingClases();
 
 }

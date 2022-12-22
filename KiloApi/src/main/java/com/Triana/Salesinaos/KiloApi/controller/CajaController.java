@@ -2,15 +2,21 @@ package com.Triana.Salesinaos.KiloApi.controller;
 
 
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionResponse;
-import com.Triana.Salesinaos.KiloApi.dto.caja.CajaResponsePost;
+import com.Triana.Salesinaos.KiloApi.dto.caja.*;
+
 
 
 import com.Triana.Salesinaos.KiloApi.dto.caja.CajaDtoConverter;
 import com.Triana.Salesinaos.KiloApi.dto.caja.CreateCajaDto;
 import com.Triana.Salesinaos.KiloApi.dto.caja.CajaResponseCreate;
 import com.Triana.Salesinaos.KiloApi.model.*;
+import com.Triana.Salesinaos.KiloApi.model.Caja;
+import com.Triana.Salesinaos.KiloApi.model.Tiene;
+import com.Triana.Salesinaos.KiloApi.model.TienePK;
+import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
 import com.Triana.Salesinaos.KiloApi.repository.TieneRepository;
 import com.Triana.Salesinaos.KiloApi.service.CajaService;
+import com.Triana.Salesinaos.KiloApi.service.DestinatarioService;
 import com.Triana.Salesinaos.KiloApi.service.TieneService;
 import com.Triana.Salesinaos.KiloApi.service.TipoAlimentoService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -36,7 +42,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/caja")
 @RestController
-@OpenAPIDefinition(info = @Info(title ="Operación-Kilo API"))
+@OpenAPIDefinition(info = @Info(title = "Operación-Kilo API"))
 @Tag(name = "Caja", description = "Esta clase implementa Restcontrollers para la entidad Caja")
 public class CajaController {
     private final CajaService cajaService;
@@ -44,6 +50,8 @@ public class CajaController {
     private final CajaDtoConverter cajaDtoConverter;
     private final TieneService tieneService;
     private final TieneRepository tieneRepository;
+
+    private final DestinatarioService destinatarioService;
 
 
     @Operation(summary = "Actualizar la cantidad de kg de la caja")
@@ -133,7 +141,7 @@ public class CajaController {
     })
     @PutMapping("/{id}/tipo/{IdtipoAlimento}/{cantidad}")
     public ResponseEntity<CajaResponsePost> editCantidadToCaja(@PathVariable("id") Long id, @PathVariable("IdtipoAlimento") Long IdTipoAlimento,
-                                                               @PathVariable("cantidad") double cantidad){
+                                                               @PathVariable("cantidad") double cantidad) {
         Optional<Caja> caja = cajaService.findById(id);
         Optional<TipoAlimento> tipoAlimento = tipoAlimentoService.findById(IdTipoAlimento);
 
@@ -159,11 +167,21 @@ public class CajaController {
                     return ResponseEntity
                             .status(HttpStatus.OK)
                             .body(cajaDtoConverter
-                                    .CreateCajaToCajaResponsePost(cajaService.add(caja.get())));
-
-                }else {
-
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+                                    .CreateCajaToCajaResponsePost(caja.get()));
+                }
+                if (cantidad > 0 && tipoAlimento.get().getKilosDisponibles().getCantidadDisponible()<cantidad){
+                    caja.get().setKilosTotales(caja.get().getKilosTotales() - cantidad);
+                    tiene.get().setCantidadKgs(cantidad);
+                    tipoAlimento.get().getKilosDisponibles().setCantidadDisponible(tipoAlimento.get()
+                            .getKilosDisponibles().getCantidadDisponible() + cantidad);
+                    return ResponseEntity
+                            .status(HttpStatus.OK)
+                            .body(cajaDtoConverter
+                                    .CreateCajaToCajaResponsePost(caja.get()));
+                }
+                if (cantidad==0){
+                    tieneService.deleteById(tienePK);
+                    return ResponseEntity.status(HttpStatus.OK).build();
 
                 }
 
@@ -182,20 +200,22 @@ public class CajaController {
 
 
     @DeleteMapping("/{id}/tipo/{idTipoAlim}")
-    public ResponseEntity<?> deleteTipoAlimentoCaja(@PathVariable("id") Long id, @PathVariable("idTipoAlim") Long idTipoAlimento){
+
+    public ResponseEntity<CajaDtoDelete> deleteTipoAlimentoCaja(@PathVariable("id") Long id, @PathVariable("idTipoAlim") Long idTipoAlimento){
         Optional<Caja> caja = cajaService.findById(id);
         Optional<TipoAlimento> tipoAlimento = tipoAlimentoService.findById(idTipoAlimento);
-        if (caja.isPresent() || tipoAlimento.isPresent()){
+        if (caja.isPresent() && tipoAlimento.isPresent()){
+
 
             TienePK tienePK = new TienePK(idTipoAlimento, id);
             Optional<Tiene> tiene = tieneRepository.findById(tienePK);
 
             tipoAlimento.get().getKilosDisponibles()
-                    .setCantidadDisponible(tipoAlimento.get().getKilosDisponibles().getCantidadDisponible()+tiene.get().getCantidadKgs());
+                    .setCantidadDisponible(tipoAlimento.get().getKilosDisponibles().getCantidadDisponible() + tiene.get().getCantidadKgs());
 
             tieneRepository.deleteById(tienePK);
 
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).body(cajaDtoConverter.cajaToCajaDeleteDto(caja.get()));
 
         }
 
@@ -329,5 +349,56 @@ public class CajaController {
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+
+    @Operation(summary = "Añadir una caja a un destinatario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Se añade una caja a un destinatario",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CajaResponsePost.class),
+                            examples = @ExampleObject(value = """
+                                        {
+                                            "id": 1,
+                                            "qr": "134",
+                                            "numCaja": "18",
+                                            "kilosTotales": 0.0,
+                                            "destinatario": null
+                                        }
+                                    """
+                            ))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Esta caja ya tiene asignada un usuario",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "Caja / destinatario no existe",
+                    content = @Content)
+    })
+    @PostMapping("/{idCaja}/destinatario/{idDestinatario}")
+    public ResponseEntity<CajaResponsePost> agregarCajaToDestinatario(
+            @PathParam("id, idDestinatario")
+            @Parameter(description = """
+                    Id de la caja que vamos a asignar al destinatario,
+                    idDestinatario es el id del destinatario al que le vamos a asignar la caja.
+                     """)
+            @PathVariable("idCaja") Long id,
+            @PathVariable("idDestinatario") Long idDestinatario) {
+        Optional<Destinatario> destinatario = destinatarioService.findById(idDestinatario);
+        Optional<Caja> caja = cajaService.findById(id);
+        if (destinatario.isPresent() && caja.isPresent()) {
+            if (destinatario.get().getCajas().contains(caja.get())
+                    || caja.get().getDestinatario() != null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            } else {
+                caja.get().addDestinatarioToCaja(destinatario.get());
+                destinatarioService.edit(destinatario.get());
+                cajaService.edit(caja.get());
+                return ResponseEntity.status(HttpStatus.CREATED).body(cajaDtoConverter.CreateCajaToCajaResponsePost(caja.get()));
+            }
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+
 }
 
