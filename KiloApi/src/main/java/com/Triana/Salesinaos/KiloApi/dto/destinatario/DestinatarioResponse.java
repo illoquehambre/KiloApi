@@ -1,8 +1,7 @@
 package com.Triana.Salesinaos.KiloApi.dto.destinatario;
 
-import com.Triana.Salesinaos.KiloApi.model.Destinatario;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
+
 
 @NoArgsConstructor
 @AllArgsConstructor

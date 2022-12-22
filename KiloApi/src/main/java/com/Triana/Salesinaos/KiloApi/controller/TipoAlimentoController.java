@@ -45,7 +45,7 @@ public class TipoAlimentoController {
                                             [
                                                 {
                                                     "id": 1,
-                                                    "nombre": "cerveza",
+                                                    "nombre": "Macarrones",
                                                     "kilosDisponibles": 7.0
                                                 },
                                                 {
@@ -62,14 +62,14 @@ public class TipoAlimentoController {
                     content = @Content),
     })
     @GetMapping("/")
-    public ResponseEntity <List<TipoAlimentoDto>> findAll() {
+    public ResponseEntity <List<TipoAlimentoDto>> getAllTipoAlimento() {
         List<TipoAlimento> tipoAlimentoList = tipoAlimentoService.findAll();
 
         if (tipoAlimentoList.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity
-                    .ok(tipoAlimentoList.stream().map(TipoAlimentoDto::of).toList()); //.collect(Collectors.toList())
+                    .ok(tipoAlimentoList.stream().map(TipoAlimentoDto::of).toList());
         }
     }
 
@@ -111,14 +111,14 @@ public class TipoAlimentoController {
             @ApiResponse(responseCode = "201",
                     description = "Tipo de alimento creado",
                     content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = TipoAlimento.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = TipoAlimentoDto.class)),
                             examples = {@ExampleObject(
                                     value = """
                                             {
-                                                    "id": 1,
-                                                    "nombre": "cerveza",
-                                                    "kilosDisponibles": 0.0
-                                                }
+                                                "id": 3,
+                                                "nombre": "Macarrones",
+                                                "kilosDisponibles": 0.0
+                                            }
                                             """
                             )}
                     )}),

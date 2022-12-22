@@ -1,7 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.dto.aportacion;
 
 import lombok.*;
-
 import java.util.List;
 
 @Builder

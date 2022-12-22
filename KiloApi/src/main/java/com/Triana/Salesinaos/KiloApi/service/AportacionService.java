@@ -7,14 +7,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateAportacion;
-import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateDetalleAportacion;
 import com.Triana.Salesinaos.KiloApi.model.*;
-import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
 import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.model.DetalleAportacion;
 import com.Triana.Salesinaos.KiloApi.model.DetalleAportacionPK;
 import com.Triana.Salesinaos.KiloApi.repository.AportacionRepository;
-import com.Triana.Salesinaos.KiloApi.repository.KilosDisponiblesRepository;
+
 
 import java.util.*;
 
@@ -32,11 +30,7 @@ public class AportacionService {
         repository.deleteById(id);
     }
     public List<DetalleAportacion> findByTipoAlimentoId(Long id) { return repository.findByTipoAlimento(id); }
-    /*
-    public String findNombreClaseById(Long id) {
-        return claseService.findById(id).get().getNombre();
-    }
-    */
+
     public double sumKilosByAportacion(Long id) {
         return repository.sumaKilosAportacion(id);
     }
@@ -56,10 +50,6 @@ public class AportacionService {
 
                 create.listadoDetallesAportacion().forEach(detalle -> {
 
-                    //checkear si existe ya un kilos disponibles de ese tipo de alimento
-                    //Si: Se añade a este
-                    //No: Se crea uno nuevo kilosDisponibles y se añade
-
                     if(kilosDisponiblesService.existById(detalle.tipoAlimentoId()))
                         tipoAlimentoService.findById(detalle.tipoAlimentoId()).get().addKilosToTipoAlimento(kilosDisponiblesService.findById(detalle.tipoAlimentoId()).get(), detalle.kilos());
                     else{
@@ -78,7 +68,7 @@ public class AportacionService {
                                     .id(new DetalleAportacionPK(aportacion.getId(), detalleAportacionesList.size()+1))
                                     .cantidadEnKilos(detalle.kilos())
                                     .aportacion(aportacion)
-                                    .tipoAlimento((tipoAlimentoService.findById(detalle.tipoAlimentoId()).get()))//falta gestionar si el idAlimento no existe
+                                    .tipoAlimento((tipoAlimentoService.findById(detalle.tipoAlimentoId()).get()))
                             .build()
                     ));
 
@@ -95,7 +85,6 @@ public class AportacionService {
                 .kilosTotales(this.sumKilosByAportacion(aportacion.getId()))
                 .build();
     }
-
 
     public List<Aportacion> findAll (){
         return repository.findAll();
@@ -117,7 +106,6 @@ public class AportacionService {
 
         return auxiliar;
     }
-
 
 
     public Map<String, Double> createPairList (Aportacion aportacion) {

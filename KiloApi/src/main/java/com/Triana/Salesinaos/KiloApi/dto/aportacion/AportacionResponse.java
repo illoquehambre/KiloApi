@@ -1,10 +1,7 @@
 package com.Triana.Salesinaos.KiloApi.dto.aportacion;
 
 import com.Triana.Salesinaos.KiloApi.model.Aportacion;
-
 import lombok.Builder;
-
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

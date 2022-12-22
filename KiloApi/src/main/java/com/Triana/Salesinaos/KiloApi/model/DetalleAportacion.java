@@ -2,7 +2,6 @@ package com.Triana.Salesinaos.KiloApi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.*;
 

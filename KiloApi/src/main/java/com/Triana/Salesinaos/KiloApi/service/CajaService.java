@@ -25,11 +25,9 @@ public class CajaService {
         return repository.save(caja);
     }
 
-
     public Optional<Caja> findById(Long id) {
         return repository.findById(id);
     }
-
 
     public Caja edit(Caja caja) {
         return repository.save(caja);

@@ -4,7 +4,6 @@ package com.Triana.Salesinaos.KiloApi.controller;
 import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
 import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDtoConverter;
 import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseResponse;
-import com.Triana.Salesinaos.KiloApi.model.Clase;
 import com.Triana.Salesinaos.KiloApi.service.ClaseService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,7 +33,6 @@ import java.util.Optional;
 public class ClaseController {
 
     private final ClaseService claseService;
-    private final ClaseService service;
     private final ClaseDtoConverter converter;
 
 
@@ -47,20 +45,18 @@ public class ClaseController {
                             array = @ArraySchema(schema = @Schema(implementation = ClaseDto.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                                [
-                                                    {
-                                                        "id": 1,
-                                                        "nombre": "2ºDAM",
-                                                        "tutor": "Luismi",
-                                                        "listadoAportaciones": []
-                                                    },
-                                                    {
-                                                        "id": 2,
-                                                        "nombre": "1ºDAM",
-                                                        "tutor": "Eduardo",
-                                                        "listadoAportaciones": []
-                                                    }
-                                                ]
+                                            [
+                                                {
+                                                    "id": 1,
+                                                    "nombre": "2ºDam",
+                                                    "tutor": "Luismi"
+                                                },
+                                                {
+                                                    "id": 2,
+                                                    "nombre": "1ºDam",
+                                                    "tutor": "Eduardo"
+                                                }
+                                            ]
                                             """
                             )}
                     )}),
@@ -68,7 +64,7 @@ public class ClaseController {
                     description = "No se ha encontrado ninguna clase",
                     content = @Content),
     })
-    @GetMapping("/")//Deberia devolver un Dto
+    @GetMapping("/")
     public ResponseEntity<List<ClaseDto>> getAllclases(){
     List<ClaseDto> data = new ArrayList<>();
 
@@ -94,10 +90,13 @@ public class ClaseController {
                             array = @ArraySchema(schema = @Schema(implementation = ClaseDto.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                            [
-                                                {"id": 1, "nombre": "1ºDAM", "tutor": "Eduardo", "numAportaciones": 4, "kilosTotales": 34},
-                                                {"id": 2, "nombre": "2ºDAM", "tutor": "Luismi", "numAportaciones": 4, "kilosTotales": 32}
-                                            ]
+                                            {
+                                                "id": 1,
+                                                "nombre": "2ºDam",
+                                                "tutor": "Luismi",
+                                                "numAportaciones": 0,
+                                                "kilosTotales": 0.0
+                                            }
                                             """
                             )}
                     )}),
@@ -110,12 +109,12 @@ public class ClaseController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<ClaseResponse> getClaseById(@PathVariable Long id){
-        if (!service.existById(id))
+        if (!claseService.existById(id))
             return ResponseEntity.notFound().build();
          else
             return ResponseEntity
                     .ok()
-                    .body(converter.ClaseToClaseResponse(service.findById(id).get()));
+                    .body(converter.ClaseToClaseResponse(claseService.findById(id).get()));
 
     }
 
@@ -155,10 +154,11 @@ public class ClaseController {
                             array = @ArraySchema(schema = @Schema(implementation = ClaseDto.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                            [
-                                                {"id": 1, "nombre": "1ºDAM", "tutor": "Miguel" },
-                                                {"id": 1, "nombre": "2ºDAM", "tutor": "Luismi" }
-                                            ]
+                                            {
+                                                "id": 2,
+                                                "nombre": "1ºDam",
+                                                "tutor": "Miguel"
+                                            }
                                             """
                             )}
                     )}),
