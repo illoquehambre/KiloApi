@@ -1,16 +1,14 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
 
+import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionResponse;
 import com.Triana.Salesinaos.KiloApi.dto.caja.CajaResponsePost;
 
 
 import com.Triana.Salesinaos.KiloApi.dto.caja.CajaDtoConverter;
 import com.Triana.Salesinaos.KiloApi.dto.caja.CreateCajaDto;
 import com.Triana.Salesinaos.KiloApi.dto.caja.CajaResponseCreate;
-import com.Triana.Salesinaos.KiloApi.model.Caja;
-import com.Triana.Salesinaos.KiloApi.model.Tiene;
-import com.Triana.Salesinaos.KiloApi.model.TienePK;
-import com.Triana.Salesinaos.KiloApi.model.TipoAlimento;
+import com.Triana.Salesinaos.KiloApi.model.*;
 import com.Triana.Salesinaos.KiloApi.repository.TieneRepository;
 import com.Triana.Salesinaos.KiloApi.service.CajaService;
 import com.Triana.Salesinaos.KiloApi.service.TieneService;
@@ -139,43 +137,47 @@ public class CajaController {
         Optional<Caja> caja = cajaService.findById(id);
         Optional<TipoAlimento> tipoAlimento = tipoAlimentoService.findById(IdTipoAlimento);
 
-        if (caja.isPresent() || tipoAlimento.isPresent()){
+
+        if (caja.isPresent() && tipoAlimento.isPresent()){
+
+
             TienePK tienePK = new TienePK(tipoAlimento.get().getId(), caja.get().getId());
             Optional<Tiene> tiene = tieneRepository.findById(tienePK);
             tieneRepository.save(tiene.get());
+            double cantidadDisponible=tipoAlimento.get().getKilosDisponibles().getCantidadDisponible();
+            double cantidadEnCaja=tiene.get().getCantidadKgs();
+
             if (tiene.isPresent()){
-                if (cantidad > 0 && tipoAlimento.get().getKilosDisponibles().getCantidadDisponible()>cantidad){
-                    caja.get().setKilosTotales(caja.get().getKilosTotales() + cantidad);
+
+                if (cantidad > 0 && cantidadDisponible-(cantidad-cantidadEnCaja)>=0 && (caja.get().getKilosTotales() + cantidad-cantidadEnCaja)>=0){
+                    caja.get().setKilosTotales(caja.get().getKilosTotales() + (cantidad-cantidadEnCaja));
                     tiene.get().setCantidadKgs(cantidad);
+                    tieneRepository.save(tiene.get());
                     tipoAlimento.get().getKilosDisponibles()
                             .setCantidadDisponible(tipoAlimento.get()
-                                    .getKilosDisponibles().getCantidadDisponible() - cantidad);
+                                    .getKilosDisponibles().getCantidadDisponible() - (cantidad-cantidadEnCaja));
                     return ResponseEntity
                             .status(HttpStatus.OK)
                             .body(cajaDtoConverter
-                                    .CreateCajaToCajaResponsePost(caja.get()));
-                }
-                if (cantidad > 0 && tipoAlimento.get().getKilosDisponibles().getCantidadDisponible()<cantidad){
-                    caja.get().setKilosTotales(caja.get().getKilosTotales() - cantidad);
-                    tiene.get().setCantidadKgs(cantidad);
-                    tipoAlimento.get().getKilosDisponibles().setCantidadDisponible(tipoAlimento.get()
-                            .getKilosDisponibles().getCantidadDisponible() + cantidad);
-                    return ResponseEntity
-                            .status(HttpStatus.OK)
-                            .body(cajaDtoConverter
-                                    .CreateCajaToCajaResponsePost(caja.get()));
-                }
-                if (cantidad==0){
-                    tieneService.deleteById(tienePK);
-                    return ResponseEntity.status(HttpStatus.OK).build();
+                                    .CreateCajaToCajaResponsePost(cajaService.add(caja.get())));
+
+                }else {
+
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
                 }
+
+            }else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
             }
 
+        }else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
     }
 
 
