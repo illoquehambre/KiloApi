@@ -39,4 +39,11 @@ public class Caja implements Serializable {
     private List<Tiene> tieneList = new ArrayList<>();
 
 
+    /***Helper**/
+    public void addDestinatarioToCaja(Destinatario d) {
+        destinatario = d;
+        d.getCajas().add(this);
+    }
+
+
 }
