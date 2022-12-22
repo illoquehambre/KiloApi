@@ -1,12 +1,9 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
 
-import com.Triana.Salesinaos.KiloApi.dto.caja.CajaResponsePost;
+import com.Triana.Salesinaos.KiloApi.dto.caja.*;
 
 
-import com.Triana.Salesinaos.KiloApi.dto.caja.CajaDtoConverter;
-import com.Triana.Salesinaos.KiloApi.dto.caja.CreateCajaDto;
-import com.Triana.Salesinaos.KiloApi.dto.caja.CajaResponseCreate;
 import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.model.Tiene;
 import com.Triana.Salesinaos.KiloApi.model.TienePK;
@@ -180,10 +177,10 @@ public class CajaController {
 
 
     @DeleteMapping("/{id}/tipo/{idTipoAlim}")
-    public ResponseEntity<?> deleteTipoAlimentoCaja(@PathVariable("id") Long id, @PathVariable("idTipoAlim") Long idTipoAlimento){
+    public ResponseEntity<CajaDtoDelete> deleteTipoAlimentoCaja(@PathVariable("id") Long id, @PathVariable("idTipoAlim") Long idTipoAlimento){
         Optional<Caja> caja = cajaService.findById(id);
         Optional<TipoAlimento> tipoAlimento = tipoAlimentoService.findById(idTipoAlimento);
-        if (caja.isPresent() || tipoAlimento.isPresent()){
+        if (caja.isPresent() && tipoAlimento.isPresent()){
 
             TienePK tienePK = new TienePK(idTipoAlimento, id);
             Optional<Tiene> tiene = tieneRepository.findById(tienePK);
@@ -193,7 +190,7 @@ public class CajaController {
 
             tieneRepository.deleteById(tienePK);
 
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).body(cajaDtoConverter.cajaToCajaDeleteDto(caja.get()));
 
         }
 
