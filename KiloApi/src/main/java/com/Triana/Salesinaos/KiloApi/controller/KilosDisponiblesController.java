@@ -74,7 +74,7 @@ public class KilosDisponiblesController {
     })
 
     @GetMapping("/")
-    public ResponseEntity<List<TipoAlimentoToCajaDto>> findAll() {
+    public ResponseEntity<List<TipoAlimentoToCajaDto>> findAllTipoAlimento() {
         List<KilosDisponibles> kilosDisponiblesList = kilosDisponiblesService.findAll();
         if (kilosDisponiblesList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -112,7 +112,7 @@ public class KilosDisponiblesController {
                     content = @Content)
     })
     @GetMapping("/{idTipoAlimento}")
-    public ResponseEntity<KilosDisponiblesRespo> findById(
+    public ResponseEntity<KilosDisponiblesRespo> findByIdTipoAlimento(
             @PathParam("idTipoAlimento")
             @Parameter(description = "Id del tipo de alimento")
                                                               @PathVariable("idTipoAlimento") Long id) {
