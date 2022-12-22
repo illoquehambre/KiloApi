@@ -17,7 +17,6 @@ public class KilosDisponiblesService {
         return repository.save(kilosDisponibles);
     }
 
-
     public List<KilosDisponibles> findAll() {
         return repository.findAll();
     }

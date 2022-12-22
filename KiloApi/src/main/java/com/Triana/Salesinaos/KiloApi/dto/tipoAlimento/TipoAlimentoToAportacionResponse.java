@@ -1,7 +1,6 @@
 package com.Triana.Salesinaos.KiloApi.dto.tipoAlimento;
 
 import com.Triana.Salesinaos.KiloApi.model.Aportacion;
-import com.Triana.Salesinaos.KiloApi.model.DetalleAportacion;
 import lombok.*;
 
 import java.util.ArrayList;

@@ -3,6 +3,8 @@ package com.Triana.Salesinaos.KiloApi.controller;
 import com.Triana.Salesinaos.KiloApi.dto.ranking.GetRankingDto;
 import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.service.ClaseService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,6 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/ranking")
 @RequiredArgsConstructor
+@OpenAPIDefinition(info = @Info(title ="Operación-Kilo API"))
 @Tag(name = "Ranking", description = "Esta clase muestra un ranking de las aportaciones de cada clase")
 public class RankingController {
     private final ClaseService service;
@@ -56,14 +59,7 @@ public class RankingController {
 
         if (list.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
         }
-
             return ResponseEntity.ok().body(list);
-
-
-
-
-
     }
 }

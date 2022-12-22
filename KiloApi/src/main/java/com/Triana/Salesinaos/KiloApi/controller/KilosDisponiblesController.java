@@ -62,7 +62,7 @@ public class KilosDisponiblesController {
                                                 {"id": 1, "nombre": "Pasta"}, "kgCantidad" : "5"},
                                                 {"id": 2, "nombre": "Aceite"}, "kgCantidad" : "15}",
                                                 {"id": 3, "nombre": "Arroz"}, "kgCantidad" : "25"},
-                                            ]                                          
+                                            ]
                                             """
                             )}
                     )}),

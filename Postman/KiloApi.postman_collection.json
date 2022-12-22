@@ -1,0 +1,779 @@
+{
+	"info": {
+		"_postman_id": "9eff33af-f7c9-4078-a1f1-ff130533494b",
+		"name": "KiloApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23783500"
+	},
+	"item": [
+		{
+			"name": "TipoAlimento",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Pescado\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}tipoalimento/",
+							"host": [
+								"{{url_base}}tipoalimento"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}tipoalimento/",
+							"host": [
+								"{{url_base}}tipoalimento"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}tipoalimento/1",
+							"host": [
+								"{{url_base}}tipoalimento"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}tipoalimento/3",
+							"host": [
+								"{{url_base}}tipoalimento"
+							],
+							"path": [
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"aceitunas\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}tipoalimento/1",
+							"host": [
+								"{{url_base}}tipoalimento"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clases",
+			"item": [
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}clase/",
+							"host": [
+								"{{url_base}}clase"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}clase/1",
+							"host": [
+								"{{url_base}}clase"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"2ºDam\",\r\n    \"tutor\": \"Luismi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}clase/",
+							"host": [
+								"{{url_base}}clase"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"1ºDam\",\r\n    \"tutor\": \"Miguel\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}clase/2",
+							"host": [
+								"{{url_base}}clase"
+							],
+							"path": [
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}clase/1",
+							"host": [
+								"{{url_base}}clase"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Aportacion",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"listadoDetallesAportacion\": [{\"tipoAlimentoId\": 3, \"kilos\": 25},{\"tipoAlimentoId\": 4, \"kilos\": 15}],\r\n    \"claseId\": 1\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}aportacion/",
+							"host": [
+								"{{url_base}}aportacion"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateAportacion",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url_base}}aportacion/4/linea/2/kg/4",
+							"host": [
+								"{{url_base}}aportacion"
+							],
+							"path": [
+								"4",
+								"linea",
+								"2",
+								"kg",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}aportacion/",
+							"host": [
+								"{{url_base}}aportacion"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}aportacion/4",
+							"host": [
+								"{{url_base}}aportacion"
+							],
+							"path": [
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by id clase",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}aportacion/clase/2",
+							"host": [
+								"{{url_base}}aportacion"
+							],
+							"path": [
+								"clase",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete aportacion",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}aportacion/8",
+							"host": [
+								"{{url_base}}aportacion"
+							],
+							"path": [
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete detalle aportacion",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}aportacion/5/linea/2",
+							"host": [
+								"{{url_base}}aportacion"
+							],
+							"path": [
+								"5",
+								"linea",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cajas",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"qr\" : \"123\",\r\n    \"numCaja\" : \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}caja/",
+							"host": [
+								"{{url_base}}caja"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}caja/",
+							"host": [
+								"{{url_base}}caja"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}caja/2",
+							"host": [
+								"{{url_base}}caja"
+							],
+							"path": [
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"qr\" : \"01\",\r\n    \"numCaja\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}caja/1",
+							"host": [
+								"{{url_base}}caja"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cantidad tipo alimento caja",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}caja/2/tipo/1/2",
+							"host": [
+								"{{url_base}}caja"
+							],
+							"path": [
+								"2",
+								"tipo",
+								"1",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cretae tipoAlimento in caja",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}caja/2/tipo/1/1",
+							"host": [
+								"{{url_base}}caja"
+							],
+							"path": [
+								"2",
+								"tipo",
+								"1",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete tipo alimento caja",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}caja/2/tipo/1",
+							"host": [
+								"{{url_base}}caja"
+							],
+							"path": [
+								"2",
+								"tipo",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}caja/1",
+							"host": [
+								"{{url_base}}caja"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Destinatinario a caja",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}caja/5/destinatario/6",
+							"host": [
+								"{{url_base}}caja"
+							],
+							"path": [
+								"5",
+								"destinatario",
+								"6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Destinatario",
+			"item": [
+				{
+					"name": "Destinatario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}destinatario/",
+							"host": [
+								"{{url_base}}destinatario"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Destinatario ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}destinatario/7",
+							"host": [
+								"{{url_base}}destinatario"
+							],
+							"path": [
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}destinatario/9",
+							"host": [
+								"{{url_base}}destinatario"
+							],
+							"path": [
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Pepe\",\r\n    \"personaContacto\": \"151864\",\r\n    \"direccion\": \"byrbrtdbvdrs\",\r\n    \"telefono\": \"53216548\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}destinatario/7",
+							"host": [
+								"{{url_base}}destinatario"
+							],
+							"path": [
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Destinatario ID detalle",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}destinatario/7/detalle",
+							"host": [
+								"{{url_base}}destinatario"
+							],
+							"path": [
+								"7",
+								"detalle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Destinatario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Francisco\",\r\n    \"personaContacto\": \"548642168\",\r\n    \"direccion\": \"ncojwercurb4weuv\",\r\n    \"telefono\": \"6546515618\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}destinatario/",
+							"host": [
+								"{{url_base}}destinatario"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ranking",
+			"item": [
+				{
+					"name": "Ranking",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}ranking/",
+							"host": [
+								"{{url_base}}ranking"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "KilosDisponibles",
+			"item": [
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}kilosDisponibles/",
+							"host": [
+								"{{url_base}}kilosDisponibles"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}kilosDisponibles/1",
+							"host": [
+								"{{url_base}}kilosDisponibles"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url_base",
+			"value": "localhost:8080/",
+			"type": "string"
+		}
+	]
+}

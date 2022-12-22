@@ -1,10 +1,8 @@
 package com.Triana.Salesinaos.KiloApi.controller;
 
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.*;
-import com.Triana.Salesinaos.KiloApi.dto.clase.ClaseDto;
 import com.Triana.Salesinaos.KiloApi.model.*;
 import com.Triana.Salesinaos.KiloApi.service.KilosDisponiblesService;
-import com.Triana.Salesinaos.KiloApi.dto.tipoAlimento.TipoAlimentoDto;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.AportacionResponse;
 import com.Triana.Salesinaos.KiloApi.dto.aportacion.CreateAportacion;
 import com.Triana.Salesinaos.KiloApi.model.DetalleAportacion;
@@ -40,7 +38,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequestMapping("/aportacion")
 @OpenAPIDefinition(info = @Info(title ="Operación-Kilo API"))
 @RequiredArgsConstructor
-@Tag(name = "Aportacion", description = "Esta clase implementa Restcontrollers para la entidad Aportacion")
+@Tag(name = "Aportacion", description = "Esta clase implementa Restcontrollers para la entidad Aportacion y sus detalles")
 public class AportacionController {
 
     private final AportacionService aportacionService;
@@ -150,19 +148,19 @@ public class AportacionController {
                             array = @ArraySchema(schema = @Schema(implementation = AportacionResponse.class)),
                             examples = @ExampleObject(value = """
                                     {
-                                        "id": 3,
-                                        "claseId": 3,
-                                        "fecha": "2022-12-21",
+                                        "id": 5,
+                                        "claseId": 2,
+                                        "fecha": "2022-12-22",
                                         "detallesAportacion": [
                                             {
                                                 "numLinea": 1,
-                                                "tipoAlimento": "cerveza",
-                                                "kilos": 2.0
+                                                "tipoAlimento": "Macarrones",
+                                                "kilos": 25.0
                                             },
                                             {
                                                 "numLinea": 2,
-                                                "tipoAlimento": "cerveza",
-                                                "kilos": 3.0
+                                                "tipoAlimento": "Patatas",
+                                                "kilos": 15.0
                                             }
                                         ]
                                     }
@@ -340,22 +338,18 @@ public class AportacionController {
                             array = @ArraySchema(schema = @Schema(implementation = DetalleAportacionResponse.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                            [
-                                                {
-                                                    "fecha": "2022-12-21",
-                                                    "detallesAportacion": {
-                                                        "Atún": 3.0,
-                                                        "Pizza": 3.0
+                                            {
+                                                "id": 5,
+                                                "claseId": 1,
+                                                "fecha": "2022-12-22",
+                                                "detallesAportacion": [
+                                                    {
+                                                        "numLinea": 1,
+                                                        "tipoAlimento": "Patatas",
+                                                        "kilos": 25.0
                                                     }
-                                                },
-                                                {
-                                                    "fecha": "2022-12-21",
-                                                    "detallesAportacion": {
-                                                        "Atún": 5.0,
-                                                        "Pizza": 4.0
-                                                    }
-                                                }
-                                            ]
+                                                ]
+                                            }
                                             """
                             )}
                     )}),
