@@ -89,23 +89,22 @@ public class CajaController {
         TienePK tienePK = new TienePK(t.get().getId(), c.get().getId());
         Optional<Tiene> aux = tieneRepository.findById(tienePK);
         /**COMPROBAMOMS SI EXISTE LA CAJA, EL TIPO ALIMENTO**/
-        if (c.isEmpty() || t.isEmpty()) {
+        if (c.isPresent() || t.isPresent()) {
             if (aux.isEmpty()) {
-                TienePK tienePK1 = new TienePK(t.get().getId(), c.get().getId());
                 Tiene tiene = Tiene.builder()
-                        .id(tienePK1)
+                        .id(tienePK)
                         .build();
                 tiene.addToCajaToTipo(c.get(), t.get());
                 tieneRepository.save(tiene);
-                cajaService.edit(c.get());
-            }
-            if (cantidad > 0 && cantidad < t.get().getKilosDisponibles().getCantidadDisponible()) {
-                c.get().setKilosTotales(c.get().getKilosTotales() + cantidad);
-                aux.get().setCantidadKgs(aux.get().getCantidadKgs() + cantidad);
-                t.get().getKilosDisponibles().setCantidadDisponible(t.get().getKilosDisponibles().getCantidadDisponible() - cantidad);
-                cajaService.edit(c.get());
-                tieneRepository.save(aux.get());
-                tipoAlimentoService.edit(t.get());
+            } else {
+                if (cantidad > 0 && cantidad < t.get().getKilosDisponibles().getCantidadDisponible()) {
+                    c.get().setKilosTotales(c.get().getKilosTotales() + cantidad);
+                    aux.get().setCantidadKgs(aux.get().getCantidadKgs() + cantidad);
+                    t.get().getKilosDisponibles().setCantidadDisponible(t.get().getKilosDisponibles().getCantidadDisponible() - cantidad);
+                    tieneRepository.save(aux.get());
+                    cajaService.edit(c.get());
+                    tipoAlimentoService.edit(t.get());
+                }
             }
             return ResponseEntity.status(HttpStatus.CREATED).body(cajaDtoConverter.CreateCajaToCajaResponsePost(c.get()));
         }
