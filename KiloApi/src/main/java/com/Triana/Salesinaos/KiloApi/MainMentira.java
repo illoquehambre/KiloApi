@@ -20,6 +20,10 @@ public class MainMentira {
     private final KilosDisponiblesService kilosDisponiblesService;
     private final TieneRepository tieneRepository;
 
+    /**
+     * CREADO MAYLOR
+     **/
+    /*
     @PostConstruct
     public void init() {
 
@@ -50,20 +54,43 @@ public class MainMentira {
                 .cantidadDisponible(7)
                 .build();
 
-        tipoAlimentoService.save(t1);
+        KilosDisponibles k2 = KilosDisponibles.builder()
+                .cantidadDisponible(9)
+                .build();
+
+        tipoAlimentoService.add(t1);
         tipoAlimentoService.save(t2);
 
-        t1.addKilosToTipoAlimento(k, 2);
-        t2.addKilosToTipoAlimento(k, 3);
+        t1.addKilosToTipoAlimento(k);
+        t2.addKilosToTipoAlimento(k2);
 
         kilosDisponiblesRepository.save(k);
+        kilosDisponiblesRepository.save(k2);
+
         tipoAlimentoService.save(t1);
         tipoAlimentoService.save(t2);
+
+        Destinatario d1 = new Destinatario();
+        d1.setNombre("Maylor");
+        d1.setDireccion("Avenida alvar nuñez");
+        d1.setTelefono("609835692");
+        d1.setPersonaContacto("Maylor Bustamante");
+
+        Destinatario d2 = new Destinatario();
+        d2.setNombre("Juan");
+        d2.setDireccion("Avenida Coria");
+        d2.setTelefono("609835692");
+        d2.setPersonaContacto("Juan Mercado");
+
+        destinatarioRepository.save(d1);
+        destinatarioRepository.save(d2);
+
 
         Caja c1 = Caja.builder()
                 .qr("Codigo-1")
                 .kilosTotales(68)
                 .numCaja("Caja-123")
+                .destinatario(d1)
                 .build();
 
         Caja c2 = Caja.builder()
@@ -83,22 +110,7 @@ public class MainMentira {
 
         tiene1.addToCajaToTipo(c1, t1);
         tieneRepository.save(tiene1);
-
-        Destinatario d1 = new Destinatario();
-        d1.setNombre("Maylor");
-        d1.setDireccion("Avenida alvar nuñez");
-        d1.setTelefono("609835692");
-        d1.setPersonaContacto("Maylor Bustamante");
-
-        Destinatario d2 = new Destinatario();
-        d2.setNombre("Juan");
-        d2.setDireccion("Avenida Coria");
-        d2.setTelefono("609835692");
-        d2.setPersonaContacto("Juan Mercado");
-
-        destinatarioRepository.save(d1);
-        destinatarioRepository.save(d2);
-
+        cajaRepository.save(c1);
 
     }
 */

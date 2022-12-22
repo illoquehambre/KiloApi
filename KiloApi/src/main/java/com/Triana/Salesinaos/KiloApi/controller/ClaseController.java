@@ -112,8 +112,6 @@ public class ClaseController {
     public ResponseEntity<ClaseResponse> getClaseById(@PathVariable Long id){
         if (!service.existById(id))
             return ResponseEntity.notFound().build();
-         else if(service.findById(id).get().getListadoAportaciones().isEmpty())
-            return ResponseEntity.badRequest().build();//El nulo deberia ser gestionado en la query y la condición para la bad request no sera necesaria
          else
             return ResponseEntity
                     .ok()

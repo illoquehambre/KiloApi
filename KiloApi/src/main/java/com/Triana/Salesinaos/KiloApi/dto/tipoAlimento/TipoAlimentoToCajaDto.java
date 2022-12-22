@@ -1,4 +1,4 @@
-package com.Triana.Salesinaos.KiloApi.dto;
+package com.Triana.Salesinaos.KiloApi.dto.tipoAlimento;
 
 import lombok.*;
 
