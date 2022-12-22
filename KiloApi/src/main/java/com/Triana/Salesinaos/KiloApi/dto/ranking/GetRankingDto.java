@@ -10,5 +10,9 @@ import lombok.*;
 public class GetRankingDto {
     private Long id;
     private String nombre;
-    private double cantidad;
+    private double cantidadKg;
+    private double media;
+
+
+
 }
