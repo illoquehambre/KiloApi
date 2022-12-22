@@ -3,6 +3,7 @@ package com.Triana.Salesinaos.KiloApi.controller;
 import com.Triana.Salesinaos.KiloApi.dto.ranking.GetRankingDto;
 import com.Triana.Salesinaos.KiloApi.model.Caja;
 import com.Triana.Salesinaos.KiloApi.service.ClaseService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -26,11 +27,12 @@ import java.util.List;
 @Tag(name = "Ranking", description = "Esta clase muestra un ranking de las aportaciones de cada clase")
 public class RankingController {
     private final ClaseService service;
+    @Operation(summary = "Muestra un listado de loa rankings ordenados por kilos aportados descendente")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Ranking de aportaciones por clase",
                     content = {@Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = Caja.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = GetRankingDto.class)),
                             examples = @ExampleObject(value = """
                                             [
                                                 {

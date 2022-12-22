@@ -4,10 +4,12 @@ import com.Triana.Salesinaos.KiloApi.dto.destinatario.DestinatarioGetAll;
 import com.Triana.Salesinaos.KiloApi.dto.destinatario.DestinatarioDetalleResponse;
 import com.Triana.Salesinaos.KiloApi.dto.destinatario.DestinatarioDtoConverter;
 import com.Triana.Salesinaos.KiloApi.dto.destinatario.DestinatarioResponse;
+import com.Triana.Salesinaos.KiloApi.dto.ranking.GetRankingDto;
 import com.Triana.Salesinaos.KiloApi.model.Destinatario;
 import com.Triana.Salesinaos.KiloApi.service.DestinatarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,6 +35,34 @@ public class DestinatarioController {
 
     private final DestinatarioService destinatarioService;
     private final DestinatarioDtoConverter destinatarioDtoConverter;
+
+    @Operation(summary = "Muestra un listado de todos los destinatarios")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado destinatarios.",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = DestinatarioGetAll.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                            [
+                                                {
+                                                    "id": 1,
+                                                    "nombre": "Pepe",
+                                                    "direccion": "ncojwercurb4weuv",
+                                                    "personaContacto": "548642168",
+                                                    "telefono": "6546515618",
+                                                    "cajasAsignadas": null,
+                                                    "kgTotales": 0.0
+                                                }
+                                            ]                                                                                   
+                                            """
+                            )}
+                    )}),
+
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado ningún destinatario con este Id",
+                    content = @Content),
+    })
 
     @GetMapping("/")
     public ResponseEntity<List<DestinatarioGetAll>> getAllDestinatarios() {
@@ -141,8 +171,8 @@ public class DestinatarioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
                     description = "Ya se ha eliminado el destinatario",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Destinatario.class)
+                    content = {@Content(mediaType = "application/json"
+
                     )})
     })
 
@@ -162,7 +192,7 @@ public class DestinatarioController {
             @ApiResponse(responseCode = "200",
                     description = "Se ha encontrado el destinatario.",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Destinatario.class),
+                            schema = @Schema(implementation = DestinatarioResponse.class),
                             examples = {@ExampleObject(
                                     value = """
                                                                                         
@@ -184,7 +214,7 @@ public class DestinatarioController {
                     content = @Content),
     })
     @GetMapping("/{id}")
-    public ResponseEntity<DestinatarioResponse> findById(
+    public ResponseEntity<DestinatarioResponse> findByIdTipo(
             @PathParam("id")
             @Parameter(description = "Id del destinatario a obtener")
             @PathVariable Long id) {
@@ -194,7 +224,31 @@ public class DestinatarioController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+    @Operation(summary = "Mostrar destinatario con detalles fuera de sus atributos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado el destinatario.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = DestinatarioResponse.class),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                                                        
+                                            {
+                                                "id": 2,
+                                                "nombre": "Francisco",
+                                                "direccion": "ncojwercurb4weuv",
+                                                "personaContacto": "548642168",
+                                                "telefono": "6546515618",
+                                                "cajas": null
+                                            }                                                                                       
+                                            """
+                            )}
+                    )}),
 
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado ningún destinatario con este Id",
+                    content = @Content),
+    })
     @GetMapping("/{id}/detalle")
     public ResponseEntity<DestinatarioDetalleResponse> findByIdDetalle(
             @PathParam("id")
