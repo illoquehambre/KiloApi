@@ -1,4 +1,4 @@
-# TRIANAFY
+# KiloApi
 ## API REST con SPRING - Proyecto de prácticas para estudiantes de 2ºDAM.
 
 <img src="https://img.shields.io/badge/Spring--Framework-5.7-green"/> <img src="https://img.shields.io/badge/Apache--Maven-3.8.6-blue"/> <img src="https://img.shields.io/badge/Java-17.0-brightgreen"/>
